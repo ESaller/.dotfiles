@@ -1,0 +1,79 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+<C-e>	/Users/esaller/.vimrc	/^map <C-e> <plug>NERDTreeTabsToggle<CR>$/;"	m	language:Vim
+<F5>	/Users/esaller/.vimrc	/^nnoremap <F5> :GundoToggle<CR>$/;"	m	language:Vim
+<F8>	/Users/esaller/.vimrc	/^nmap <F8> :TagbarToggle<CR> " Toggle Tagbar plugin for ctags$/;"	m	language:Vim
+<leader>gb	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gb :Gblame<CR>$/;"	m	language:Vim
+<leader>gc	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gc :Gcommit<CR>$/;"	m	language:Vim
+<leader>gd	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gd :Gdiff<CR>$/;"	m	language:Vim
+<leader>gg	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gg :GitGutterToggle<CR>$/;"	m	language:Vim
+<leader>gl	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gl :Glog<CR>$/;"	m	language:Vim
+<leader>gp	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gp :Git push<CR>$/;"	m	language:Vim
+<leader>gs	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gs :Gstatus<CR>$/;"	m	language:Vim
+<leader>gw	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>gw :Gwrite<CR>:GitGutter<CR>$/;"	m	language:Vim
+<leader>z	/Users/esaller/.vimrc	/^nnoremap <silent> <leader>z za$/;"	m	language:Vim
+<TAB>	/Users/esaller/.vimrc	/^imap <expr><TAB> neosnippet#expandable_or_jumpable() ?$/;"	m	language:Vim
+<TAB>	/Users/esaller/.vimrc	/^inoremap <expr><TAB>  pumvisible() ? "\\<C-n>" : "\\<TAB>"$/;"	m	language:Vim
+bs	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^from bs4 import BeautifulSoup as bs$/;"	i	language:Python
+check_back_space	/Users/esaller/.vimrc	/^function! s:check_back_space() "{{{$/;"	f	language:Vim
+chunks	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def chunks(self,l, n):$/;"	m	language:Python	class:HtmlFilter
+copy	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def copy(self):$/;"	m	language:Python	class:HtmlFilter
+Cred	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^class Cred:$/;"	c	language:Python
+csv	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^import csv$/;"	i	language:Python
+debug	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^debug = Mediator('ZDFheute', filename = 'ZDFheute_ID_LIST_2336.csv')$/;"	v	language:Python
+FollowerSeed	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^class FollowerSeed:$/;"	c	language:Python
+g:acp_enableAtStarup	/Users/esaller/.vimrc	/^let g:acp_enableAtStarup = 0                            "Disble AutoComplPop.$/;"	v	language:Vim
+g:airline_powerline_fonts	/Users/esaller/.vimrc	/^let g:airline_powerline_fonts = 1$/;"	v	language:Vim
+g:airline_theme	/Users/esaller/.vimrc	/^let g:airline_theme = 'solarized'$/;"	v	language:Vim
+g:jedi#auto_vim_configuration	/Users/esaller/.vimrc	/^let g:jedi#auto_vim_configuration = 0$/;"	v	language:Vim
+g:jedi#popup_on_dot	/Users/esaller/.vimrc	/^let g:jedi#popup_on_dot = 0$/;"	v	language:Vim
+g:neocomplete#enable_at_startup	/Users/esaller/.vimrc	/^let g:neocomplete#enable_at_startup = 1                 "Use neocomplete.$/;"	v	language:Vim
+g:neocomplete#enable_smart_case	/Users/esaller/.vimrc	/^let g:neocomplete#enable_smart_case = 1                 "Use smartcase.$/;"	v	language:Vim
+g:neocomplete#sources#omni#input_patterns	/Users/esaller/.vimrc	/^    let g:neocomplete#sources#omni#input_patterns = {}$/;"	v	language:Vim
+g:neocomplete#sources#omni#input_patterns	/Users/esaller/.vimrc	/^let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\\t]\\%(\\.\\|->\\)'$/;"	v	language:Vim
+g:neocomplete#sources#omni#input_patterns	/Users/esaller/.vimrc	/^let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\\t]\\%(\\.\\|->\\)\\|\\h\\w*::'$/;"	v	language:Vim
+g:neocomplete#sources#omni#input_patterns	/Users/esaller/.vimrc	/^let g:neocomplete#sources#omni#input_patterns.perl = '\\h\\w*->\\h\\w*\\|\\h\\w*::'$/;"	v	language:Vim
+g:neocomplete#sources#omni#input_patterns	/Users/esaller/.vimrc	/^let g:neocomplete#sources#omni#input_patterns.php = '[^. \\t]->\\h\\w*\\|\\h\\w*::'$/;"	v	language:Vim
+g:neocomplete#sources#syntax#min_keyword_length	/Users/esaller/.vimrc	/^let g:neocomplete#sources#syntax#min_keyword_length = 3 "Minimum keyword length$/;"	v	language:Vim
+g:nerdtree_tabs_open_on_gui_startup	/Users/esaller/.vimrc	/^let g:nerdtree_tabs_open_on_gui_startup=0$/;"	v	language:Vim
+g:solarized_contrast	/Users/esaller/.vimrc	/^    let g:solarized_contrast="high"$/;"	v	language:Vim
+g:solarized_termcolors	/Users/esaller/.vimrc	/^    let g:solarized_termcolors=256$/;"	v	language:Vim
+g:solarized_termtrans	/Users/esaller/.vimrc	/^    let g:solarized_termtrans=1$/;"	v	language:Vim
+g:solarized_visibility	/Users/esaller/.vimrc	/^    let g:solarized_visibility="high"$/;"	v	language:Vim
+g:Tex_CompileRule_pdf	/Users/esaller/.vimrc	/^let g:Tex_CompileRule_pdf='pdflatex'$/;"	v	language:Vim
+g:Tex_DefaultTargetFormat	/Users/esaller/.vimrc	/^let g:Tex_DefaultTargetFormat='pdf'$/;"	v	language:Vim
+g:tex_flavor	/Users/esaller/.vimrc	/^let g:tex_flavor='latex'$/;"	v	language:Vim
+g:Tex_ViewRule_pdf	/Users/esaller/.vimrc	/^let g:Tex_ViewRule_pdf='open -a Preview'$/;"	v	language:Vim
+hashtagCSV	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^def hashtagCSV(mediator,cutoff = 100 ,outputfile = 'hashtag.csv'):$/;"	f	language:Python
+HtmlFilter	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^class HtmlFilter:$/;"	c	language:Python
+json	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^import time, sys, json$/;"	i	language:Python
+mapleader	/Users/esaller/.vimrc	/^let mapleader = "\\<Space>"    " change mapleader$/;"	v	language:Vim
+Mediator	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^class Mediator:$/;"	c	language:Python
+NERDTreeChDirMode	/Users/esaller/.vimrc	/^let NERDTreeChDirMode=0$/;"	v	language:Vim
+NERDTreeIgnore	/Users/esaller/.vimrc	/^let NERDTreeIgnore=['\\.pyc', '\\~$', '\\.swo$', '\\.swp$', '\\.git', '\\.hg', '\\.svn', '\\.bzr']$/;"	v	language:Vim
+NERDTreeKeepTreeInNewTab	/Users/esaller/.vimrc	/^let NERDTreeKeepTreeInNewTab=1$/;"	v	language:Vim
+NERDTreeMouseMode	/Users/esaller/.vimrc	/^let NERDTreeMouseMode=2$/;"	v	language:Vim
+NERDTreeQuitOnOpen	/Users/esaller/.vimrc	/^let NERDTreeQuitOnOpen=1$/;"	v	language:Vim
+NERDTreeShowBookmarks	/Users/esaller/.vimrc	/^let NERDTreeShowBookmarks=1$/;"	v	language:Vim
+NERDTreeShowHidden	/Users/esaller/.vimrc	/^let NERDTreeShowHidden=1$/;"	v	language:Vim
+parser	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def parser(self,uid):$/;"	m	language:Python	class:HtmlFilter
+password	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^password = Cred('cred.cred')$/;"	v	language:Python
+Pool	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^from multiprocessing import Pool$/;"	i	language:Python
+run	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def run(self):$/;"	m	language:Python	class:FollowerSeed
+run	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def run(self):$/;"	m	language:Python	class:HtmlFilter
+run	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def run(self):$/;"	m	language:Python	class:UserData
+sys	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^import time, sys, json$/;"	i	language:Python
+time	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^import time, sys, json$/;"	i	language:Python
+Tlist_Ctags_Cmd	/Users/esaller/.vimrc	/^let Tlist_Ctags_Cmd = "\/usr\/bin\/ctags"$/;"	v	language:Vim
+TwitterAPI	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^from TwitterAPI import TwitterAPI$/;"	i	language:Python
+urlopen	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^from urllib.request import urlopen$/;"	i	language:Python
+UserData	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^class UserData:$/;"	c	language:Python
+__init__	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def __init__(self, twitterHandle, filename=''):$/;"	m	language:Python	class:Mediator
+__init__	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def __init__(self,Cred,Mediator):$/;"	m	language:Python	class:FollowerSeed
+__init__	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def __init__(self,Cred,Mediator):$/;"	m	language:Python	class:UserData
+__init__	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def __init__(self,fpath):$/;"	m	language:Python	class:Cred
+__init__	/Users/esaller/Dropbox/Projects/Python/SP1/python/Project/TaCoS_Abgabe/Code/programm.py	/^    def __init__(self,Mediator):$/;"	m	language:Python	class:HtmlFilter
