@@ -43,6 +43,7 @@ ZSH_TMUX_AUTOSTART=true
 
 
 #Alias
+alias di="rolldice"
 alias zshconfig="vim ~/.zshrc"
 alias g="gvim --remote-silent"
 alias gg="gvim --remote-silent ./"
