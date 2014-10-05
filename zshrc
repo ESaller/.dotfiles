@@ -49,6 +49,9 @@ alias g="gvim --remote-silent"
 alias gg="gvim --remote-silent ./"
 alias GMP="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git pull)' ';'"
 alias GMV="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git remote -v)' ';'"
+alias gsf="git submodule foreach --recursive git fetch"
+alias gsmom="git submodule foreach git merge origin master"
+
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
@@ -75,8 +78,7 @@ COMPLETION_WAITING_DOTS="true"
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-#PATH
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/texbin:.:/Users/esaller/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/opt/local/bin:/opt/local/sbin:/Users/esaller/perl5/perlbrew/bin:$OPENCCG_HOME/bin:/Users/esaller/anaconda/bin:/Users/esaller/anaconda/envs/python2.7/bin:~/Applications/TreeTagger/cmd:~/Applications/TreeTagger/bin:$PATH
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
