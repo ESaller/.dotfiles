@@ -280,4 +280,5 @@ let g:pydoc_cmd = "/usr/bin/pydoc"
 
 let mapleader = "\<Space>"    " change mapleader
 
+
 " }}}
