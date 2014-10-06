@@ -205,7 +205,10 @@ let g:neocomplete#force_omni_input_patterns.objc =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
 let g:neocomplete#force_omni_input_patterns.objcpp =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-
+" {{{ eclim Settings
+let g:EclimCompletionMethod = 'omnifunc'
+let g:neocomplete#force_omni_input_patterns.java = '\k\.\k*'
+" }}}
 " Enable heavy omni completion. {{{
 "if !exists('g:neocomplete#sources#omni#input_patterns')
 "    let g:neocomplete#sources#omni#input_patterns = {}
