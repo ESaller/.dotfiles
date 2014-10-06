@@ -207,7 +207,11 @@ let g:neocomplete#force_omni_input_patterns.objcpp =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 " {{{ eclim Settings
 let g:EclimCompletionMethod = 'omnifunc'
-let g:neocomplete#force_omni_input_patterns.java = '\k\.\k*'
+let g:neocomplete#force_omni_input_patterns.java =
+            \ '\%(\h\w*\|)\)\.\w*'
+
+
+
 " }}}
 " Enable heavy omni completion. {{{
 "if !exists('g:neocomplete#sources#omni#input_patterns')
