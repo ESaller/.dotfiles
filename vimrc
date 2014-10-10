@@ -257,14 +257,6 @@ let g:tmuxify_custom_command='tmux split-window -dv -p 20'
 let g:sneak#s_next = 1
 
 " }}}
-" vim-smooth-scroll Settings {{{
-
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 100, 2)<CR>
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 100, 2)<CR>
-noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 100, 4)<CR>
-noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 100, 4)<CR>
-
-" }}}
 " miniBuffer {{{
 
 let g:miniBufExplMapWindowNavVim = 1
