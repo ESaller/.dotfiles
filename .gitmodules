@@ -79,9 +79,6 @@
 [submodule "vim/bundle/vim-nerdtree-tabs"]
 	path = vim/bundle/vim-nerdtree-tabs
 	url = https://github.com/jistr/vim-nerdtree-tabs.git
-[submodule "vim/bundle/vim-smooth-scroll"]
-	path = vim/bundle/vim-smooth-scroll
-	url = https://github.com/terryma/vim-smooth-scroll
 [submodule "vim/bundle/vim-sneak"]
 	path = vim/bundle/vim-sneak
 	url = https://github.com/justinmk/vim-sneak
