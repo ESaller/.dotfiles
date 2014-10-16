@@ -2,6 +2,17 @@
 " This is the .vimrc of Eduard Saller
 " Feel free to use what you want
 " }}}
+" Speedup {{{
+
+set nocursorcolumn
+set nocursorline
+set synmaxcol=200
+syntax sync minlines=512
+set ttyfast
+set ttyscroll=3
+set lazyredraw
+
+" }}}
 " Pathogen plugin manager {{{
 
 call pathogen#infect()
@@ -38,7 +49,7 @@ set hidden                      " Buffer switching without saving
 set relativenumber              " Shows the line number relative to the line with the cursor
 set background=dark             " Assume dark background
 set showmode                    " Show current mode
-set cursorline                  " Highlight the screen line of the cursor
+""set cursorline                  " Highlight the screen line of the cursor
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set nu                          " Line numbers on
