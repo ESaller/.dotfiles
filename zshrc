@@ -79,7 +79,7 @@ COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 #PATH
-export PATH=~/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/texbin:.:/Users/esaller/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/opt/local/bin:/opt/local/sbin:/Users/esaller/perl5/perlbrew/bin:$OPENCCG_HOME/bin:~/Applications/TreeTagger/cmd:~/Applications/TreeTagger/bin:$PATH
+export PATH=~/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/texbin:.:/Users/esaller/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/opt/local/bin:/opt/local/sbin:/Users/esaller/perl5/perlbrew/bin:$OPENCCG_HOME/bin:~/Applications/TreeTagger/cmd:~/Applications/TreeTagger/bin:$PATH:~/external_libs/Wapiti/
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
