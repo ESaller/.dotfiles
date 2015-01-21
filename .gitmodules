@@ -91,3 +91,6 @@
 [submodule "vim/bundle/vim-tmuxify"]
 	path = vim/bundle/vim-tmuxify
 	url = https://github.com/mhinz/vim-tmuxify.git
+[submodule "vim/bundle/vim-latex"]
+	path = vim/bundle/vim-latex
+	url = git://github.com/lervag/vim-latex
