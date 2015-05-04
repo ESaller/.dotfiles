@@ -84,6 +84,6 @@ export PATH=~/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbi
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(history tmux vi-mode)
+plugins=(history-substring-search git vim-interaction tmux vi-mode)
 
 source $ZSH/oh-my-zsh.sh
