@@ -94,3 +94,6 @@
 [submodule "vim/bundle/vim-latex"]
 	path = vim/bundle/vim-latex
 	url = git://github.com/lervag/vim-latex
+[submodule "vim/bundle/Apprentice"]
+	path = vim/bundle/Apprentice
+	url = https://github.com/romainl/Apprentice.git

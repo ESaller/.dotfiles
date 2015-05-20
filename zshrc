@@ -87,3 +87,5 @@ export PATH=~/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbi
 plugins=(history-substring-search git vim-interaction tmux vi-mode)
 
 source $ZSH/oh-my-zsh.sh
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
