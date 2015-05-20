@@ -88,15 +88,18 @@ if has('clipboard')
 endif
 
 " }}}
-" Solarized theme {{{
+" Solarized or Apprentice theme {{{
 
-if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-    let g:solarized_termcolors=256
-    color solarized
-endif
-    let g:solarized_termtrans=1
-    let g:solarized_contrast="high"
-    let g:solarized_visibility="high"
+
+"if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+"    let g:solarized_termcolors=256
+"    color solarized
+"endif
+"    let g:solarized_termtrans=1
+"    let g:solarized_contrast="high"
+"    let g:solarized_visibility="high"
+
+colorscheme apprentice
 
 " }}}
 "Coding Standatds {{{
