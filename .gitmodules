@@ -97,3 +97,6 @@
 [submodule "vim/bundle/Apprentice"]
 	path = vim/bundle/Apprentice
 	url = https://github.com/romainl/Apprentice.git
+[submodule "vim/bundle/gruvbox"]
+	path = vim/bundle/gruvbox
+	url = https://github.com/morhetz/gruvbox.git
