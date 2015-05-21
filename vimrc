@@ -88,7 +88,7 @@ if has('clipboard')
 endif
 
 " }}}
-" Solarized or Apprentice theme {{{
+" Solarized/Apprentice/Gruvbox theme {{{
 
 
 "if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
@@ -99,7 +99,8 @@ endif
 "    let g:solarized_contrast="high"
 "    let g:solarized_visibility="high"
 
-colorscheme apprentice
+"colorscheme apprentice
+colorscheme gruvbox
 
 " }}}
 "Coding Standatds {{{
