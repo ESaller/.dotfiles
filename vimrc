@@ -23,6 +23,33 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     endif
 " Installed Plugins {{{
 call plug#begin('~/.vim/bundle')
+" A tree explorer plugin for vim
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" precision colorscheme for the vim text editor
+Plug 'altercation/vim-colors-solarized'
+" lean & mean status/tabline for vim that's light as air
+Plug 'bling/vim-airline'
+" quoting/parenthesizing made simple
+Plug 'tpope/vim-surround'
+" Fuzzy file, buffer, mru, tag, etc finder
+Plug 'kien/ctrlp.vim'
+" Syntax checking hacks for vim
+Plug 'scrooloose/syntastic'
+" a Git wrapper so awesome, it should be illegal
+Plug 'tpope/vim-fugitive'
+" a Git mirror for Gundo
+Plug 'sjl/gundo.vim'
+" Elegant buffer explorer - takes very little screen space
+Plug 'fholgado/minibufexpl.vim'
+" Vim plugin for intensely orgasmic commenting
+Plug 'scrooloose/nerdcommenter'
+" Better Rainbow Parentheses
+Plug 'kien/rainbow_parentheses.vim'
+" :shoe: The missing motion for Vim
+Plug 'justinmk/vim-sneak'
+" Seamless navigation between tmux panes and vim splits
+Plug 'christoomey/vim-tmux-navigator'
+
 call plug#end()
 
 " }}}
@@ -100,17 +127,17 @@ endif
 " Solarized/Apprentice/Gruvbox/Molokai theme {{{
 
 
-"if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-"    let g:solarized_termcolors=256
-"    color solarized
-"endif
-"    let g:solarized_termtrans=1
-"    let g:solarized_contrast="high"
-"    let g:solarized_visibility="high"
+if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+    let g:solarized_termcolors=256
+    color solarized
+endif
+    let g:solarized_termtrans=1
+    let g:solarized_contrast="high"
+    let g:solarized_visibility="high"
 
 "colorscheme apprentice
 "colorscheme gruvbox
-colorscheme molokai
+"colorscheme molokai
 
 " }}}
 "Coding Standatds {{{
