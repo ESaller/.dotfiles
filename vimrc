@@ -6,7 +6,7 @@
 " More Documentation :D
 " Reorder (maybe put shortcuts into the title)
 " }}}
-" Speedup {{{
+" Speedup/Performance Settings {{{
 
 set nocursorcolumn
 set nocursorline
@@ -18,7 +18,6 @@ set lazyredraw
 
 " }}}
 " Shell Settings {{{
-" set shell=/usr/local/bin/zsh
 set shell=/bin/zsh
 " }}}
 " Vim Plug plugin manager {{{
@@ -105,13 +104,6 @@ call plug#end()
 " }}}
 
 " }}}
-" Statusline using vim-airline plugin {{{
-
-set laststatus=2
-let g:airline_theme = 'solarized'
-let g:airline_powerline_fonts = 1
-
-" }}}
 " Font settings for GUI version {{{
 
 if has('gui_running')
@@ -121,10 +113,12 @@ endif
 " }}}
 " General settings {{{
 
+" Macvim {{{
 if has("gui_macvim")
   set fuoptions=maxvert,maxhorz
   au GUIEnter * set fullscreen
 endif
+" }}}
 
 filetype plugin indent on
 syntax enable                   " Enable syntax highlighting
@@ -141,7 +135,7 @@ set linespace=0                 " No extra spaces between rows
 set nu                          " Line numbers on
 set mouse=a                     " Set mouse mode
 
-" Searching
+" Searching {{{
 set showmatch                   " Show matching brackets/parenthesis
 set incsearch                   " Find as you type search
 set hlsearch                    " Highlight search terms
@@ -151,20 +145,24 @@ set smartcase                   " Case sensitive when uc present
 set wildmenu                    " Show list instead of just completing
 set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
 set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+" }}}
 
-" Scrolling
+" Scrolling {{{
 set scrolljump=1                " Lines to scroll when cursor leaves screen
 set scrolloff=5                 " Minimum lines to keep above and below cursor
+" }}}
 
-" Whitespace
+" Whitespace {{{
 set list                        " Enable list mode with listchars
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+" }}}
 
-" Folding
+" Folding {{{
 set foldmethod=marker
 nnoremap <silent> <leader>z za
+" }}}
 
-" Copy/Paste
+" Copy/Paste {{{
 if has('clipboard')
   if has('unnamedplus')         " When possible use + register for copy-paste
     set clipboard=unnamedplus
@@ -172,9 +170,10 @@ if has('clipboard')
     set clipboard=unnamed
   endif
 endif
+" }}}
 
 " }}}
-" Solarized/Apprentice/Gruvbox/Molokai theme {{{
+" Solarized Theme{{{
 
 
 if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
@@ -184,11 +183,6 @@ endif
     let g:solarized_termtrans=1
     let g:solarized_contrast="high"
     let g:solarized_visibility="high"
-
-"colorscheme apprentice
-"colorscheme gruvbox
-"colorscheme molokai
-
 " }}}
 "Coding Standatds {{{
 
@@ -224,6 +218,7 @@ set undodir=~/.vim/undodir
 set undofile
 
 " }}}
+" PLUGIN CONFIGURATION {{{
 " UndoTree Settigns {{{
 
 let g:undotree_WindowLayout = 2
@@ -391,7 +386,31 @@ let g:miniBufExplMapCTabSwitchBufs = 1
 let g:miniBufExplModSelTarget = 1
 
 " }}}
-" go to next/previous indentation level {{{
+" }}}
+" FUNCTIONS {{{
+
+" <Leader>bs | Buffer Search Shortcut {{{
+nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
+" }}}
+" #!! | Shebang Shortcut  {{{
+inoreabbrev <expr> #!! "#!/usr/bin/env" . (empty(&filetype) ? '' : ' '.&filetype)
+" }}}
+" <Leader>c | Count Occurences of Pattern Function {{{
+xnoremap <Leader>c :s@\%V@@gn<Left><Left><Left><Left>
+nnoremap <Leader>c :%s@@@gn<Left><Left><Left><Left>
+" }}}
+" <Leader>? | Google it Function {{{
+function! s:goog(pat)
+  let q = '"'.substitute(a:pat, '["\n]', ' ', 'g').'"'
+  let q = substitute(q, '[[:punct:] ]',
+       \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
+  call system('open https://www.google.com/search?q='.q)
+endfunction
+
+nnoremap <Leader>? :call <SID>goog(expand("<cWORD>"))<cr>
+xnoremap <Leader>? "gy:call <SID>goog(@g)<cr>gv
+" }}}
+" <silent>gi / <silent>gpi | go to next/previous indentation level Function{{{
 function! s:go_indent(times, dir)
   for _ in range(a:times)
     let l = line('.')
@@ -413,31 +432,8 @@ endfunction
 nnoremap <silent> gi :<c-u>call <SID>go_indent(v:count1, 1)<cr>
 nnoremap <silent> gpi :<c-u>call <SID>go_indent(v:count1, -1)<cr>
 " }}}
-" Buffer Search Function {{{
-nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
 " }}}
-" Shebang Function {{{
-inoreabbrev <expr> #!! "#!/usr/bin/env" . (empty(&filetype) ? '' : ' '.&filetype)
-" }}}
-" vim-pydoc {{{
-let g:pydoc_cmd = "/usr/bin/pydoc"
-" }}}
-" Count Occurences of Pattern Function {{{
-xnoremap <Leader>c :s@\%V@@gn<Left><Left><Left><Left>
-nnoremap <Leader>c :%s@@@gn<Left><Left><Left><Left>
-" }}}
-" Google Funtion {{{
-function! s:goog(pat)
-  let q = '"'.substitute(a:pat, '["\n]', ' ', 'g').'"'
-  let q = substitute(q, '[[:punct:] ]',
-       \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
-  call system('open https://www.google.com/search?q='.q)
-endfunction
-
-nnoremap <leader>? :call <SID>goog(expand("<cWORD>"))<cr>
-xnoremap <leader>? "gy:call <SID>goog(@g)<cr>gv
-" }}}
-" Emoji {{{
+" EMOJI/STATUSLINE {{{
 
 " %< Where to truncate
 " %n buffer number
@@ -542,8 +538,8 @@ silent! if emoji#available()
 endif
 " }}}
 " General Keyboard Settings {{{
-
+" Leader {{{
 let mapleader = "\<Space>"    " change mapleader
-
+" }}}
 
 " }}}
