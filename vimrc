@@ -149,9 +149,13 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 " Vim plugin that displays tags in a window, ordered by scope
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
+" Themes {{{
 " precision colorscheme for the vim text editor
 Plug 'altercation/vim-colors-solarized'
 
+" base 16
+Plug 'chriskempson/base16-vim'
+" }}}
 " A vim plugin to display the indention levels with thin vertical lines
 Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
 
@@ -289,16 +293,17 @@ endif
 " }}}
 
 " }}}
-" Solarized Theme{{{
+" Theme{{{
 
 
-if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-    let g:solarized_termcolors=256
-    color solarized
-endif
-    let g:solarized_termtrans=1
-    let g:solarized_contrast="high"
-    let g:solarized_visibility="high"
+"if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+"    let g:solarized_termcolors=256
+"    color solarized
+"endif
+"    let g:solarized_termtrans=1
+"    let g:solarized_contrast="high"
+"    let g:solarized_visibility="high"
+colorscheme base16-eighties
 " }}}
 "Coding Standatds {{{
 
@@ -321,11 +326,11 @@ set autoindent
 " }}}
 " Ruler {{{
 
-if has('cmdline_info')
-set ruler
-set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
-set showcmd
-endif
+"if has('cmdline_info')
+"set ruler
+"set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
+"set showcmd
+"endif
 
 " }}}
 " Persistent Undo {{{
@@ -578,6 +583,8 @@ nnoremap <silent> gpi :<c-u>call <SID>go_indent(v:count1, -1)<cr>
 " }}}
 " }}}
 " EMOJI/STATUSLINE {{{
+
+set laststatus=2
 
 " %< Where to truncate
 " %n buffer number
