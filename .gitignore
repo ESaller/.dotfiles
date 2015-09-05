@@ -1,4 +1,5 @@
 .DS_Store
 ./vim/undodir
-./vim
-./vim_old
+vim/
+vim_old/
+
