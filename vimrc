@@ -13,10 +13,19 @@ set ttyscroll=3
 set lazyredraw
 
 " }}}
-" Pathogen plugin manager {{{
+" Vim Plug plugin manager {{{
 
-call pathogen#infect()
-call pathogen#helptags()
+" Automatic Vim Plug install
+if empty(glob('~/.vim/autoload/plug.vim'))
+      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall
+    endif
+" Installed Plugins {{{
+call plug#begin('~/.vim/bundle')
+call plug#end()
+
+" }}}
 
 " }}}
 " Statusline using vim-airline plugin {{{
