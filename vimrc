@@ -33,11 +33,24 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 " Installed Plugins {{{
 call plug#begin('~/.vim/bundle')
 " TODO: REORDER INTO CATEGORIES
+
+" gitk for Vim
+Plug 'gregsexton/gitv', { 'on': 'Gitv' }
+
+" Go to Terminal or File manager
+Plug 'justinmk/vim-gtfo'
+
 " A tree explorer plugin for vim
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+
+" Vim plugin that displays tags in a window, ordered by scope
+Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 " precision colorscheme for the vim text editor
 Plug 'altercation/vim-colors-solarized'
+
+" A vim plugin to display the indention levels with thin vertical lines
+Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
 
 " lean & mean status/tabline for vim that's light as air
 " Plug 'bling/vim-airline'
@@ -219,6 +232,9 @@ set undofile
 
 " }}}
 " PLUGIN CONFIGURATION {{{
+" IndentLine Settings {{{
+autocmd! User indentLine doautocmd indentLine Syntax
+" }}}
 " UndoTree Settigns {{{
 
 let g:undotree_WindowLayout = 2
@@ -273,7 +289,9 @@ nmap gcc <Plug>CommentaryLine
 " }}}
 " NerdTree Settings {{{
 
-map <C-e> <plug>NERDTreeTabsToggle<CR>
+inoremap <F10> <esc>:NERDTreeToggle<cr>
+nnoremap <F10> :NERDTreeToggle<cr>
+
 
 let NERDTreeShowBookmarks=1
 let NERDTreeIgnore=['\.pyc', '\~$', '\.swo$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
@@ -360,8 +378,11 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 " Ctags Settings {{{
 
 let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-nmap <F8> :TagbarToggle<CR>
-nmap <F7> :CtrlPTag<CR>
+if v:version >= 703
+  inoremap <F11> <esc>:TagbarToggle<cr>
+  nnoremap <F11> :TagbarToggle<cr>
+  let g:tagbar_sort = 0
+endif
 " }}}
 " Rainbow Parentheses Settings{{{
 
@@ -378,7 +399,7 @@ let g:tmuxify_custom_command='tmux split-window -dv -p 20'
 let g:sneak#s_next = 1
 
 " }}}
-" miniBuffer {{{
+" miniBuffer Settings {{{
 
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
@@ -387,8 +408,28 @@ let g:miniBufExplModSelTarget = 1
 
 " }}}
 " }}}
-" FUNCTIONS {{{
+" FUNCTIONS/SHORTCUTS {{{
 
+" :Root | Change directory to the root of the git repository Command {{{
+function! s:root()
+  let root = systemlist('git rev-parse --show-toplevel')[0]
+  if v:shell_error
+    echo 'Not in git repo'
+  else
+    execute 'lcd' root
+    echo 'Changed directory to: '.root
+  endif
+endfunction
+command! Root call s:root()
+" }}}
+ " qq to record, Q to replay {{{
+nmap Q @q
+" }}}
+" jk | Escaping!{{{
+inoremap jk <Esc>
+xnoremap jk <Esc>
+cnoremap jk <C-c>
+" }}}
 " <Leader>bs | Buffer Search Shortcut {{{
 nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
 " }}}
