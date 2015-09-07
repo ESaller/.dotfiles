@@ -14,7 +14,7 @@ export LC_TIME="de_DE.UTF-8"
 export LC_ALL="de_DE.UTF-8"
 #export CC=gcc-4.9
 #export CXX=g++-4.9
-export FFLAGS=-ff2c
+#export FFLAGS=-ff2c
 export PYTHONPATH="/Users/esaller/anaconda/bin/python"
 export EDITOR=vim
 man() {
