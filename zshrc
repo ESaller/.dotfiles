@@ -39,6 +39,7 @@ bindkey -M vicmd v edit-command-lin
 ZSH_THEME="agnoster"
 
 ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOQUIT=false
 #source /Users/esaller/perl5/perlbrew/etc/bashrc
 
 
