@@ -310,7 +310,7 @@ colorscheme base16-eighties
 " Column Reminder {{{
 
 highlight colorcolumn guibg=LightYellow ctermbg=LightYellow
-call matchadd('colorcolumn', '\%81v', 100)
+call matchadd('colorcolumn', '\%81v', 120)
 
 " }}}
 " Indent options {{{
@@ -655,6 +655,7 @@ silent! if emoji#available()
     \ 'gitcommit':  'soon',
     \ 'haml':       'hammer',
     \ 'help':       'angel',
+    \ 'python':     'snake',
     \ 'html':       'herb',
     \ 'java':       'older_man',
     \ 'javascript': 'monkey',
