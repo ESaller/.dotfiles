@@ -655,7 +655,6 @@ silent! if emoji#available()
     \ 'gitcommit':  'soon',
     \ 'haml':       'hammer',
     \ 'help':       'angel',
-    \ 'python':     'snake',
     \ 'html':       'herb',
     \ 'java':       'older_man',
     \ 'javascript': 'monkey',
