@@ -40,6 +40,7 @@ ZSH_THEME="agnoster"
 
 ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false
+ZSH_TMUX_ITERM2=true
 #source /Users/esaller/perl5/perlbrew/etc/bashrc
 
 
