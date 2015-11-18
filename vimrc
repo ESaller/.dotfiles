@@ -541,13 +541,6 @@ cnoremap jk <C-c>
 " <Leader>bs | Buffer Search Shortcut {{{
 nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
 " }}}
-" #!! | Shebang Shortcut  {{{
-inoreabbrev <expr> #!! "#!/usr/bin/env" . (empty(&filetype) ? '' : ' '.&filetype)
-" }}}
-" <Leader>c | Count Occurences of Pattern Function {{{
-xnoremap <Leader>c :s@\%V@@gn<Left><Left><Left><Left>
-nnoremap <Leader>c :%s@@@gn<Left><Left><Left><Left>
-" }}}
 " <Leader>? | Google it Function {{{
 function! s:goog(pat)
   let q = '"'.substitute(a:pat, '["\n]', ' ', 'g').'"'
