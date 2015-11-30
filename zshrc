@@ -90,6 +90,9 @@ export PATH=~/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbi
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(history-substring-search git vim-interaction tmux vi-mode)
 
+SAVEHIST=1000
+HISTFILE=~/.zsh_history
+
 source $ZSH/oh-my-zsh.sh
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
