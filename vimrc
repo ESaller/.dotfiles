@@ -5,6 +5,8 @@
 " TODO {{{
 " More Documentation :D
 " Reorder (maybe put shortcuts into the title)
+" Cleanup stuff from the move to neovim
+" Remove unused functions
 " }}}
 " Speedup/Performance Settings {{{
 
