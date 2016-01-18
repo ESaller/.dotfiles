@@ -1,6 +1,6 @@
 " Eduard Saller {{{
 " This is the .vimrc of Eduard Saller
-" Feel free to use what you want
+" Feel free to use what you wanti
 " }}}
 " TODO {{{
 " More Documentation :D
@@ -12,8 +12,10 @@ set nocursorcolumn
 set nocursorline
 set synmaxcol=200
 syntax sync minlines=512
-set ttyfast
-set ttyscroll=3
+if !has('nvim')
+    set ttyfast
+    set ttyscroll=3
+endif
 set lazyredraw
 
 " }}}
@@ -33,7 +35,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 " Installed Plugins {{{
 call plug#begin('~/.vim/bundle')
 " TODO: REORDER INTO CATEGORIES
-
+if !has('nvim')
 " Completion {{{
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet.vim'
@@ -136,6 +138,11 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 "Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 "autocmd! User YouCompleteMe call youcompleteme#Enable()
 " }}}
+else
+    " Completion for neovim
+    Plug 'Shougo/deoplete.nvim'
+    let g:deoplete#enable_at_startup = 1
+endif
 
 " gitk for Vim
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
@@ -244,7 +251,7 @@ filetype plugin indent on
 syntax enable                   " Enable syntax highlighting
 scriptencoding utf-8            " Encoding for scripts
 set history=1000                " Store # amount in history
-set spell                       " Spell checking
+""set spell                       " Spell checking
 set hidden                      " Buffer switching without saving
 set relativenumber              " Shows the line number relative to the line with the cursor
 set background=dark             " Assume dark background
@@ -429,12 +436,12 @@ let g:jedi#completions_enabled = 0
 
 " }}}
 "Neo Complete Settings {{{
-
-let g:acp_enableAtStarup = 0                            "Disble AutoComplPop.
-let g:neocomplete#enable_at_startup = 1                 "Use neocomplete.
-let g:neocomplete#enable_smart_case = 1                 "Use smartcase.
-let g:neocomplete#sources#syntax#min_keyword_length = 3 "Minimum keyword length
-
+if !has('nvim')
+    let g:acp_enableAtStarup = 0                            "Disble AutoComplPop.
+    let g:neocomplete#enable_at_startup = 1                 "Use neocomplete.
+    let g:neocomplete#enable_smart_case = 1                 "Use smartcase.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3 "Minimum keyword length
+endif
 " <TAB>: completion
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -448,7 +455,7 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType python setlocal omnifunc=jedi#completions
 autocmd FileType haxe setlocal omnifunc=vaxe#HaxeComplete
 
-
+if !has('nvim')
 if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
 endif
@@ -463,25 +470,19 @@ let g:neocomplete#force_omni_input_patterns.objc =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
 let g:neocomplete#force_omni_input_patterns.objcpp =
           \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-" {{{ eclim Settings
-let g:EclimCompletionMethod = 'omnifunc'
-let g:neocomplete#force_omni_input_patterns.java =
-            \ '\%(\h\w*\|)\)\.\w*'
-
-
-
-" }}}
+endif
 " }}}
 " Snippet Settings {{{
 
 " SuperTab like snippets behavior.
+if !has('nvim')
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
 \: pumvisible() ? "\<C-n>" : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)"
 \: "\<TAB>"
-
+endif
 " }}}
 " Ctags Settings {{{
 
