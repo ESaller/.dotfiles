@@ -37,8 +37,11 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 " Installed Plugins {{{
 call plug#begin('~/.vim/bundle')
 " TODO: REORDER INTO CATEGORIES
-if !has('nvim')
 " Completion {{{
+" Jedi python completion
+Plug 'davidhalter/jedi-vim'
+
+if !has('nvim')
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
@@ -432,9 +435,11 @@ let g:latex_fold_enabled = 0
 
 " Jedi Settings {{{
 
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#popup_on_dot = 0
 let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#show_call_signatures = 0
+
 
 " }}}
 "Neo Complete Settings {{{
