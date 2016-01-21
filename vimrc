@@ -222,6 +222,9 @@ Plug 'christoomey/vim-tmux-navigator'
 " Emoji in Vim (only terminal and mac)
 Plug 'junegunn/vim-emoji'
 
+" Esaymotion Plugin
+Plug 'easymotion/vim-easymotion'
+
 " Writing Plugins {{{
 
 " Disable clutter
