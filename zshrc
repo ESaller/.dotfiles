@@ -98,7 +98,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 #Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(history-substring-search git tmux)
+plugins=(history-substring-search git tmux vi-mode)
 
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
