@@ -16,7 +16,9 @@ export LC_ALL="de_DE.UTF-8"
 #export CXX=g++-4.9
 #export FFLAGS=-ff2c
 export PYTHONPATH="/Users/esaller/anaconda/bin/python"
-export EDITOR=vim
+export EDITOR=nvim
+
+# colored man pages
 man() {
     env \
     LESS_TERMCAP_mb=$(printf "\e[1;31m") \
@@ -28,10 +30,13 @@ man() {
     LESS_TERMCAP_us=$(printf "\e[1;32m") \
                                         man "$@"
   }
+# perbrew
 source /Users/esaller/perl5/perlbrew/etc/bashrc
-export VISUAL=vim
+
+# nvim command line edit
+export VISUAL=nvim
 autoload edit-command-line; zle -N edit-command-line
-bindkey -M vicmd v edit-command-lin
+bindkey -M vicmd v edit-command-line
 
 
 # Set name of the theme to load.
@@ -90,14 +95,12 @@ export PATH=~/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbi
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
- #Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+#Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(history-substring-search git vim-interaction tmux vi-mode)
+plugins=(history-substring-search git tmux)
 
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 source $ZSH/oh-my-zsh.sh
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
