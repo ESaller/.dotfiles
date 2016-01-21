@@ -16,7 +16,6 @@ export LC_ALL="de_DE.UTF-8"
 #export CXX=g++-4.9
 #export FFLAGS=-ff2c
 export PYTHONPATH="/Users/esaller/anaconda/bin/python"
-export EDITOR=nvim
 
 # colored man pages
 man() {
@@ -33,10 +32,6 @@ man() {
 # perbrew
 source /Users/esaller/perl5/perlbrew/etc/bashrc
 
-# nvim command line edit
-export VISUAL=nvim
-autoload edit-command-line; zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
 
 
 # Set name of the theme to load.
@@ -49,6 +44,11 @@ ZSH_TMUX_AUTOQUIT=false
 # ZSH_TMUX_ITERM2=true
 #source /Users/esaller/perl5/perlbrew/etc/bashrc
 
+# nvim command line edit and editor pref.
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+export VISUAL="nvim"
+export EDITOR="nvim"
 
 #Alias
 alias di="rolldice"
@@ -104,3 +104,4 @@ SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
 source $ZSH/oh-my-zsh.sh
+
