@@ -53,8 +53,6 @@ export EDITOR="nvim"
 #Alias
 alias di="rolldice"
 alias zshconfig="vim ~/.zshrc"
-alias g="gvim --remote-silent"
-alias gg="gvim --remote-silent ./"
 alias GMP="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git pull)' ';'"
 alias GMV="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git remote -v)' ';'"
 alias gsf="git submodule foreach --recursive git fetch"
