@@ -22,7 +22,6 @@ set lazyredraw
 
 " }}}
 " Shell Settings {{{
-set shell=/bin/zsh
 " }}}
 " Vim Plug plugin manager {{{
 
@@ -237,13 +236,6 @@ Plug 'junegunn/limelight.vim'
 call plug#end()
 
 " }}}
-
-" }}}
-" Font settings for GUI version {{{
-
-if has('gui_running')
-set guifont=Source\ Code\ Pro\ Semibold\ for\ Powerline:h12
-endif
 
 " }}}
 " General settings {{{
