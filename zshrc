@@ -28,7 +28,7 @@ man() {
 # Look in ~/.oh-my-zsh/themes/
 ZSH_THEME="agnoster"
 
-#ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOSTART=true
 #ZSH_TMUX_AUTOQUIT=false
 # disabled for debug
 # ZSH_TMUX_ITERM2=true
