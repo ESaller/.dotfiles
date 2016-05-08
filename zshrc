@@ -3,18 +3,6 @@ ZSH=~/.oh-my-zsh
 
 echo      Welcome back Commander!
 
-#DEFAULT_USER = "ESaller"
-#export LANG=de_DE.UTF-8
-#export LC_COLLATE="de_DE.UTF-8"
-#export LC_CTYPE="de_DE.UTF-8"
-#export LC_MESSAGES="de_DE.UTF-8"
-#export LC_MONETARY="de_DE.UTF-8"
-#export LC_NUMERIC="de_DE.UTF-8"
-#export LC_TIME="de_DE.UTF-8"
-#export LC_ALL="de_DE.UTF-8"
-#export CC=gcc-4.9
-#export CXX=g++-4.9
-#export FFLAGS=-ff2c
 export PYTHONPATH="~/anaconda/bin/python"
 
 # colored man pages
@@ -29,6 +17,8 @@ man() {
     LESS_TERMCAP_us=$(printf "\e[1;32m") \
                                         man "$@"
   }
+
+
 # perbrew
 # source /Users/esaller/perl5/perlbrew/etc/bashrc
 
@@ -38,8 +28,8 @@ man() {
 # Look in ~/.oh-my-zsh/themes/
 ZSH_THEME="agnoster"
 
-ZSH_TMUX_AUTOSTART=true
-ZSH_TMUX_AUTOQUIT=false
+#ZSH_TMUX_AUTOSTART=true
+#ZSH_TMUX_AUTOQUIT=false
 # disabled for debug
 # ZSH_TMUX_ITERM2=true
 #source /Users/esaller/perl5/perlbrew/etc/bashrc
