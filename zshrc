@@ -26,7 +26,7 @@ man() {
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
-ZSH_THEME="agnoster"
+ZSH_THEME="bureau"
 
 ZSH_TMUX_AUTOSTART=true
 #ZSH_TMUX_AUTOQUIT=false
