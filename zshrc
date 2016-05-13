@@ -74,10 +74,30 @@ COMPLETION_WAITING_DOTS="true"
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-#PATH
+#PATH - every Path in a new line TODO: prune and sort
 
-export PATH=~/anaconda/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/texbin:.:/Users/esaller/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/go/bin:/opt/go/lib/go/bin:~/usr/lib/go/bin:.:/Users/esaller/usr/bin:/opt/local/bin:/opt/local/sbin:$OPENCCG_HOME/bin:~/Applications/TreeTagger/cmd:~/Applications/TreeTagger/bin:$PATH:
+# Python interpreter
+export PATH="$PATH:~/anaconda/bin"
 
+# Defaul Path for MAC OSX based on /private/etc/paths
+export PATH="$PATH:/usr/local/bin"
+export PATH="$PATH:/usr/bin"
+export PATH="$PATH:/bin"
+export PATH="$PATH:/usr/sbin"
+export PATH="$PATH:/sbin"
+
+# HOMEBREW MAC OSX install location for slinks
+export PATH="$PATH:/usr/local/sbin"
+export PATH="$PATH:/usr/local/bin"
+
+# X11
+export PATH="$PATH:/opt/X11/bin"
+export PATH="$PATH:/usr/X11/bin"
+
+# Stuff TODO: Check and toss
+export PATH="$PATH:/opt/local/bin"
+export PATH="$PATH:/opt/local/sbin"
+export PATH="$PATH:$OPENCCG_HOME/bin"
 
 # Ruby Stuff
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
