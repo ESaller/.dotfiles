@@ -1,6 +1,3 @@
-# Path to your oh-my-zsh configuration.
-ZSH=~/.oh-my-zsh
-
 echo      Welcome back Commander!
 
 export PYTHONPATH="~/anaconda/bin/python"
@@ -77,33 +74,40 @@ COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 #PATH - every Path in a new line TODO: prune and sort
-
-# Python interpreter
-export PATH="$PATH:~/anaconda/bin"
+# path=""
 
 # Defaul Path for MAC OSX based on /private/etc/paths
-export PATH="$PATH:/usr/local/bin"
-export PATH="$PATH:/usr/bin"
-export PATH="$PATH:/bin"
-export PATH="$PATH:/usr/sbin"
-export PATH="$PATH:/sbin"
+path+=usr/local/bin
+path+=usr/bin
+path+=bin
+path+=usr/sbin
+path+=sbin
 
 # HOMEBREW MAC OSX install location for slinks
-export PATH="$PATH:/usr/local/sbin"
-export PATH="$PATH:/usr/local/bin"
+path+=usr/local/sbin
+path+=usr/local/bin
 
 # X11
-export PATH="$PATH:/opt/X11/bin"
-export PATH="$PATH:/usr/X11/bin"
+path+=opt/X11/bin
+path+=usr/X11/bin
 
 # Stuff TODO: Check and toss
-export PATH="$PATH:/opt/local/bin"
-export PATH="$PATH:/opt/local/sbin"
-export PATH="$PATH:$OPENCCG_HOME/bin"
+path+=opt/local/bin
+path+=opt/local/sbin
+path+=OPENCCG_HOME/bin
 
 # Ruby Stuff
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+# Add RVM to PATH for scripting
+path+=~/.rvm/bin
+# Load RVM into a shell session *as a function
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# Python interpreter
+path+=~/anaconda/bin
+
+# export everything
+# export PATH
+
 
 #Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -113,5 +117,7 @@ plugins=(history-substring-search git tmux vi-mode)
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
 
+# Path to your oh-my-zsh configuration.
+ZSH=~/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
