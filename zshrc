@@ -74,14 +74,19 @@ COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 #PATH - every Path in a new line TODO: prune and sort
-# path=""
+
+# Python interpreter
+# force anaconda before default path
+export PATH="$HOME/anaconda/bin:$PATH"
+#path+=~/anaconda/bin
 
 # Defaul Path for MAC OSX based on /private/etc/paths
-path+=usr/local/bin
-path+=usr/bin
-path+=bin
-path+=usr/sbin
-path+=sbin
+# no needed because of how path is built
+#path+=usr/local/bin
+#path+=usr/bin
+#path+=bin
+#path+=usr/sbin
+#path+=sbin
 
 # HOMEBREW MAC OSX install location for slinks
 path+=usr/local/sbin
@@ -96,17 +101,19 @@ path+=opt/local/bin
 path+=opt/local/sbin
 path+=OPENCCG_HOME/bin
 
+#other
+path+=/usr/local/lib
+path+=/usr/local/include
+
 # Ruby Stuff
 # Add RVM to PATH for scripting
 path+=~/.rvm/bin
 # Load RVM into a shell session *as a function
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
-# Python interpreter
-path+=~/anaconda/bin
 
 # export everything
-# export PATH
+export path
 
 
 #Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
