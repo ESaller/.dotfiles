@@ -259,7 +259,7 @@ set hidden                      " Buffer switching without saving
 set relativenumber              " Shows the line number relative to the line with the cursor
 set background=light             " Assume dark background
 set showmode                    " Show current mode
-""set cursorline                  " Highlight the screen line of the cursor
+set cursorline                  " Highlight the screen line of the cursor
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set nu                          " Line numbers on
