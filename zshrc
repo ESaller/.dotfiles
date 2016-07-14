@@ -47,6 +47,8 @@ alias GMV="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git remote -v)' ';'
 alias gsf="git submodule foreach --recursive git fetch"
 alias gsmom="git submodule foreach git merge origin master"
 alias pullallsubd="ls | parallel git -C {} pull"
+alias wsg="web_search google"
+
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
@@ -119,7 +121,7 @@ export path
 #Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(history-substring-search git tmux vi-mode)
+plugins=(history-substring-search git tmux vi-mode web-search)
 
 SAVEHIST=1000
 HISTFILE=~/.zsh_history
