@@ -46,7 +46,7 @@ alias GMP="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git pull)' ';'"
 alias GMV="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git remote -v)' ';'"
 alias gsf="git submodule foreach --recursive git fetch"
 alias gsmom="git submodule foreach git merge origin master"
-
+alias pullallsubd="ls | parallel git -C {} pull"
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
 
