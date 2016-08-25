@@ -1,6 +1,6 @@
 " Eduard Saller {{{
 " This is the .vimrc of Eduard Saller
-" Feel free to use what you wanti
+" Feel free to use what you want
 " }}}
 " TODO {{{
 " More Documentation :D
