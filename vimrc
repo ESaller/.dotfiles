@@ -313,7 +313,7 @@ endif
 "    let g:solarized_termtrans=1
 "    let g:solarized_contrast="high"
 "    let g:solarized_visibility="high"
-colorscheme base16-eighties
+colorscheme base16-bright
 " }}}
 "Coding Standatds {{{
 
