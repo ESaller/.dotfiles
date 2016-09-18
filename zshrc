@@ -25,8 +25,8 @@ man() {
 # Look in ~/.oh-my-zsh/themes/
 ZSH_THEME="bureau"
 
-ZSH_TMUX_AUTOSTART=true
-#ZSH_TMUX_AUTOQUIT=false
+#ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOQUIT=false
 # disabled for debug
 # ZSH_TMUX_ITERM2=true
 
@@ -53,7 +53,7 @@ alias wsg="web_search google"
 # CASE_SENSITIVE="true"
 
 # Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how often before auto-updates occur? (in days)
 # export UPDATE_ZSH_DAYS=13
