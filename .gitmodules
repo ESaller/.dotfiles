@@ -1,3 +1,6 @@
 [submodule "oh-my-zsh"]
 	path = oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh
+[submodule "spacemacs"]
+	path = spacemacs
+	url = git@github.com:syl20bnr/spacemacs.git
