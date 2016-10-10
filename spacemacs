@@ -30,9 +30,9 @@ values."
      git
      markdown
      org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom)
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom)
      spell-checking
      syntax-checking
      version-control
@@ -42,12 +42,16 @@ values."
      latex
      c-c++
      ruby
+     html
+     bibtex
+     emoji
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(calfw
+                                      german-holidays)
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages '()
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
@@ -244,7 +248,15 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (add-to-list 'load-path "~/dotfiles-private/")
   )
+
+(defun esaller/calendar ()
+  "Load calendar information"
+  (interactive)
+  (require 'calfw)
+  (cfw:open-calendar-buffer
+   :contents-sources esaller/calfw-sources))
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -253,10 +265,40 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+   ;; Powerline config
    (setq powerline-default-separator 'butt)
    (spaceline-compile)
 
+   ;; Org-mode config
+   (setq org-agenda-files (list "~/org"
+                                "~/org/work"
+                                "~/org/studies"
+                                "~/org/private"))
+   (setq org-startup-indented t)
 
+   ;; calfw
+   ;; Load org mode plus custom hidden sources from private repository
+
+   (with-eval-after-load 'calfw
+     (require 'calfw-org)
+     (require 'calfw-ical)
+     (when (not (require 'calfw_private nil 'noerror))
+       (setq esaller/private-calfw-sources nil))
+     (setq esaller/calfw-sources
+           (-concat
+            (list (cfw:org-create-source "Green"))
+            esaller/private-calfw-sources
+            )))
+
+   (spacemacs/set-leader-keys
+     "oc" 'esaller/calendar)
+
+   ;; holiday
+   (require 'german-holidays)
+   (setq calendar-holidays holiday-german-holidays)
+
+   ;; Follow symlinks
    (setq vc-follow-symlinks t)
 
    ;; Prevent Custom from dumping its local settings into this file.
