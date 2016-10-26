@@ -295,6 +295,15 @@ you should place your code here."
      )
    (add-hook 'after-save-hook 'my-icalendar-agenda-export)
 
+
+   (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((dot . t)
+      (python . t)
+      (latex . t)))
+
+   ;;(setq org-babel-confirm-evaluate nil)
+
    ;; calfw
    ;; Load org mode plus custom hidden sources from private repository
 
@@ -318,6 +327,33 @@ you should place your code here."
 
    ;; Follow symlinks
    (setq vc-follow-symlinks t)
+
+   ;;(add-to-list 'image-type-file-name-regexps '("\\.pdf\\'" . imagemagick))
+   ;;(add-to-list 'image-file-name-extensions "pdf")
+   ;;(setq imagemagick-types-inhibit (remove 'PDF imagemagick-types-inhibit))
+   ;;(setq org-image-actual-width 600)
+
+   ;; use imagemagick to preview latex
+   (setq org-latex-create-formula-image-program 'imagemagick)
+
+   (setq org-latex-packages-alist
+         (quote (("" "color" t)
+                 ("" "minted" t)
+                 ("" "parskip" t)
+                 ("" "tikz" t))))
+
+   (eval-after-load "preview"
+     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+
+
+   ;; delete on buffer kill
+   (add-hook 'kill-buffer-hook
+             (lambda ()
+               (let ((auto-save-file (make-auto-save-file-name)))
+                 (when (and (file-exists-p auto-save-file)
+                            (y-or-n-p "Delete auto-save-file?"))
+                   (delete-file auto-save-file)))))
+
 
    ;; Prevent Custom from dumping its local settings into this file.
    (load custom-file)
