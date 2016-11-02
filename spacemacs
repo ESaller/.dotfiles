@@ -295,6 +295,12 @@ you should place your code here."
      )
    (add-hook 'after-save-hook 'my-icalendar-agenda-export)
 
+   ;; latex export helper macros
+   ;; https://lists.gnu.org/archive/html/emacs-orgmode/2013-07/msg00500.html
+   (setq org-babel-latex-htlatex "htlatex")
+   (defmacro by-backend (&rest body)
+     `(case (if (boundp 'backend) (org-export-backend-name backend) nil) ,@body))
+
 
    (org-babel-do-load-languages
     'org-babel-load-languages
@@ -339,20 +345,22 @@ you should place your code here."
    (setq org-latex-packages-alist
          (quote (("" "color" t)
                  ("" "minted" t)
+;;                 ("" "pstricks" t)
+;;                 ("" "vaucanson-g" t)
                  ("" "parskip" t)
                  ("" "tikz" t))))
 
-   (eval-after-load "preview"
-     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+   ;;(eval-after-load "preview"
+   ;;  '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
 
 
    ;; delete on buffer kill
-   (add-hook 'kill-buffer-hook
-             (lambda ()
-               (let ((auto-save-file (make-auto-save-file-name)))
-                 (when (and (file-exists-p auto-save-file)
-                            (y-or-n-p "Delete auto-save-file?"))
-                   (delete-file auto-save-file)))))
+   ;; (add-hook 'kill-buffer-hook
+   ;;          (lambda ()
+   ;;            (let ((auto-save-file (make-auto-save-file-name)))
+   ;;              (when (and (file-exists-p auto-save-file)
+   ;;                         (y-or-n-p "Delete auto-save-file?"))
+   ;;                (delete-file auto-save-file)))))
 
 
    ;; Prevent Custom from dumping its local settings into this file.

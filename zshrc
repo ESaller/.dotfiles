@@ -19,13 +19,17 @@ man() {
 # perbrew
 # source /Users/esaller/perl5/perlbrew/etc/bashrc
 
+# Set language environment
+export LC_CTYPE=de_DE.UTF-8
+export LC_ALL=de_DE.UTF-8
+export LANG=de_DE.UTF-8
 
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 ZSH_THEME="bureau"
 
-#ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOSTART=true
 ZSH_TMUX_AUTOQUIT=false
 # disabled for debug
 # ZSH_TMUX_ITERM2=true
