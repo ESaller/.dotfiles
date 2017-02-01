@@ -20,9 +20,9 @@ man() {
 # source /Users/esaller/perl5/perlbrew/etc/bashrc
 
 # Set language environment
-# export LC_CTYPE=de_DE.UTF-8
-# export LC_ALL=de_DE.UTF-8
-# export LANG=de_DE.UTF-8
+export LC_CTYPE=de_DE.UTF-8
+export LC_ALL=de_DE.UTF-8
+export LANG=de_DE.UTF-8
 
 
 # Set name of the theme to load.
@@ -78,6 +78,14 @@ COMPLETION_WAITING_DOTS="true"
 # VCS as dirty. This makes repository status check for large repositories much,
 # much faster.
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+#FUNCTIONS
+
+function takeover (){
+    echo "User $1 is taking over computer $2"
+    eval "ssh -o 'ProxyCommand ssh -W %h:%p $1@remote.cip.ifi.lmu.de' $1@$2"
+}
+
 
 #PATH - every Path in a new line TODO: prune and sort
 
