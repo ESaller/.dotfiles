@@ -32,7 +32,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     endif
 " Installed Plugins {{{
 call plug#begin('~/.vim/bundle')
-" TODO: REORDER INTO CATEGORIES
 " Completion {{{
 " Jedi python completion
 " now using deoplete-jedi
