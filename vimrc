@@ -15,7 +15,7 @@ if !has('nvim')
     set ttyfast
     set ttyscroll=3
 endif
-set lazyredraw
+" set lazyredraw
 
 " }}}
 " Shell Settings {{{
@@ -250,7 +250,6 @@ set history=1000                " Store # amount in history
 ""set spell                       " Spell checking
 set hidden                      " Buffer switching without saving
 set relativenumber              " Shows the line number relative to the line with the cursor
-set background=light             " Assume dark background
 set showmode                    " Show current mode
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
@@ -296,16 +295,12 @@ endif
 
 " }}}
 " Theme{{{
-
-
-"if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-"    let g:solarized_termcolors=256
-"    color solarized
-"endif
-"    let g:solarized_termtrans=1
-"    let g:solarized_contrast="high"
-"    let g:solarized_visibility="high"
-colorscheme base16-bright
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+" colorscheme base16-gruvbox-dark-hard
+" colorscheme base16-unikitty-light
 " }}}
 "Coding Standards {{{
 
