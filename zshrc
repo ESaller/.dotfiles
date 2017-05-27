@@ -52,6 +52,7 @@ alias gsf="git submodule foreach --recursive git fetch"
 alias gsmom="git submodule foreach git merge origin master"
 alias pullallsubd="ls | parallel git -C {} pull"
 alias wsg="web_search google"
+alias bfg="java -jar ~/tools/bfg-1.12.15.jar"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -142,3 +143,5 @@ HISTFILE=~/.zsh_history
 ZSH=~/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
