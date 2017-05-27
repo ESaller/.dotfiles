@@ -4,9 +4,6 @@
 " }}}
 " TODO {{{
 " More Documentation :D
-" Reorder (maybe put shortcuts into the title)
-" Cleanup stuff from the move to neovim
-" Remove unused functions
 " }}}
 " Speedup/Performance Settings {{{
 
@@ -203,9 +200,6 @@ Plug 'scrooloose/syntastic'
 " a Git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-fugitive'
 
-" a Git mirror for Gundo
-" Plug 'sjl/gundo.vim'
-
 " Elegant buffer explorer - takes very little screen space
 Plug 'fholgado/minibufexpl.vim'
 
@@ -259,7 +253,6 @@ set hidden                      " Buffer switching without saving
 set relativenumber              " Shows the line number relative to the line with the cursor
 set background=light             " Assume dark background
 set showmode                    " Show current mode
-set cursorline                  " Highlight the screen line of the cursor
 set backspace=indent,eol,start  " Backspace for dummies
 set linespace=0                 " No extra spaces between rows
 set nu                          " Line numbers on
@@ -315,7 +308,7 @@ endif
 "    let g:solarized_visibility="high"
 colorscheme base16-bright
 " }}}
-"Coding Standatds {{{
+"Coding Standards {{{
 
 " Column Reminder {{{
 
@@ -546,17 +539,6 @@ cnoremap jk <C-c>
 " }}}
 " <Leader>bs | Buffer Search Shortcut {{{
 nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
-" }}}
-" <Leader>? | Google it Function {{{
-function! s:goog(pat)
-  let q = '"'.substitute(a:pat, '["\n]', ' ', 'g').'"'
-  let q = substitute(q, '[[:punct:] ]',
-       \ '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
-  call system('open https://www.google.com/search?q='.q)
-endfunction
-
-nnoremap <Leader>? :call <SID>goog(expand("<cWORD>"))<cr>
-xnoremap <Leader>? "gy:call <SID>goog(@g)<cr>gv
 " }}}
 " }}}
 " EMOJI/STATUSLINE {{{
