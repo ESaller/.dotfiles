@@ -4,7 +4,7 @@
 
 dir=~/dotfiles                                    # dotfiles directory
 olddir=~/dotfiles_old                             # old dotfiles backup directory
-files="tmux.conf vimrc vim zshrc oh-my-zsh emacs.d spacemacs"       # list of files/folders to symlink in homedir
+files="tmux.conf vimrc vim zshrc oh-my-zsh"       # list of files/folders to symlink in homedir
 
 # }}}
 # create dotfiles_old in homedir {{{
