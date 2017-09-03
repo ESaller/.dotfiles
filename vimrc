@@ -28,119 +28,14 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 " Installed Plugins {{{
 call plug#begin('~/.vim/bundle')
 " Completion {{{
-" Jedi python completion
-" now using deoplete-jedi
-"Plug 'davidhalter/jedi-vim'
 
-if !has('nvim')
 Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-" For cursor moving in insert mode(Not recommended)
-"inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
-"inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
-"inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
-"inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
-" Or set this.
-"let g:neocomplete#enable_cursor_hold_i = 1
-" Or set this.
-"let g:neocomplete#enable_insert_char_pre = 1
-
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-" function! BuildYCM(info)
-"  " info is a dictionary with 3 fields
-"  " - name:   name of the plugin
-"  " - status: 'installed', 'updated', or 'unchanged'
-"  " - force:  set on PlugInstall! or PlugUpdate!
-"  if a:info.status == 'installed' || a:info.force
-"    !./install.sh --clang-completer --system-libclang --omnisharp-completer
-"  endif
-"endfunction
-"
-"Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-"autocmd! User YouCompleteMe call youcompleteme#Enable()
 " }}}
-else
-    " Completion for neovim
-    Plug 'Shougo/deoplete.nvim'
-    " Python sources
-    Plug 'zchee/deoplete-jedi'
-    let g:deoplete#enable_at_startup = 1
-endif
 
 " gitk for Vim
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
@@ -155,17 +50,11 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'majutsushi/tagbar', {'on': 'TagbarToggle'}
 
 " Themes {{{
-" precision colorscheme for the vim text editor
-Plug 'altercation/vim-colors-solarized'
-
 " base 16
 Plug 'chriskempson/base16-vim'
 " }}}
 " A vim plugin to display the indention levels with thin vertical lines
 Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
-
-" lean & mean status/tabline for vim that's light as air
-" Plug 'bling/vim-airline'
 
 " quoting/parenthesizing made simple
 Plug 'tpope/vim-surround'
@@ -182,9 +71,6 @@ Plug 'tpope/vim-commentary'
 " The ultimate undo history visualizer for VIM
 Plug 'mbbill/undotree'
 
-" tmux basics
-Plug 'tpope/vim-tbone'
-
 " Fuzzy file, buffer, mru, tag, etc finder
 Plug 'kien/ctrlp.vim'
 
@@ -197,17 +83,11 @@ Plug 'tpope/vim-fugitive'
 " Elegant buffer explorer - takes very little screen space
 Plug 'fholgado/minibufexpl.vim'
 
-" Vim plugin for intensely orgasmic commenting
-Plug 'scrooloose/nerdcommenter'
-
 " Better Rainbow Parentheses
 Plug 'kien/rainbow_parentheses.vim'
 
 " :shoe: The missing motion for Vim
 Plug 'justinmk/vim-sneak'
-
-" Seamless navigation between tmux panes and vim splits
-Plug 'christoomey/vim-tmux-navigator'
 
 " Emoji in Vim (only terminal and mac)
 Plug 'junegunn/vim-emoji'
@@ -294,8 +174,6 @@ if filereadable(expand("~/.vimrc_background"))
   let base16colorspace=256
   source ~/.vimrc_background
 endif
-" colorscheme base16-gruvbox-dark-hard
-" colorscheme base16-unikitty-light
 " }}}
 "Coding Standards {{{
 
@@ -403,37 +281,50 @@ let NERDTreeKeepTreeInNewTab=1
 let g:nerdtree_tabs_open_on_gui_startup=0
 
 " }}}
-" LaTeX Settings {{{
-
-let g:tex_flavor='latex'
-let g:Tex_DefaultTargetFormat='pdf'
-let g:Tex_ViewRule_pdf='open -a Preview'
-let g:Tex_CompileRule_pdf='pdflatex'
-let g:latex_fold_enabled = 0
-" }}}
 " Autocomplete Configuration {{{
 
-" Jedi Settings {{{
+"Neocomplete Settings {{{
+let g:acp_enableAtStarup = 0                            " Disble AutoComplPop.
+let g:neocomplete#enable_at_startup = 1                 " Use neocomplete.
+let g:neocomplete#enable_smart_case = 1                 " Use smartcase.
+let g:neocomplete#sources#syntax#min_keyword_length = 3 " Minimum keyword length
 
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#show_call_signatures = 0
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : ''
+        \ }
 
-
-" }}}
-"Neo Complete Settings {{{
-if !has('nvim')
-    let g:acp_enableAtStarup = 0                            "Disble AutoComplPop.
-    let g:neocomplete#enable_at_startup = 1                 "Use neocomplete.
-    let g:neocomplete#enable_smart_case = 1                 "Use smartcase.
-    let g:neocomplete#sources#syntax#min_keyword_length = 3 "Minimum keyword length
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
 endif
-" <TAB>: completion
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+    return neocomplete#close_popup() . "\<CR>"
+    " For no inserting <CR> key.
+    " return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
+
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+" Close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+" <TAB>: completion
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-"}}}
 " Omni
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -442,52 +333,14 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 autocmd FileType python setlocal omnifunc=jedi#completions
 autocmd FileType haxe setlocal omnifunc=vaxe#HaxeComplete
 
-if !has('nvim')
 if !exists('g:neocomplete#force_omni_input_patterns')
     let g:neocomplete#force_omni_input_patterns = {}
 endif
 
-let g:neocomplete#force_omni_input_patterns.python =
-            \ '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-let g:neocomplete#force_omni_input_patterns.c =
-          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp =
-          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.objc =
-          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-          \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-endif
-" }}}
-" Snippet Settings {{{
-
-" SuperTab like snippets behavior.
-if !has('nvim')
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-endif
-" }}}
-" Ctags Settings {{{
-
-let Tlist_Ctags_Cmd = "/usr/bin/ctags"
-if v:version >= 703
-  inoremap <F11> <esc>:TagbarToggle<cr>
-  nnoremap <F11> :TagbarToggle<cr>
-  let g:tagbar_sort = 0
-endif
 " }}}
 " Rainbow Parentheses Settings{{{
 
 nmap <F6> :RainbowParenthesesToggle<CR> " Toggle Rainbow Parentheses
-
-" }}}
-" Tmuxify Settings {{{
-
-let g:tmuxify_custom_command='tmux split-window -dv -p 20'
 
 " }}}
 " vim-sneak Settings {{{
@@ -518,17 +371,21 @@ function! s:root()
 endfunction
 command! Root call s:root()
 " }}}
- " qq to record, Q to replay {{{
+
+" qq to record, Q to replay {{{
 nmap Q @q
 " }}}
+
 " jk | Escaping!{{{
 inoremap jk <Esc>
 xnoremap jk <Esc>
 cnoremap jk <C-c>
 " }}}
+
 " <Leader>bs | Buffer Search Shortcut {{{
 nnoremap <leader>bs :cex []<BAR>bufdo vimgrepadd @@g %<BAR>cw<s-left><s-left><right>
 " }}}
+
 " }}}
 " EMOJI/STATUSLINE {{{
 
@@ -637,6 +494,7 @@ silent! if emoji#available()
 endif
 " }}}
 " General Keyboard Settings {{{
+
 " Leader {{{
 let mapleader = "\<Space>"    " change mapleader
 " }}}
