@@ -11,11 +11,6 @@ set nocursorcolumn
 set nocursorline
 set synmaxcol=200
 syntax sync minlines=512
-if !has('nvim')
-    set ttyfast
-    set ttyscroll=3
-endif
-" set lazyredraw
 
 " }}}
 " Shell Settings {{{
