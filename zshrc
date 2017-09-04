@@ -78,6 +78,15 @@ path+=usr/local/bin
 path+=opt/X11/bin
 path+=usr/X11/bin
 
+# OS specifc paths
+if [[ `uname` == 'Darwin' ]]
+then
+    export OSX=1
+    path+=~/Library/Android/sdk/platform-tools
+else
+    export OSX=0
+fi
+
 # other
 path+=/usr/local/lib
 path+=/usr/local/include
