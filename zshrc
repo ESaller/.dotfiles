@@ -45,7 +45,9 @@ alias GMV="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git remote -v)' ';'
 alias gsf="git submodule foreach --recursive git fetch"
 alias gsmom="git submodule foreach git merge origin master"
 alias pullallsubd="ls | parallel git -C {} pull"
+alias dockerclean_containers='docker rm $(docker ps -a -f status=exited -q)'
 eval $(thefuck --alias)
+
 
 
 # Uncomment following line if you want to disable command autocorrection
