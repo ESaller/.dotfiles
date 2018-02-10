@@ -15,14 +15,14 @@ man() {
 
 
 # Set language environment
-export LC_CTYPE=de_DE.UTF-8
-export LC_ALL=de_DE.UTF-8
-export LANG=de_DE.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
-ZSH_THEME="bureau"
+ZSH_THEME="chains"
 ZSH_TMUX_ITERM2=false
 ZSH_TMUX_AUTOSTART=false
 ZSH_TMUX_AUTOQUIT=false
@@ -49,14 +49,11 @@ alias dockerclean_containers='docker rm $(docker ps -a -f status=exited -q)'
 eval $(thefuck --alias)
 
 
-
 # Uncomment following line if you want to disable command autocorrection
 DISABLE_CORRECTION="true"
 
-
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 COMPLETION_WAITING_DOTS="true"
-
 
 # FUNCTIONS
 
@@ -114,10 +111,12 @@ export path
 
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions
-# git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-plugins=(sudo git history zsh-completions zsh-autosuggestions zsh-syntax-highlightingi screen tmux)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions
+# git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+# git clone https://github.com/zsh-users/zsh-history-substring-search.git $ZSH_CUSTOM/plugins/zsh-history-substring-search
+plugins=(sudo git history tmux zsh-autosuggestions zsh-syntax-highlighting zsh-completions zsh-history-substring-search)
 autoload -U compinit && compinit
 
 
