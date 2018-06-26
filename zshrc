@@ -37,7 +37,7 @@ export EDITOR="vim"
 
 # Alias
 # alias tmux="TERM=screen-256color-bce tmux"
-alias useconda="export PATH='$HOME/anaconda/bin:$HOME/miniconda3/bin:$PATH:$HOME/conda/bin'"
+alias useconda="export PATH='$HOME/anaconda/bin:$HOME/miniconda3/bin:$HOME/conda/bin:$PATH'"
 alias di="rolldice"
 alias zshconfig="vim ~/.zshrc"
 alias GMP="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git pull)' ';'"
