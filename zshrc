@@ -37,7 +37,7 @@ export EDITOR="vim"
 
 # Alias
 # alias tmux="TERM=screen-256color-bce tmux"
-alias useconda="export PATH='$HOME/anaconda/bin:$HOME/miniconda3/bin:$PATH'"
+alias useconda="export PATH='$HOME/anaconda/bin:$HOME/miniconda3/bin:$PATH:$HOME/conda/bin'"
 alias di="rolldice"
 alias zshconfig="vim ~/.zshrc"
 alias GMP="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git pull)' ';'"
@@ -45,7 +45,7 @@ alias GMV="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git remote -v)' ';'
 alias gsf="git submodule foreach --recursive git fetch"
 alias gsmom="git submodule foreach git merge origin master"
 alias pullallsubd="ls | parallel git -C {} pull"
-alias dockerclean_containers='docker rm $(docker ps -a -f status=exited -q)'
+alias dsnope="find . -name '.DS_Store' -type f -delete"
 eval $(thefuck --alias)
 
 
@@ -132,5 +132,3 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 # Path to your oh-my-zsh configuration.
 ZSH=~/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
-
-

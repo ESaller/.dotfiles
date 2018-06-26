@@ -33,8 +33,6 @@ Plug 'Shougo/neocomplete.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
-
-
 " }}}
 
 " gitk for Vim
@@ -95,6 +93,9 @@ Plug 'junegunn/vim-emoji'
 " Esaymotion Plugin
 Plug 'easymotion/vim-easymotion'
 
+" Dockerfile syntax support
+Plug 'ekalinin/Dockerfile.vim'
+
 " Writing Plugins {{{
 
 " Disable clutter
@@ -121,8 +122,8 @@ endif
 filetype plugin indent on
 syntax enable                   " Enable syntax highlighting
 scriptencoding utf-8            " Encoding for scripts
-set history=1000                " Store # amount in history
-""set spell                       " Spell checking
+set history=10000               " Store # amount in history
+"set spell                       " Spell checking
 set hidden                      " Buffer switching without saving
 set relativenumber              " Shows the line number relative to the line with the cursor
 set showmode                    " Show current mode
