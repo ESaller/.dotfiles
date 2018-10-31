@@ -128,7 +128,12 @@ HISTFILE=~/.zsh_history
 BASE16_SHELL=$HOME/.config/base16-shell/
 [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
+# Add company internal config
+source ~/.zshrccompany
 
 # Path to your oh-my-zsh configuration.
 ZSH=~/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+
+# FZF keybindings & config (See https://github.com/junegunn/fzf)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
