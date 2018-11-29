@@ -47,8 +47,6 @@ alias gsmom="git submodule foreach git merge origin master"
 alias pullallsubd="ls | parallel git -C {} pull"
 alias dsnope="find . -name '.DS_Store' -type f -delete"
 alias ftcount='find . -type f | grep -E ".*\.[a-zA-Z0-9]*$" | sed -e "s/.*\(\.[a-zA-Z0-9]*\)$/\1/" | sort | uniq -c | sort -n'
-eval $(thefuck --alias)
-
 
 # Uncomment following line if you want to disable command autocorrection
 DISABLE_CORRECTION="true"
