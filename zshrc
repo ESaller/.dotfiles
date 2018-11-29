@@ -46,6 +46,7 @@ alias gsf="git submodule foreach --recursive git fetch"
 alias gsmom="git submodule foreach git merge origin master"
 alias pullallsubd="ls | parallel git -C {} pull"
 alias dsnope="find . -name '.DS_Store' -type f -delete"
+alias ftcount='find . -type f | grep -E ".*\.[a-zA-Z0-9]*$" | sed -e "s/.*\(\.[a-zA-Z0-9]*\)$/\1/" | sort | uniq -c | sort -n'
 eval $(thefuck --alias)
 
 
@@ -96,6 +97,7 @@ if [[ `uname` == 'Darwin' ]]
 then
     export OSX=1
     path+=~/Library/Android/sdk/platform-tools
+    export PATH="/usr/local/opt/openssl/bin:$PATH"
 else
     export OSX=0
 fi

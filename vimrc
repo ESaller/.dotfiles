@@ -29,14 +29,19 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 call plug#begin('~/.vim/bundle')
 " Completion {{{
 
-Plug 'Shougo/neocomplete.vim'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'zchee/deoplete-jedi'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'jiangmiao/auto-pairs'
 
 " }}}
-
-" gitk for Vim
-Plug 'gregsexton/gitv', { 'on': 'Gitv' }
 
 " Go to Terminal or File manager
 Plug 'justinmk/vim-gtfo'
@@ -69,17 +74,15 @@ Plug 'tpope/vim-commentary'
 " The ultimate undo history visualizer for VIM
 Plug 'mbbill/undotree'
 
-" Fuzzy file, buffer, mru, tag, etc finder
-Plug 'kien/ctrlp.vim'
+" Fuzzy file, buffer, mru, tag, etc
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 " Syntax checking hacks for vim
-Plug 'scrooloose/syntastic'
+Plug 'vim-syntastic/syntastic'
 
 " a Git wrapper so awesome, it should be illegal
 Plug 'tpope/vim-fugitive'
-
-" Elegant buffer explorer - takes very little screen space
-Plug 'fholgado/minibufexpl.vim'
 
 " Better Rainbow Parentheses
 Plug 'kien/rainbow_parentheses.vim'
@@ -90,7 +93,7 @@ Plug 'justinmk/vim-sneak'
 " Emoji in Vim (only terminal and mac)
 Plug 'junegunn/vim-emoji'
 
-" Esaymotion Plugin
+" Easymotion Plugin
 Plug 'easymotion/vim-easymotion'
 
 " Dockerfile syntax support
@@ -284,59 +287,12 @@ let g:nerdtree_tabs_open_on_gui_startup=0
 " }}}
 " Autocomplete Configuration {{{
 
-"Neocomplete Settings {{{
-let g:acp_enableAtStarup = 0                            " Disble AutoComplPop.
-let g:neocomplete#enable_at_startup = 1                 " Use neocomplete.
-let g:neocomplete#enable_smart_case = 1                 " Use smartcase.
-let g:neocomplete#sources#syntax#min_keyword_length = 3 " Minimum keyword length
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : ''
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-    return neocomplete#close_popup() . "\<CR>"
-    " For no inserting <CR> key.
-    " return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
-
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-" <TAB>: completion
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" Omni
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType python setlocal omnifunc=jedi#completions
-autocmd FileType haxe setlocal omnifunc=vaxe#HaxeComplete
-
-if !exists('g:neocomplete#force_omni_input_patterns')
-    let g:neocomplete#force_omni_input_patterns = {}
-endif
+"Deoplete  {{{
+let g:deoplete#auto_complete_start_length = 1
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+imap <expr><TAB> pumvisible() ? "\<C-n>" : (neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>")
+imap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " }}}
 " Rainbow Parentheses Settings{{{
