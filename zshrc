@@ -1,6 +1,8 @@
-##### Setting Up Directories #####---------------------------------------------|
-# If some directories are neede they are specified here
+################################################################################
+# Setting Up Directories
+# If some directories are needed they are specified here
 # Note: Some plugins may create their own folders
+################################################################################
 
 export CACHE_DIR="$HOME/.cache"
 [[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
@@ -8,10 +10,11 @@ export _FASD_DATA="$CACHE_DIR/.fasd" # set fasd data file location
 export ZPLUG_HOME="$HOME/.zplug"
 
 
-##### PATH #####---------------------------------------------------------------|
-# Everything related to the PATH variable that is set by me
+################################################################################
+# PATH
+# Manual PATH adjustments are done here
 # Note: Some plugins also update PATH, e.g. zplug
-
+################################################################################
 case `uname` in
   Darwin)
     # commands for OS X go here
@@ -23,22 +26,26 @@ case `uname` in
 esac
 
 
-###### Language Settings #####-------------------------------------------------|
-# Setting the shell language
+################################################################################
+# LANG
+################################################################################
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 
-##### VIM #####----------------------------------------------------------------|
-# Setting the default editor
+################################################################################
+# EDITOR
+################################################################################
 
 export EDITOR=vim
 export VISUAL=vim
 
 
-##### History Settings #####---------------------------------------------------|
+################################################################################
+# HISTORY
 # Setting up the shell history
+################################################################################
 
 export HISTSIZE=100000
 export SAVEHIST=100000
@@ -47,37 +54,6 @@ export HISTCONTROL=ignoredups
 export HISTFILE="$CACHE_DIR/.zsh_history"
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
-
-##### Basic Alias #####--------------------------------------------------------|
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
-
-alias lsa='ls -lah'
-alias ll='ls -lh'
-
-alias dsnope="find . -name '.DS_Store' -type f -delete"
-
-
-##### MAN Pages #####----------------------------------------------------------|
-
-export MANPAGER='less -X';             # Don't clear the screen after quitting a manual page.
-export LESS_TERMCAP_md="$yellow"       # Highlight section titles in manual pages.
-
-
-##### Color Basics #####-------------------------------------------------------|
-
-# tmux color
-if [[ -n "$TMUX" ]]; then
-    export TERM=screen-256color
-else
-    export TERM=xterm-256color
-fi
-
-##### ZSH Settings #####-------------------------------------------------------|
-
-# History
 setopt append_history
 setopt bang_hist                       # !keyword
 setopt extended_history
@@ -90,7 +66,43 @@ setopt hist_verify
 setopt inc_append_history
 setopt share_history
 
-# Misc
+################################################################################
+# ALIAS
+################################################################################
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
+alias lsa='ls -lah'
+alias ll='ls -lh'
+
+alias dsnope="find . -name '.DS_Store' -type f -delete"
+
+
+################################################################################
+# MAN
+################################################################################
+
+export MANPAGER='less -X';             # Don't clear the screen after quitting a manual page.
+export LESS_TERMCAP_md="$yellow"       # Highlight section titles in manual pages.
+
+
+################################################################################
+# COLOR
+################################################################################
+
+# TERM
+if [[ -n "$TMUX" ]]; then
+    export TERM=screen-256color
+else
+    export TERM=xterm-256color
+fi
+
+################################################################################
+# ZSH
+################################################################################
+
 setopt auto_cd                         # if command is a path, cd into it
 setopt auto_remove_slash               # self explicit
 setopt chase_links                     # resolve symlinks
@@ -130,7 +142,9 @@ bindkey '^[[Z' reverse-menu-complete
 zstyle ':zplug:tag' depth 42
 
 
-##### ZSH PLUGIN MANAGER #####------------------------------------------------|
+################################################################################
+# ZPLUG
+################################################################################
 
 if [[ ! -d "$ZPLUG_HOME" ]]; then
     echo "Installing zplug"
@@ -142,18 +156,23 @@ else
 fi
 
 
-##### Plugins #####-----------------------------------------------------------|
+################################################################################
+# PLUGINS
+################################################################################
 
+########################################
 # Selfupdate
+########################################
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
 
 
+########################################
 # Extensions
+########################################
 zplug "zsh-users/zsh-history-substring-search"      # Better History Search
 zplug "zsh-users/zsh-syntax-highlighting", defer:2  # Syntax Highlights
 zplug "zsh-users/zsh-autosuggestions"               # Completions
 zplug "zsh-users/zsh-completions"                   # Completions
-zplug "rawkode/zsh-docker-run"                      # Put commands into a container
 zplug "peterhurford/up.zsh"                         # `up 3` == `cd ...` etc.
 zplug "desyncr/auto-ls"                             # With empty command press Return for ls
 zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"  # fzf fuzzy searching
@@ -161,14 +180,19 @@ zplug "modules/docker", from:prezto
 zplug "changyuheng/zsh-interactive-cd"              # fish like cd comletion
 
 
+########################################
 # OS Specific
+########################################
 
-
+####################
 # OSX
+####################
 zplug "modules/osx", from:prezto,  if:"[[ $OSTYPE == *darwin* ]]"
 
 
+########################################
 # Prompt
+########################################
 zplug "mafredri/zsh-async", on:sindresorhus/pure
 zplug "sindresorhus/pure", use:pure.zsh, defer:3
 
@@ -181,28 +205,38 @@ fi
 zplug load
 
 
-##### Plugin Configuration #####-----------------------------------------------|
+################################################################################
+# Plugin Configuratio
+################################################################################
 
-## fasd
-## https://github.com/clvv/fasd
+########################################
+# fasd
+# https://github.com/clvv/fasd
+########################################
 
 eval "$(fasd --init auto)"
 
 
+########################################
 ## fzf
+########################################
 
 # Setting keybindings based on the zplug pull
 source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
 source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
 
 
+########################################
 ## auto-ls
+########################################
 
 export AUTO_LS_CHPWD=false
 
 
-##### Custom Commands #####---------------------------------------------------|
+################################################################################
+# CUSTOM COMMANDS
 # Combinations of different installed plugins, e.g. fzf+fasd
+################################################################################
 
 # tmux fzf integration
 # tm - create new tmux session, or switch to existing one. Works from within tmux too.
@@ -243,9 +277,11 @@ function vd() {
 }
 
 
-##### PDF SEARCH #####--------------------------------------------------------|
-## https://github.com/bellecp/fast-p
-## Searches the first page of all pdf files in current dir and subdir
+################################################################################
+# PDF SEARCH
+# https://github.com/bellecp/fast-p
+# Searches the first page of all pdf files in current dir and subdir
+################################################################################
 
 p () {
     local open
@@ -261,7 +297,51 @@ p () {
 }
 
 
-##### Dockerized Commands (zsh-docker-run)  #####-----------------------------|
+################################################################################
+# Dockerized Commands
+################################################################################
+
+# This is taken from rawkode/zsh-docker-run
+# It allows for certain commands to be executed inside docker
+# For example you can use this for specifc python versions
+
+
+########################################
+# Dockerized Commands - SETUP
+########################################
+
+function can_be_run_through_docker_compose_service() {
+  # Look for a service using the image $1 inside docker-compose.yml
+  image_name=''
+  if [ -f "docker-compose.yml" ];
+  then
+    image_name=$(grep -B1 -A0 "image: $1" docker-compose.yml | head -n1 | awk -F ":" '{print $1}' | tr -d '[:space:]')
+  fi
+}
+
+function docker_run() {
+  docker run --rm -it -u $UID -v $PWD:/sandbox -v $HOME:$HOME -e HOME=$HOME -w /sandbox --entrypoint=$3 $1:$2 ${@:4}
+}
+
+function docker_compose_run() {
+  docker-compose run --rm --entrypoint=$1 ${@:2}
+}
+
+function run_with_docker() {
+  can_be_run_through_docker_compose_service $1
+
+  if [[ ! -z "${image_name// }" ]];
+  then
+    docker_compose_run $3 $image_name ${@:4}
+  else
+    docker_run $1 $2 $3 ${@:4}
+  fi
+}
+
+
+########################################
+# Dockerized Commands - COMMANDS
+########################################
 
 function go() {
   run_with_docker "golang" "latest" "go" $@
@@ -272,12 +352,16 @@ function npm {
 }
 
 
-##### Commands #####----------------------------------------------------------|
+################################################################################
+# CONDITIONALS
+################################################################################
 
 if [[ $(command -v rbenv) ]]; then
     eval "$(rbenv init - zsh --no-rehash)"
 fi
 
 
-##### Additional Files #####
+################################################################################
+# SOURCE
+################################################################################
 #[[ -f "${HOME}/.aliases" ]] && source "${HOME}/.aliases"
