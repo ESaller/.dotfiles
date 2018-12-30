@@ -4,6 +4,7 @@ export CACHE_DIR="$HOME/.cache"
 export _FASD_DATA="$CACHE_DIR/.fasd" # set fasd data file location
 export ZPLUG_HOME="$HOME/.zplug"
 
+
 ##### PATH #####
 case `uname` in
   Darwin)
@@ -14,6 +15,7 @@ case `uname` in
     # commands for Linux go here
   ;;
 esac
+
 
 ###### Language Settings #####
 export LANG=en_US.UTF-8
@@ -45,12 +47,13 @@ alias ll='ls -lh'
 
 alias dsnope="find . -name '.DS_Store' -type f -delete"
 
+
 ##### MAN Pages #####
 export MANPAGER='less -X'; # Don't clear the screen after quitting a manual page.
 export LESS_TERMCAP_md="$yellow" # Highlight section titles in manual pages.
 
 
-##### Color Shemee Basics #####
+##### Color Basics #####
 if [[ -n "$TMUX" ]]; then
     export TERM=screen-256color
 else
@@ -58,6 +61,7 @@ else
 fi
 
 ##### ZSH Settinhs #####
+# History
 setopt append_history
 setopt bang_hist                # !keyword
 setopt extended_history
@@ -70,6 +74,8 @@ setopt hist_verify
 setopt inc_append_history
 setopt share_history
 
+
+# Misc
 setopt auto_cd                  # if command is a path, cd into it
 setopt auto_remove_slash        # self explicit
 setopt chase_links              # resolve symlinks
@@ -78,18 +84,16 @@ setopt extended_glob            # activate complex pattern globbing
 setopt glob_dots                # include dotfiles in globbing
 setopt print_exit_value         # print return value if non-zero
 setopt prompt_subst
-
 unsetopt bg_nice                # no lower prio for background jobs
 unsetopt hist_beep              # no bell on error in history
 unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
-
 unsetopt menu_complete
 unsetopt flowcontrol
-
 setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word
 setopt complete_in_word         # allow completion from within a word/phrase
 setopt auto_menu
 setopt list_ambiguous           # complete as much of a completion until it gets ambiguous.
+
 
 # Commpletion Settings
 zstyle ':completion:*:*:*:*:*' menu select
@@ -103,9 +107,9 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
 
+
 # shift-tab : go backward in menu (invert of tab)
 bindkey '^[[Z' reverse-menu-complete
-
 zstyle ':zplug:tag' depth 42
 
 
@@ -122,8 +126,10 @@ fi
 
 ##### Plugins #####
 
+
 # Selfupdate
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
+
 
 # Extensions
 zplug "zsh-users/zsh-history-substring-search"      # Better History Search
@@ -140,12 +146,15 @@ zplug "changyuheng/zsh-interactive-cd"              # fish like cd comletion
 
 # OS Specific
 
+
 # OSX
 zplug "modules/osx", from:prezto,  if:"[[ $OSTYPE == *darwin* ]]"
+
 
 # Prompt
 zplug "mafredri/zsh-async", on:sindresorhus/pure
 zplug "sindresorhus/pure", use:pure.zsh, defer:3
+
 
 # Update
 if ! zplug check; then
@@ -154,7 +163,10 @@ fi
 
 zplug load
 
+
 ##### Plugin Configuration #####
+
+
 # fzf
 source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
 source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
@@ -171,11 +183,53 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
+
+# fasd + fzf
+# https://github.com/clvv/fasd
+eval "$(fasd --init auto)"
+
+# cd into recent directories
+function zd() {
+    local dir
+    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
+# j: jump to directories
+alias j=zd
+
+# View recent f files
+function v() {
+    local file
+    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && $EDITOR "${file}" || return 1
+}
+
+# cd into the directory containing a recently used file
+function vd() {
+    local dir
+    local file
+    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
+}
+
+
 # auto-ls
 export AUTO_LS_CHPWD=false
 
-# fasd
-eval "$(fasd --init auto)"
+
+##### PDF SEARCH #####
+# https://github.com/bellecp/fast-p
+p () {
+    local open
+    open=open   # on OSX, "open" opens a pdf in preview
+    ag -U -g ".pdf$" \
+    | fast-p \
+    | fzf --read0 --reverse -e -d $'\t'  \
+        --preview-window down:80% --preview '
+            v=$(echo {q} | gtr " " "|");
+            echo -e {1}"\n"{2} | ggrep -E "^|$v" -i --color=always;
+        ' \
+    | gcut -z -f 1 -d $'\t' | gtr -d '\n' | gxargs -r --null $open > /dev/null 2> /dev/null
+}
+
 
 ##### Dockerized Commands (zsh-docker-run)  #####
 function go() {
