@@ -184,7 +184,7 @@ endif
 " Column Reminder {{{
 
 highlight colorcolumn guibg=LightYellow ctermbg=LightYellow
-call matchadd('colorcolumn', '\%81v', 120)
+call matchadd('colorcolumn', '\%121v', 200)
 
 " }}}
 " Indent options {{{

@@ -1,11 +1,17 @@
-##### Setting Up Directories #####
+##### Setting Up Directories #####---------------------------------------------|
+# If some directories are neede they are specified here
+# Note: Some plugins may create their own folders
+
 export CACHE_DIR="$HOME/.cache"
 [[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
 export _FASD_DATA="$CACHE_DIR/.fasd" # set fasd data file location
 export ZPLUG_HOME="$HOME/.zplug"
 
 
-##### PATH #####
+##### PATH #####---------------------------------------------------------------|
+# Everything related to the PATH variable that is set by me
+# Note: Some plugins also update PATH, e.g. zplug
+
 case `uname` in
   Darwin)
     # commands for OS X go here
@@ -17,17 +23,23 @@ case `uname` in
 esac
 
 
-###### Language Settings #####
+###### Language Settings #####-------------------------------------------------|
+# Setting the shell language
+
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
 
-##### VIM #####
+##### VIM #####----------------------------------------------------------------|
+# Setting the default editor
+
 export EDITOR=vim
 export VISUAL=vim
 
 
-##### History Settings #####
+##### History Settings #####---------------------------------------------------|
+# Setting up the shell history
+
 export HISTSIZE=100000
 export SAVEHIST=100000
 export HISTFILESIZE=$HISTSIZE
@@ -36,7 +48,7 @@ export HISTFILE="$CACHE_DIR/.zsh_history"
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 
-##### Basic Alias #####
+##### Basic Alias #####--------------------------------------------------------|
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
@@ -48,51 +60,54 @@ alias ll='ls -lh'
 alias dsnope="find . -name '.DS_Store' -type f -delete"
 
 
-##### MAN Pages #####
-export MANPAGER='less -X'; # Don't clear the screen after quitting a manual page.
-export LESS_TERMCAP_md="$yellow" # Highlight section titles in manual pages.
+##### MAN Pages #####----------------------------------------------------------|
+
+export MANPAGER='less -X';             # Don't clear the screen after quitting a manual page.
+export LESS_TERMCAP_md="$yellow"       # Highlight section titles in manual pages.
 
 
-##### Color Basics #####
+##### Color Basics #####-------------------------------------------------------|
+
+# tmux color
 if [[ -n "$TMUX" ]]; then
     export TERM=screen-256color
 else
     export TERM=xterm-256color
 fi
 
-##### ZSH Settinhs #####
+##### ZSH Settings #####-------------------------------------------------------|
+
 # History
 setopt append_history
-setopt bang_hist                # !keyword
+setopt bang_hist                       # !keyword
 setopt extended_history
 setopt hist_expire_dups_first
 setopt hist_ignore_all_dups
 setopt hist_ignore_dups
 setopt hist_ignore_space
-setopt hist_reduce_blanks       # trim blanks
+setopt hist_reduce_blanks              # trim blanks
 setopt hist_verify
 setopt inc_append_history
 setopt share_history
 
-
 # Misc
-setopt auto_cd                  # if command is a path, cd into it
-setopt auto_remove_slash        # self explicit
-setopt chase_links              # resolve symlinks
-setopt correct                  # try to correct spelling of commands
-setopt extended_glob            # activate complex pattern globbing
-setopt glob_dots                # include dotfiles in globbing
-setopt print_exit_value         # print return value if non-zero
+setopt auto_cd                         # if command is a path, cd into it
+setopt auto_remove_slash               # self explicit
+setopt chase_links                     # resolve symlinks
+setopt correct                         # try to correct spelling of commands
+setopt extended_glob                   # activate complex pattern globbing
+setopt glob_dots                       # include dotfiles in globbing
+setopt print_exit_value                # print return value if non-zero
 setopt prompt_subst
-unsetopt bg_nice                # no lower prio for background jobs
-unsetopt hist_beep              # no bell on error in history
-unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
+unsetopt bg_nice                       # no lower prio for background jobs
+unsetopt hist_beep                     # no bell on error in history
+unsetopt rm_star_silent                # ask for confirmation for `rm *' or `rm path/*'
 unsetopt menu_complete
 unsetopt flowcontrol
-setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word
-setopt complete_in_word         # allow completion from within a word/phrase
+setopt always_to_end                   # when completing from the middle of a word, move the cursor to the end of the word
+setopt complete_in_word                # allow completion from within a word/phrase
 setopt auto_menu
-setopt list_ambiguous           # complete as much of a completion until it gets ambiguous.
+setopt list_ambiguous                  # complete as much of a completion until it gets ambiguous.
 
 
 # Commpletion Settings
@@ -104,6 +119,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-
 
 zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
 
+
+# use cache
 zstyle ':completion::complete:*' use-cache 1
 zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
 
@@ -113,7 +130,8 @@ bindkey '^[[Z' reverse-menu-complete
 zstyle ':zplug:tag' depth 42
 
 
-##### ZSH PLUGIN MANAGER #####
+##### ZSH PLUGIN MANAGER #####------------------------------------------------|
+
 if [[ ! -d "$ZPLUG_HOME" ]]; then
     echo "Installing zplug"
     curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
@@ -124,8 +142,7 @@ else
 fi
 
 
-##### Plugins #####
-
+##### Plugins #####-----------------------------------------------------------|
 
 # Selfupdate
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
@@ -164,17 +181,24 @@ fi
 zplug load
 
 
-##### Plugin Configuration #####
+##### Plugin Configuration #####-----------------------------------------------|
+
+## fasd
+## https://github.com/clvv/fasd
+
+eval "$(fasd --init auto)"
 
 
-# fzf
+## fzf
+
+# Setting keybindings based on the zplug pull
 source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
 source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
 
+# tmux fzf integration
 # tm - create new tmux session, or switch to existing one. Works from within tmux too.
 # `tm` will allow you to select your tmux session via fzf.
 # `tm irc` will attach to the irc session (if it exists), else it will create it.
-
 tm() {
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
   if [ $1 ]; then
@@ -183,26 +207,25 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
-
-# fasd + fzf
-# https://github.com/clvv/fasd
-eval "$(fasd --init auto)"
-
+# fasd fzf integration
 # cd into recent directories
 function zd() {
     local dir
     dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
 }
 
+# fasd fzf integration
 # j: jump to directories
 alias j=zd
 
+# fasd fzf integration
 # View recent f files
 function v() {
     local file
     file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && $EDITOR "${file}" || return 1
 }
 
+# fasd fzf integration
 # cd into the directory containing a recently used file
 function vd() {
     local dir
@@ -211,12 +234,14 @@ function vd() {
 }
 
 
-# auto-ls
+## auto-ls
 export AUTO_LS_CHPWD=false
 
 
-##### PDF SEARCH #####
-# https://github.com/bellecp/fast-p
+##### PDF SEARCH #####--------------------------------------------------------|
+## https://github.com/bellecp/fast-p
+## Searches the first page of all pdf files in current dir and subdir
+
 p () {
     local open
     open=open   # on OSX, "open" opens a pdf in preview
@@ -231,7 +256,8 @@ p () {
 }
 
 
-##### Dockerized Commands (zsh-docker-run)  #####
+##### Dockerized Commands (zsh-docker-run)  #####-----------------------------|
+
 function go() {
   run_with_docker "golang" "latest" "go" $@
 }
@@ -240,10 +266,13 @@ function npm {
   run_with_docker "node" "alpine" "npm" $@
 }
 
-##### Commands #####
+
+##### Commands #####----------------------------------------------------------|
+
 if [[ $(command -v rbenv) ]]; then
     eval "$(rbenv init - zsh --no-rehash)"
 fi
+
 
 ##### Additional Files #####
 #[[ -f "${HOME}/.aliases" ]] && source "${HOME}/.aliases"
