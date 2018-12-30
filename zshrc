@@ -54,18 +54,35 @@ export HISTCONTROL=ignoredups
 export HISTFILE="$CACHE_DIR/.zsh_history"
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
-setopt append_history
-setopt bang_hist                       # !keyword
-setopt extended_history
-setopt hist_expire_dups_first
-setopt hist_ignore_all_dups
-setopt hist_ignore_dups
-setopt hist_ignore_space
-setopt hist_reduce_blanks              # trim blanks
-setopt hist_verify
-setopt inc_append_history
-setopt share_history
+setopt append_history                  # append to history file, rather than overwrite it
+setopt bang_hist                       # Perform textual history substitution, treating the character ! specially.
+setopt extended_history                # Save beginning and ending timestamps to the history file
 
+setopt hist_expire_dups_first          # If the internal history needs to be trimmed to add the current command line,
+                                       # setting this option will cause the oldest history event that has a duplicate
+                                       # to be lost before losing a unique event from the list.
+                                       # only when HISTSIZE > SAVEHIST, here equivalent to ignore all dupes
+
+setopt hist_ignore_all_dups            # If a new command line being added to the history list duplicates an older one,
+                                       # the older command is removed from the list
+                                       # (even if it is not the previous event).
+
+setopt hist_ignore_dups                # Do not enter command lines into the history list
+                                       # if they are duplicates of the previous event
+
+setopt hist_ignore_space               # Remove command lines from the history list when
+                                       # the first character on the line is a space
+
+setopt hist_reduce_blanks              # trim blanks
+setopt hist_verify                     # Whenever the user enters a line with history expansion,
+                                       # don’t execute the line directly; instead, perform history expansion
+                                       # and reload the line into the editing buffer.
+
+setopt inc_append_history              # This option works like APPEND_HISTORY except that new history lines are added
+                                       # to the $HISTFILE incrementally (as soon as they are entered),
+                                       # rather than waiting until the shell exits.
+
+unsetopt hist_beep                     # no bell on error in history
 ################################################################################
 # ALIAS
 ################################################################################
@@ -105,20 +122,19 @@ fi
 
 setopt auto_cd                         # if command is a path, cd into it
 setopt auto_remove_slash               # self explicit
-setopt chase_links                     # resolve symlinks
+#setopt chase_links                     # resolve symlinks
 setopt correct                         # try to correct spelling of commands
 setopt extended_glob                   # activate complex pattern globbing
-setopt glob_dots                       # include dotfiles in globbing
 setopt print_exit_value                # print return value if non-zero
-setopt prompt_subst
+setopt prompt_subst                    # parameter expansion, command substitution and arithmetic expansion in prompts
 unsetopt bg_nice                       # no lower prio for background jobs
-unsetopt hist_beep                     # no bell on error in history
 unsetopt rm_star_silent                # ask for confirmation for `rm *' or `rm path/*'
 unsetopt menu_complete
-unsetopt flowcontrol
-setopt always_to_end                   # when completing from the middle of a word, move the cursor to the end of the word
+unsetopt flowcontrol                   # output flow control via start/stop characters (usually assigned to ^S/^Q)
+                                       # is disabled in the shell's editor.
+setopt always_to_end                   # when completing from the middle of a word, move the cursor to the end of it
 setopt complete_in_word                # allow completion from within a word/phrase
-setopt auto_menu
+setopt auto_menu                       # use menu completion after the second consecutive request for completion
 setopt list_ambiguous                  # complete as much of a completion until it gets ambiguous.
 
 
