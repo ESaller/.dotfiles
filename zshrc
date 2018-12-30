@@ -195,6 +195,15 @@ eval "$(fasd --init auto)"
 source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
 source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
 
+
+## auto-ls
+
+export AUTO_LS_CHPWD=false
+
+
+##### Custom Commands #####---------------------------------------------------|
+# Combinations of different installed plugins, e.g. fzf+fasd
+
 # tmux fzf integration
 # tm - create new tmux session, or switch to existing one. Works from within tmux too.
 # `tm` will allow you to select your tmux session via fzf.
@@ -232,10 +241,6 @@ function vd() {
     local file
     file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
 }
-
-
-## auto-ls
-export AUTO_LS_CHPWD=false
 
 
 ##### PDF SEARCH #####--------------------------------------------------------|
