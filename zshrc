@@ -1,139 +1,195 @@
-echo      Welcome back Commander!
+##### Setting Up Directories #####
+export CACHE_DIR="$HOME/.cache"
+[[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
+export _FASD_DATA="$CACHE_DIR/.fasd" # set fasd data file location
+export ZPLUG_HOME="$HOME/.zplug"
 
-# colored man pages
-man() {
-    env \
-    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-    LESS_TERMCAP_md=$(printf "\e[1;31m") \
-    LESS_TERMCAP_me=$(printf "\e[0m") \
-    LESS_TERMCAP_se=$(printf "\e[0m") \
-    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-    LESS_TERMCAP_ue=$(printf "\e[0m") \
-    LESS_TERMCAP_us=$(printf "\e[1;32m") \
-                                        man "$@"
-  }
+##### PATH #####
+case `uname` in
+  Darwin)
+    # commands for OS X go here
+    export PATH="/usr/local/opt/python/libexec/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+  ;;
+  Linux)
+    # commands for Linux go here
+  ;;
+esac
 
-
-# Set language environment
-export LC_CTYPE=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+###### Language Settings #####
 export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-ZSH_THEME="chains"
-ZSH_TMUX_ITERM2=false
-ZSH_TMUX_AUTOSTART=false
-ZSH_TMUX_AUTOQUIT=false
+##### VIM #####
+export EDITOR=vim
+export VISUAL=vim
 
 
-# vim command line edit and editor pref
-autoload edit-command-line; zle -N edit-command-line
-bindkey -M vicmd v edit-command-line
-export VISUAL="vim"
-export EDITOR="vim"
+##### History Settings #####
+export HISTSIZE=100000
+export SAVEHIST=100000
+export HISTFILESIZE=$HISTSIZE
+export HISTCONTROL=ignoredups
+export HISTFILE="$CACHE_DIR/.zsh_history"
+export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
 
-# Alias
-# alias tmux="TERM=screen-256color-bce tmux"
-alias useconda="export PATH='$HOME/anaconda/bin:$HOME/miniconda3/bin:$HOME/conda/bin:$PATH'"
-alias di="rolldice"
-alias zshconfig="vim ~/.zshrc"
-alias GMP="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git pull)' ';'"
-alias GMV="find . -maxdepth 1 -type d -exec sh -c '(cd {} && git remote -v)' ';'"
-alias gsf="git submodule foreach --recursive git fetch"
-alias gsmom="git submodule foreach git merge origin master"
-alias pullallsubd="ls | parallel git -C {} pull"
+##### Basic Alias #####
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
+alias lsa='ls -lah'
+alias ll='ls -lh'
+
 alias dsnope="find . -name '.DS_Store' -type f -delete"
-alias ftcount='find . -type f | grep -E ".*\.[a-zA-Z0-9]*$" | sed -e "s/.*\(\.[a-zA-Z0-9]*\)$/\1/" | sort | uniq -c | sort -n'
 
-# Uncomment following line if you want to disable command autocorrection
-DISABLE_CORRECTION="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-COMPLETION_WAITING_DOTS="true"
-
-# FUNCTIONS
-
-# Direct login login to physical machine
-function uni-takeover (){
-    echo "User $1 is taking over computer $2"
-    eval "ssh -o 'ProxyCommand ssh -W %h:%p $1@remote.cip.ifi.lmu.de' $1@$2"
-}
+##### MAN Pages #####
+export MANPAGER='less -X'; # Don't clear the screen after quitting a manual page.
+export LESS_TERMCAP_md="$yellow" # Highlight section titles in manual pages.
 
 
-# PATH - every Path in a new line
-
-
-# Python
-# force anaconda before default path
-# moved to useconda alias
-# export PATH="$HOME/anaconda/bin:$PATH"
-# export PATH="$HOME/miniconda3/bin:$PATH"
-
-
-# Ruby
-# force rbenv before default path
-# configure it so, that it considers system ruby as global for building with brew
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-
-# HOMEBREW MAC OSX install location for slinks
-path+=usr/local/sbin
-path+=usr/local/bin
-
-
-# X11
-path+=opt/X11/bin
-path+=usr/X11/bin
-
-
-# OS specifc paths
-if [[ `uname` == 'Darwin' ]]
-then
-    export OSX=1
-    path+=~/Library/Android/sdk/platform-tools
-    export PATH="/usr/local/opt/openssl/bin:$PATH"
+##### Color Shemee Basics #####
+if [[ -n "$TMUX" ]]; then
+    export TERM=screen-256color
 else
-    export OSX=0
+    export TERM=xterm-256color
+fi
+
+##### ZSH Settinhs #####
+setopt append_history
+setopt bang_hist                # !keyword
+setopt extended_history
+setopt hist_expire_dups_first
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_reduce_blanks       # trim blanks
+setopt hist_verify
+setopt inc_append_history
+setopt share_history
+
+setopt auto_cd                  # if command is a path, cd into it
+setopt auto_remove_slash        # self explicit
+setopt chase_links              # resolve symlinks
+setopt correct                  # try to correct spelling of commands
+setopt extended_glob            # activate complex pattern globbing
+setopt glob_dots                # include dotfiles in globbing
+setopt print_exit_value         # print return value if non-zero
+setopt prompt_subst
+
+unsetopt bg_nice                # no lower prio for background jobs
+unsetopt hist_beep              # no bell on error in history
+unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
+
+unsetopt menu_complete
+unsetopt flowcontrol
+
+setopt always_to_end            # when completing from the middle of a word, move the cursor to the end of the word
+setopt complete_in_word         # allow completion from within a word/phrase
+setopt auto_menu
+setopt list_ambiguous           # complete as much of a completion until it gets ambiguous.
+
+# Commpletion Settings
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+
+zstyle ':completion::complete:*' use-cache 1
+zstyle ':completion::complete:*' cache-path $ZSH_CACHE_DIR
+
+# shift-tab : go backward in menu (invert of tab)
+bindkey '^[[Z' reverse-menu-complete
+
+zstyle ':zplug:tag' depth 42
+
+
+##### ZSH PLUGIN MANAGER #####
+if [[ ! -d "$ZPLUG_HOME" ]]; then
+    echo "Installing zplug"
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    source "$ZPLUG_HOME/init.zsh"
+    zplug update
+else
+    source "$ZPLUG_HOME/init.zsh"
 fi
 
 
-# other
-path+=/usr/local/lib
-path+=/usr/local/include
+##### Plugins #####
+
+# Selfupdate
+zplug "zplug/zplug", hook-build:"zplug --self-manage"
+
+# Extensions
+zplug "zsh-users/zsh-history-substring-search"      # Better History Search
+zplug "zsh-users/zsh-syntax-highlighting", defer:2  # Syntax Highlights
+zplug "zsh-users/zsh-autosuggestions"               # Completions
+zplug "zsh-users/zsh-completions"                   # Completions
+zplug "rawkode/zsh-docker-run"                      # Put commands into a container
+zplug "peterhurford/up.zsh"                         # `up 3` == `cd ...` etc.
+zplug "desyncr/auto-ls"                             # With empty command press Return for ls
+zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"  # fzf fuzzy searching
+zplug "modules/docker", from:prezto
+zplug "changyuheng/zsh-interactive-cd"              # fish like cd comletion
 
 
-# export everything
-export path
+# OS Specific
 
+# OSX
+zplug "modules/osx", from:prezto,  if:"[[ $OSTYPE == *darwin* ]]"
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions
-# git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
-# git clone https://github.com/zsh-users/zsh-history-substring-search.git $ZSH_CUSTOM/plugins/zsh-history-substring-search
-plugins=(sudo git history tmux zsh-autosuggestions zsh-syntax-highlighting zsh-completions zsh-history-substring-search)
-autoload -U compinit && compinit
+# Prompt
+zplug "mafredri/zsh-async", on:sindresorhus/pure
+zplug "sindresorhus/pure", use:pure.zsh, defer:3
 
+# Update
+if ! zplug check; then
+    zplug install
+fi
 
-SAVEHIST=1000
-HISTFILE=~/.zsh_history
+zplug load
 
+##### Plugin Configuration #####
+# fzf
+source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
+source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
 
-# Shell Helper for base16 themes
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+# tm - create new tmux session, or switch to existing one. Works from within tmux too.
+# `tm` will allow you to select your tmux session via fzf.
+# `tm irc` will attach to the irc session (if it exists), else it will create it.
 
-# Add company internal config
-source ~/.zshrccompany
+tm() {
+  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+  if [ $1 ]; then
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+  fi
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+}
 
-# Path to your oh-my-zsh configuration.
-ZSH=~/.oh-my-zsh
-source $ZSH/oh-my-zsh.sh
+# auto-ls
+export AUTO_LS_CHPWD=false
 
-# FZF keybindings & config (See https://github.com/junegunn/fzf)
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fasd
+eval "$(fasd --init auto)"
+
+##### Dockerized Commands (zsh-docker-run)  #####
+function go() {
+  run_with_docker "golang" "latest" "go" $@
+}
+
+function npm {
+  run_with_docker "node" "alpine" "npm" $@
+}
+
+##### Commands #####
+if [[ $(command -v rbenv) ]]; then
+    eval "$(rbenv init - zsh --no-rehash)"
+fi
+
+##### Additional Files #####
+#[[ -f "${HOME}/.aliases" ]] && source "${HOME}/.aliases"
