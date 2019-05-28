@@ -117,6 +117,7 @@ Other interesting dotfiles directories:
 - [make](https://www.gnu.org/software/make/) Make enables the end user to build and install your package without knowing the details of how that is done 
 - [stow](https://www.gnu.org/software/stow/) Stow is a symlink farm manager
 - [figlet](http://www.figlet.org/) FIGlet is a program for making large letters out of ordinary text 
+- [fzf](https://github.com/junegunn/fzf) fzf is a general-purpose command-line fuzzy finder
 - [skhd](https://github.com/koekeishiya/skhd) Simple hotkey daemon for macOS, specifically for chunkwm
 - [vim ](https://www.vim.org/) My terminal editor of choice
 - [zsh](https://www.zsh.org/) My shell of choice
