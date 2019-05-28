@@ -124,4 +124,3 @@ Other interesting dotfiles directories:
 
 ## Workflows
 - [cookiecutter-data-science](https://github.com/drivendata/cookiecutter-data-science) good information on how to organizse projects
-`
