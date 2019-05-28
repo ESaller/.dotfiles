@@ -111,11 +111,11 @@ packages-macos: brew-packages brew-cask
 
 ## Install all brew packages
 brew-packages: brew
-	brew bundle --file=$(DOTFILES_DIR)install/Brewfile
+	brew bundle --file=$(DOTFILES_DIR)resources/lists/brew/Brewfile
 
 ## Install all brew casks
 brew-cask: brew
-	brew bundle --file=$(DOTFILES_DIR)install/Caskfile
+	brew bundle --file=$(DOTFILES_DIR)resources/lists/brew/Caskfile
 
 
 

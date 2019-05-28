@@ -1,0 +1,24 @@
+# Casks
+
+cask "iina"
+cask "kitty"
+cask "minikube"
+cask "onyx"
+cask "vagrant"
+cask "virtualbox"
+cask "handbrake"
+cask "docker"
+cask "discord"
+
+
+
+
+
+
+
+
+
+
+
+
+
