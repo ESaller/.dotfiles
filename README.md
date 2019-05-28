@@ -15,18 +15,18 @@
  ░▓▓▓▓▓▓▓▓▓▓
 
 ```
-## table of contents
+## Table of Contents
  - [Introduction](#Introcution)
+ - [Overview](#Overview)
  - [How it Works](#How-it-Works)
  - [tl;dr](#tldr)
- - [license](#license)
 
 
 # Introduction
-Hello and welcome to my dotfiles repository. Over the years and with the inspiration of many other people I have created a single place for all my configuration files togther with the tooling to manage/install them quickly
+Hello and welcome to my dotfiles repository. Over the years and with the inspiration of many other people I have created a single place for all my configuration files togther with the tooling to manage/install them quickly.
 
 
-# Installing
+# Overview
 The core components for the tooling are [make](https://www.gnu.org/software/make/) and [stow](https://www.gnu.org/software/make/)
 
 
@@ -46,7 +46,42 @@ This allows us to link the confiuration from inside this repository to other pla
 
 
 # How it works
-TODO
+
+```
+.
+├── Makefile
+├── README.md
+├── bin
+│   ├── is-executable
+│   ├── is-macos
+│   └── is-supported
+└── resources
+    ├── home
+    │   ├── chunkwm
+    │   ├── kitty
+    │   ├── skhd
+    │   ├── tmux
+    │   ├── vim
+    │   └── zsh
+    └── lists
+        └── brew
+```
+
+The main interaction point with this repository is the Makefile that comes with it.
+
+With this command you can list the functionality
+
+`make help`
+
+## Directory descriptions
+
+`/bin` : Provides small scripts that are used inside the Makefile
+
+`/resources` : All configuration files are lcoated in here
+
+`/resources/home` : Configuration files that should be placed in the users home directory are seprated and placed in destinct directories named after the tool (e.g. the file `.vimrc` inside the folder `vim` will pe linked to `~/.vimrc`)
+
+`/resoruces/lists` : List of tools and software that should be installed
 
 
 # tl;dr
@@ -70,19 +105,23 @@ Install everything
 
 # Shoutouts
 
+Interesting links to people/projects/software
+
 ## People
 Other interesting dotfiles directories:
 - [xero](https://github.com/xero/dotfiles) interesting dotfiles repsoitory
 
 ## Software
+- [brew](https://brew.sh/) The missing package manager for macOS (or Linux)
+- [chunkwm](https://github.com/koekeishiya/chunkwm) Tiling window manager for macOS based on plugin architecture 
 - [make](https://www.gnu.org/software/make/) Make enables the end user to build and install your package without knowing the details of how that is done 
 - [stow](https://www.gnu.org/software/stow/) Stow is a symlink farm manager
 - [figlet](http://www.figlet.org/) FIGlet is a program for making large letters out of ordinary text 
-- [brew](https://brew.sh/) The missing package manager for macOS (or Linux)
+- [skhd](https://github.com/koekeishiya/skhd) Simple hotkey daemon for macOS, specifically for chunkwm
+- [vim ](https://www.vim.org/) My terminal editor of choice
+- [zsh](https://www.zsh.org/) My shell of choice
+
 
 ## Workflows
-Generall interesting repositories:
 - [cookiecutter-data-science](https://github.com/drivendata/cookiecutter-data-science) good information on how to organizse projects
-
-# License
-
+`
