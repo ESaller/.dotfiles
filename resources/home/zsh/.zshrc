@@ -102,7 +102,8 @@ alias lsa='ls -lah'
 alias ll='ls -lh'
 
 alias dsnope="find . -name '.DS_Store' -type f -delete"
-
+alias lup="ag --nobreak --nonumbers --noheading . | fzf"
+alias trackfileupdates="ls -ltur | tail -10"
 
 ################################################################################
 # MAN

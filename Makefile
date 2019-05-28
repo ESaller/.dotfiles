@@ -5,10 +5,10 @@
 # The shell
 SHELL = /bin/bash
 
-# Where is this repositorty
+# Where is this directory
 DOTFILES_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 
-# Am I OSX or LINUX?
+# Am I MACOS or LINUX?
 OS := $(shell bin/is-supported bin/is-macos macos linux)
 
 # Put all utilities at the front of the PATH
@@ -19,8 +19,8 @@ PATH := $(DOTFILES_DIR)/bin:$(PATH)
 # https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
 export XDG_CONFIG_HOME := $(HOME)/.config
 
+export DEFAULT_STOW_HOME_DIRS := $(DOTFILES_DIR)resources/home
 
-export DEFAULT_STOW_DIR := $(DOTFILES_DIR)/resources/
 
 ####################
 # TEST
@@ -66,17 +66,13 @@ sudo:
 	sudo -v
 	while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-
 link: stow-$(OS)
-	for FILE in $$(\ls -A runcom); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	mkdir -p $(XDG_CONFIG_HOME)
-	stow -t $(HOME) runcom
-	stow -t $(XDG_CONFIG_HOME) config
+	#mkdir -p $(XDG_CONFIG_HOME)
+	#stow -t $(XDG_CONFIG_HOME) config
+	for DIR in $(DEFAULT_STOW_HOME_DIRS)/*;do echo "Now trying to link: $$(\basename $$DIR)" ; stow -t $(HOME) -d $(DEFAULT_STOW_HOME_DIRS) $$(\basename $$DIR) --verbose; done
 
 unlink: stow-$(OS)
-	stow --delete -t $(HOME) runcom
-	stow --delete -t $(XDG_CONFIG_HOME) config
-	for FILE in $$(\ls -A runcom); do if [ -f $(HOME)/$$FILE.bak ]; then mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
+	for DIR in $(DEFAULT_STOW_HOME_DIRS)/*;do echo "Now trying to unlink: $$(\basename $$DIR)" ; stow --delete -t $(HOME) -d $(DEFAULT_STOW_HOME_DIRS) $$(\basename $$DIR) --verbose; done
 
 brew:
 	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
@@ -102,10 +98,10 @@ packages-macos: brew-packages brew-cask
 ##########
 
 brew-packages: brew
-	brew bundle --file=$(DOTFILES_DIR)/install/Brewfile
+	brew bundle --file=$(DOTFILES_DIR)install/Brewfile
 
 brew-cask: brew
-	brew bundle --file=$(DOTFILES_DIR)/install/Caskfile
+	brew bundle --file=$(DOTFILES_DIR)install/Caskfile
 
 test:
 	bats test/*.bats
