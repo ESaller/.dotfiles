@@ -108,7 +108,6 @@ Install everything
 Interesting links to people/projects/software
 
 ## People
-Other interesting dotfiles directories:
 - [xero](https://github.com/xero/dotfiles) interesting dotfiles repsoitory
 
 ## Software
