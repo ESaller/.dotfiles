@@ -46,10 +46,10 @@ linux: core-linux link
 #################################################################################
 
 ## Install macos core (brew zsh git)
-core-macos: brew zsh git
+core-macos: brew zsh-macos git
 
 ## Install, update and upgrade via apt-get
-core-linux:
+core-linux: zsh-linux
 	apt-get update
 	apt-get upgrade -y
 	apt-get dist-upgrade -f
@@ -58,11 +58,15 @@ core-linux:
 brew:
 	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
 
-## Set zsh shell as primary shell
-zsh: ZSH=/usr/local/bin/zsh
-zsh: SHELLS=/private/etc/shells
-zsh: brew
-	if ! grep -q $(ZSH) $(SHELLS); then brew install zsh && sudo append $(ZSH) $(SHELLS) && chsh -s $(ZSH); fi
+#TODO: Check shells file an chsh zsh
+
+zsh-macos: brew
+	#if ! grep -q $(ZSH) $(SHELLS); then brew install zsh && sudo append $(ZSH) $(SHELLS) && chsh -s $(ZSH); fi
+	is-executable zsh || brew install zsh
+zsh-linux:
+	#if ! grep -q $(ZSH) $(SHELLS); then apt-get install -y zsh && sudo append $(ZSH) $(SHELLS) && chsh -s $(ZSH); fi
+	is-executable zsh || apt-get update && apt-get install -y zsh
+
 
 ## Brew install git
 git: brew
@@ -117,6 +121,22 @@ brew-packages: brew
 brew-cask: brew
 	brew bundle --file=$(DOTFILES_DIR)resources/lists/brew/Caskfile
 
+
+
+
+#################################################################################
+# Try inside docker
+#################################################################################
+## Try insinde docker NOT WORKING
+tryme: tryme-build tryme-run
+
+## Try insinde docker NOT WORKING
+tryme-build:
+	docker build --no-cache --file $(DOTFILES_DIR)resources/docker/tryme/Dockerfile --tag esaller_dotfiles_tryme:latest $(DOTFILES_DIR)
+
+## Try insinde docker NOT WORKING
+tryme-run:
+	docker run --rm -i -t esaller_dotfiles_tryme zsh
 
 
 #################################################################################

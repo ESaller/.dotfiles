@@ -217,9 +217,182 @@ zplug "modules/osx", from:prezto,  if:"[[ $OSTYPE == *darwin* ]]"
 ########################################
 # Prompt
 ########################################
-zplug "mafredri/zsh-async", on:sindresorhus/pure
-zplug "sindresorhus/pure", use:pure.zsh, defer:3
+zplug "romkatv/powerlevel10k", use:powerlevel10k.zsh-theme
 
+
+###################
+# Prompt Configuration
+###################
+
+
+
+# Original location: https://github.com/romkatv/dotfiles-public/blob/master/.purepower.
+# If you copy this file, keep the link to the original and this sentence intact; you are encouraged
+# to change everything else.
+#
+# This file defines configuration options for Powerlevel10k ZSH theme that will make your prompt
+# lightweight and sleek, unlike the default bulky look. You can also use it with Powerlevel9k -- a
+# great choice if you need an excuse to have a cup of coffee after every command you type.
+#
+# This is how it'll look:
+# https://raw.githubusercontent.com/romkatv/dotfiles-public/master/dotfiles/purepower.png.
+#
+# Pure Power needs to be installed in addition to Powerlevel10k, not instead of it. Pure Power
+# defines a set of configuration parameters that affect the styling of Powerlevel10k; there is no
+# code in it.
+#
+#                         PHILOSOPHY
+#
+# This configuration is made for those who care about style and value clear UI without redundancy
+# and tacky ornaments that serve no function.
+#
+#   * No overwhelming background that steals attention from real content on your screen.
+#   * No redundant icons. A clock icon next to the current time takes space without conveying any
+#     information. This is your personal prompt -- you don't need an icon to remind you that the
+#     segment on the right shows current time.
+#   * No separators between prompt segments. Different foreground colors are enough to keep them
+#     visually distinct.
+#   * Bright colors for important things, low-contrast colors for everything else.
+#   * No needless color switching. The number of stashes you have in a git repository is always
+#     green. Since its meaning is the same in a clean and in a dirty repository, it doesn't change
+#     color.
+#   * Works with any font.
+#
+#                       ATTRIBUTION
+#
+# Visual design of this configuration borrows heavily from https://github.com/sindresorhus/pure.
+# Recreation of Pure look and feel in Powerlevel10k was inspired by
+# https://github.com/iboyperson/p9k-theme-pastel. The origin myth is chiseled onto
+# https://www.reddit.com/r/zsh/comments/b45w6v/.
+
+if test -z "${ZSH_VERSION}"; then
+  echo "purepower: unsupported shell; try zsh instead" >&2
+  return 1
+  exit 1
+fi
+
+() {
+  emulate -L zsh && setopt no_unset pipe_fail
+
+  # `$(_pp_c x y`) evaluates to `y` if the terminal supports >= 256 colors and to `x` otherwise.
+  zmodload zsh/terminfo
+  if (( terminfo[colors] >= 256 )); then
+    function _pp_c() { print -nr -- $2 }
+  else
+    function _pp_c() { print -nr -- $1 }
+    typeset -g POWERLEVEL9K_IGNORE_TERM_COLORS=true
+  fi
+
+  # `$(_pp_s x y`) evaluates to `x` in portable mode and to `y` in fancy mode.
+  if [[ ${PURE_POWER_MODE:-fancy} == fancy ]]; then
+    function _pp_s() { print -nr -- $2 }
+  else
+    if [[ $PURE_POWER_MODE != portable ]]; then
+      echo -En "purepower: invalid mode: ${(qq)PURE_POWER_MODE}; " >&2
+      echo -E  "valid options are 'fancy' and 'portable'; falling back to 'portable'" >&2
+    fi
+    function _pp_s() { print -nr -- $1 }
+  fi
+
+  typeset -ga POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+      dir_writable dir vcs)
+
+  typeset -ga POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+      status command_execution_time background_jobs custom_rprompt context)
+
+  local ins=$(_pp_s '>' 'λ')
+  local cmd=$(_pp_s '<' 'Λ')
+  if (( ${PURE_POWER_USE_P10K_EXTENSIONS:-1} )); then
+    local p="\${\${\${KEYMAP:-0}:#vicmd}:+${${ins//\\/\\\\}//\}/\\\}}}"
+    p+="\${\${\$((!\${#\${KEYMAP:-0}:#vicmd})):#0}:+${${cmd//\\/\\\\}//\}/\\\}}}"
+  else
+    p=$ins
+  fi
+  local ok="%F{$(_pp_c 002 076)}${p}%f"
+  local err="%F{$(_pp_c 001 196)}${p}%f"
+
+  if (( ${PURE_POWER_USE_P10K_EXTENSIONS:-1} )); then
+    typeset -g ZLE_RPROMPT_INDENT=0
+    typeset -g POWERLEVEL9K_SHOW_RULER=true
+    typeset -g POWERLEVEL9K_RULER_CHAR=$(_pp_s '-' '─')
+    typeset -g POWERLEVEL9K_RULER_BACKGROUND=none
+    typeset -g POWERLEVEL9K_RULER_FOREGROUND=$(_pp_c 005 237)
+  else
+    typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+  fi
+
+  typeset -g POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+  typeset -g POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
+  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=
+  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%(?.$ok.$err) "
+
+  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SEGMENT_SEPARATOR=
+  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR=' '
+  typeset -g POWERLEVEL9K_WHITESPACE_BETWEEN_{LEFT,RIGHT}_SEGMENTS=
+
+  typeset -g POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND=none
+  typeset -g POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_VISUAL_IDENTIFIER_COLOR=003
+  typeset -g POWERLEVEL9K_LOCK_ICON='#'
+
+  typeset -g POWERLEVEL9K_DIR_{ETC,HOME,HOME_SUBFOLDER,DEFAULT}_BACKGROUND=none
+  typeset -g POWERLEVEL9K_DIR_{ETC,DEFAULT}_FOREGROUND=$(_pp_c 003 209)
+  typeset -g POWERLEVEL9K_DIR_{HOME,HOME_SUBFOLDER}_FOREGROUND=$(_pp_c 004 039)
+  typeset -g POWERLEVEL9K_{ETC,FOLDER,HOME,HOME_SUB}_ICON=
+
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED,LOADING}_BACKGROUND=none
+  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=$(_pp_c 002 076)
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=$(_pp_c 006 014)
+  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=$(_pp_c 003 011)
+  typeset -g POWERLEVEL9K_VCS_LOADING_FOREGROUND=$(_pp_c 005 244)
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNTRACKEDFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNSTAGEDFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_MODIFIED_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STAGEDFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_MODIFIED_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_INCOMING_CHANGESFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_OUTGOING_CHANGESFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STASHFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_ACTIONFORMAT_FOREGROUND=001
+  typeset -g POWERLEVEL9K_VCS_LOADING_ACTIONFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_LOADING_FOREGROUND
+  typeset -g POWERLEVEL9K_VCS_{GIT,GIT_GITHUB,GIT_BITBUCKET,GIT_GITLAB,BRANCH}_ICON=
+  typeset -g POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON=$'%{\b|%}'
+  typeset -g POWERLEVEL9K_VCS_COMMIT_ICON='@'
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
+  typeset -g POWERLEVEL9K_VCS_UNSTAGED_ICON='!'
+  typeset -g POWERLEVEL9K_VCS_STAGED_ICON='+'
+  typeset -g POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON=$(_pp_s '<' '⇣')
+  typeset -g POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON=$(_pp_s '>' '⇡')
+  typeset -g POWERLEVEL9K_VCS_STASH_ICON='*'
+  typeset -g POWERLEVEL9K_VCS_TAG_ICON=$'%{\b#%}'
+  typeset -g POWERLEVEL9K_VCS_MAX_NUM_STAGED=-1
+  typeset -g POWERLEVEL9K_VCS_MAX_NUM_UNSTAGED=-1
+  typeset -g POWERLEVEL9K_VCS_MAX_NUM_UNTRACKED=1
+
+  typeset -g POWERLEVEL9K_STATUS_OK=false
+  typeset -g POWERLEVEL9K_STATUS_ERROR_BACKGROUND=none
+  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=$(_pp_c 001 009)
+  typeset -g POWERLEVEL9K_CARRIAGE_RETURN_ICON=
+
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND=none
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=$(_pp_c 005 101)
+  typeset -g POWERLEVEL9K_EXECUTION_TIME_ICON=
+
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=false
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND=none
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_COLOR=002
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=$(_pp_s '%%' '⇶')
+
+  typeset -g POWERLEVEL9K_CUSTOM_RPROMPT=custom_rprompt
+  typeset -g POWERLEVEL9K_CUSTOM_RPROMPT_BACKGROUND=none
+  typeset -g POWERLEVEL9K_CUSTOM_RPROMPT_FOREGROUND=$(_pp_c 004 012)
+
+  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,ROOT,REMOTE_SUDO,REMOTE,SUDO}_BACKGROUND=none
+  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,REMOTE_SUDO,REMOTE,SUDO}_FOREGROUND=$(_pp_c 007 244)
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=$(_pp_c 003 011)
+
+  function custom_rprompt() {}  # redefine this to show stuff in custom_rprompt segment
+
+  unfunction _pp_c _pp_s
+} "$@"
 
 # Update
 if ! zplug check; then
@@ -230,7 +403,7 @@ zplug load
 
 
 ################################################################################
-# Plugin Configuratio
+# Plugin Configuration
 ################################################################################
 
 ########################################
