@@ -422,6 +422,13 @@ eval "$(fasd --init auto)"
 source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
 source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
 
+########################################
+## https://github.com/zsh-users/zsh-history-substring-search
+########################################
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
 
 ########################################
 ## auto-ls
