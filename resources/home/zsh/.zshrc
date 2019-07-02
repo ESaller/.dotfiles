@@ -101,9 +101,13 @@ alias -g ......='../../../../..'
 alias lsa='ls -lah'
 alias ll='ls -lh'
 
+alias code="code-insiders"
+
 alias dsnope="find . -name '.DS_Store' -type f -delete"
 alias lup="ag --nobreak --nonumbers --noheading . | fzf"
 alias trackfileupdates="ls -ltur | tail -10"
+# look at backticks being evaluated; disabled for now
+#alias dockerusedvolumes="for contId in `docker ps -q`; do echo "Container Name: "   `docker ps -f "id=$contId" | awk '{print $NF}' | grep -v NAMES`; echo "Container Volume: " `docker inspect -f '{{.Config.Volumes}}' $contId`; docker inspect -f '{{ json .Mounts }}' $contId  | jq '.[]';   printf "\n"; done"
 
 ################################################################################
 # MAN
@@ -524,7 +528,7 @@ function can_be_run_through_docker_compose_service() {
 }
 
 function docker_run() {
-  docker run --rm -it -u $UID -v $PWD:/sandbox -v $HOME:$HOME -e HOME=$HOME -w /sandbox --entrypoint=$3 $1:$2 ${@:4}
+  docker run --rm -it -v $PWD:/sandbox -w /sandbox --entrypoint=$3 $1:$2 ${@:4}
 }
 
 function docker_compose_run() {
