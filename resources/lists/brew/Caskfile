@@ -9,6 +9,7 @@ cask "virtualbox"
 cask "handbrake"
 cask "docker"
 cask "discord"
+cask "sampler"
 
 
 

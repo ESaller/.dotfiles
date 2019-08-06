@@ -102,6 +102,7 @@ alias lsa='ls -lah'
 alias ll='ls -lh'
 
 alias code="code-insiders"
+alias ls="exa"
 
 alias dsnope="find . -name '.DS_Store' -type f -delete"
 alias lup="ag --nobreak --nonumbers --noheading . | fzf"
