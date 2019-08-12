@@ -225,8 +225,12 @@ ctrl + alt - d : chunkc tiling::desktop --layout float
 
 ctrl + alt - w : chunkc tiling::desktop --deserialize ~/.chunkwm_layouts/dev_1
 
-# prevent skhd from monitoring events for specific applications
+# manual toggle 
+:: passthrough
+cmd + shift - p ; passthrough
+passthrough < cmd + shift - p ; default
 
+# prevent skhd from monitoring events for specific applications
 .blacklist [
     "code"
     ]
