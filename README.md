@@ -27,7 +27,7 @@ Hello and welcome to my dotfiles repository. Over the years and with the inspira
 
 
 # Overview
-The core components for the tooling are [make](https://www.gnu.org/software/make/) and [stow](https://www.gnu.org/software/make/)
+The core components for the tooling are [make](https://www.gnu.org/software/make/) and [stow](https://www.gnu.org/software/stow/)
 
 
 ## Make
@@ -77,7 +77,7 @@ With this command you can list the functionality
 
 `/bin` : Provides small scripts that are used inside the Makefile
 
-`/resources` : All configuration files are lcoated in here
+`/resources` : All configuration files are located in here
 
 `/resources/home` : Configuration files that should be placed in the users home directory are seprated and placed in destinct directories named after the tool (e.g. the file `.vimrc` inside the folder `vim` will pe linked to `~/.vimrc`)
 
