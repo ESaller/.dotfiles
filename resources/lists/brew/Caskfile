@@ -1,16 +1,15 @@
 # Casks
 
+cask "discord"
+cask "docker"
+cask "handbrake"
 cask "iina"
 cask "kitty"
 cask "minikube"
 cask "onyx"
+cask "sampler"
 cask "vagrant"
 cask "virtualbox"
-cask "handbrake"
-cask "docker"
-cask "discord"
-cask "sampler"
-
 
 
 
