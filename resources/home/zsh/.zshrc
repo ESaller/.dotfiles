@@ -54,42 +54,26 @@ export VISUAL=vim
 # Setting up the shell history
 ################################################################################
 
-export HISTSIZE=100000
-export SAVEHIST=100000
-export HISTFILESIZE=$HISTSIZE
-export HISTCONTROL=ignoredups
+export HISTSIZE=10000000
+export SAVEHIST=10000000
 export HISTFILE="$CACHE_DIR/.zsh_history"
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 
-setopt append_history                  # append to history file, rather than overwrite it
-setopt bang_hist                       # Perform textual history substitution, treating the character ! specially.
-setopt extended_history                # Save beginning and ending timestamps to the history file
+# From https://github.com/mattjj/my-oh-my-zsh/blob/master/history.zsh
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 
-setopt hist_expire_dups_first          # If the internal history needs to be trimmed to add the current command line,
-                                       # setting this option will cause the oldest history event that has a duplicate
-                                       # to be lost before losing a unique event from the list.
-                                       # only when HISTSIZE > SAVEHIST, here equivalent to ignore all dupes
+unsetopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
-setopt hist_ignore_all_dups            # If a new command line being added to the history list duplicates an older one,
-                                       # the older command is removed from the list
-                                       # (even if it is not the previous event).
-
-setopt hist_ignore_dups                # Do not enter command lines into the history list
-                                       # if they are duplicates of the previous event
-
-setopt hist_ignore_space               # Remove command lines from the history list when
-                                       # the first character on the line is a space
-
-setopt hist_reduce_blanks              # trim blanks
-setopt hist_verify                     # Whenever the user enters a line with history expansion,
-                                       # don’t execute the line directly; instead, perform history expansion
-                                       # and reload the line into the editing buffer.
-
-setopt inc_append_history              # This option works like APPEND_HISTORY except that new history lines are added
-                                       # to the $HISTFILE incrementally (as soon as they are entered),
-                                       # rather than waiting until the shell exits.
-
-unsetopt hist_beep                     # no bell on error in history
 ################################################################################
 # ALIAS
 ################################################################################
