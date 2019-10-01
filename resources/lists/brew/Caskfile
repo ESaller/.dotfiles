@@ -10,7 +10,7 @@ cask "onyx"
 cask "sampler"
 cask "vagrant"
 cask "virtualbox"
-
+caske "font-input"
 
 
 
