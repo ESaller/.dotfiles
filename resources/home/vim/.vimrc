@@ -27,21 +27,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     endif
 " Installed Plugins {{{
 call plug#begin('~/.vim/bundle')
-" Completion {{{
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-Plug 'zchee/deoplete-jedi'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'jiangmiao/auto-pairs'
-
-" }}}
 
 " Go to Terminal or File manager
 Plug 'justinmk/vim-gtfo'
@@ -98,19 +83,6 @@ Plug 'easymotion/vim-easymotion'
 
 " Dockerfile syntax support
 Plug 'ekalinin/Dockerfile.vim'
-
-" Writing Plugins {{{
-
-" Disable clutter
-Plug 'junegunn/goyo.vim'
-
-" Highlight current block
-Plug 'junegunn/limelight.vim'
-" }}}
-
-call plug#end()
-
-" }}}
 
 " }}}
 " General settings {{{
