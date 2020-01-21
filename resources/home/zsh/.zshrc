@@ -31,6 +31,7 @@ esac
 ################################################################################
 
 export KITTY_CONFIG_DIRECTORY=~/.kitty
+export TERM=xterm-kitty
 
 
 ################################################################################
@@ -74,6 +75,7 @@ setopt INC_APPEND_HISTORY        # Write to the history file immediately, not wh
 setopt SHARE_HISTORY             # Share history between all sessions.
 unsetopt HIST_BEEP               # Beep when accessing nonexistent history.
 
+
 ################################################################################
 # ALIAS
 ################################################################################
@@ -91,8 +93,7 @@ alias ls="exa"
 alias dsnope="find . -name '.DS_Store' -type f -delete"
 alias lup="ag --nobreak --nonumbers --noheading . | fzf"
 alias trackfileupdates="ls -ltur | tail -10"
-# look at backticks being evaluated; disabled for now
-#alias dockerusedvolumes="for contId in `docker ps -q`; do echo "Container Name: "   `docker ps -f "id=$contId" | awk '{print $NF}' | grep -v NAMES`; echo "Container Volume: " `docker inspect -f '{{.Config.Volumes}}' $contId`; docker inspect -f '{{ json .Mounts }}' $contId  | jq '.[]';   printf "\n"; done"
+
 
 ################################################################################
 # MAN
@@ -410,6 +411,7 @@ eval "$(fasd --init auto)"
 source ~/.zplug/repos/junegunn/fzf/shell/key-bindings.zsh
 source ~/.zplug/repos/junegunn/fzf/shell/completion.zsh
 
+
 ########################################
 ## https://github.com/zsh-users/zsh-history-substring-search
 ########################################
@@ -537,10 +539,6 @@ function run_with_docker() {
 
 function go() {
   run_with_docker "golang" "latest" "go" $@
-}
-
-function npm {
-  run_with_docker "node" "alpine" "npm" $@
 }
 
 
