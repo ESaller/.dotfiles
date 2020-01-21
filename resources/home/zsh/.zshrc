@@ -31,7 +31,6 @@ esac
 ################################################################################
 
 export KITTY_CONFIG_DIRECTORY=~/.kitty
-export TERM=xterm-kitty
 
 
 ################################################################################
@@ -109,9 +108,9 @@ export LESS_TERMCAP_md="$yellow"       # Highlight section titles in manual page
 
 # TERM
 if [[ -n "$TMUX" ]]; then
-    export TERM=screen-256color
+    export TERM=screen-256color        # ranger image previews do not work in tmux
 else
-    export TERM=xterm-256color
+    export TERM=xterm-kitty            # mainly for ranger image previews 
 fi
 
 ################################################################################
