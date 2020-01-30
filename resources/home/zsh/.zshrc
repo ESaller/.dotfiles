@@ -110,7 +110,11 @@ export LESS_TERMCAP_md="$yellow"       # Highlight section titles in manual page
 if [[ -n "$TMUX" ]]; then
     export TERM=screen-256color        # ranger image previews do not work in tmux
 else
-    export TERM=xterm-kitty            # mainly for ranger image previews 
+    if [[ $TERMINFO == *"kitty"* ]]; then
+      export TERM=xterm-kitty            # mainly for ranger image previews
+      alias ssh='TERM=xterm-256color ssh' # fix on ssh
+    fi
+    export TERM=xterm-256color
 fi
 
 ################################################################################
