@@ -189,12 +189,11 @@ zplug "zsh-users/zsh-history-substring-search"      # Better History Search
 zplug "zsh-users/zsh-syntax-highlighting", defer:2  # Syntax Highlights
 zplug "zsh-users/zsh-autosuggestions"               # Completions
 zplug "zsh-users/zsh-completions"                   # Completions
-zplug "peterhurford/up.zsh"                         # `up 3` == `cd ...` etc.
 zplug "desyncr/auto-ls"                             # With empty command press Return for ls
 zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"  # fzf fuzzy searching
 zplug "modules/docker", from:prezto
 zplug "changyuheng/zsh-interactive-cd"              # fish like cd comletion
-
+zplug "b4b4r07/enhancd", use:init.sh
 
 ########################################
 # OS Specific
@@ -216,175 +215,203 @@ zplug "romkatv/powerlevel10k", use:powerlevel10k.zsh-theme
 # Prompt Configuration
 ###################
 
+# Based on romkatv/powerlevel10k/config/p10k-pure.zsh, checksum 30812.
+# Wizard options: powerline, pure, original, rpromt, time, 2 lines, compact,
+# instant_prompt=verbose.
+# Type `p10k configure` to generate another config.
+#
+# Config file for Powerlevel10k with the style of Pure (https://github.com/sindresorhus/pure).
+#
+# Differences from Pure:
+#
+#   - Git:
+#     - `@c4d3ec2c` instead of something like `v1.4.0~11` when in detached HEAD state.
+#     - No automatic `git fetch` (the same as in Pure with `PURE_GIT_PULL=0`).
+#
+# Apart from the differences listed above, the replication of Pure prompt is exact. This includes
+# even the questionable parts. For example, just like in Pure, there is no indication of Git status
+# being stale; prompt symbol is the same in command, visual and overwrite vi modes; when prompt
+# doesn't fit on one line, it wraps around with no attempt to shorten it.
+#
+# If you like the general style of Pure but not particularly attached to all its quirks, type
+# `p10k configure` and pick "Lean" style. This will give you slick minimalist prompt while taking
+# advantage of Powerlevel10k features that aren't present in Pure.
 
-
-# Original location: https://github.com/romkatv/dotfiles-public/blob/master/.purepower.
-# If you copy this file, keep the link to the original and this sentence intact; you are encouraged
-# to change everything else.
-#
-# This file defines configuration options for Powerlevel10k ZSH theme that will make your prompt
-# lightweight and sleek, unlike the default bulky look. You can also use it with Powerlevel9k -- a
-# great choice if you need an excuse to have a cup of coffee after every command you type.
-#
-# This is how it'll look:
-# https://raw.githubusercontent.com/romkatv/dotfiles-public/master/dotfiles/purepower.png.
-#
-# Pure Power needs to be installed in addition to Powerlevel10k, not instead of it. Pure Power
-# defines a set of configuration parameters that affect the styling of Powerlevel10k; there is no
-# code in it.
-#
-#                         PHILOSOPHY
-#
-# This configuration is made for those who care about style and value clear UI without redundancy
-# and tacky ornaments that serve no function.
-#
-#   * No overwhelming background that steals attention from real content on your screen.
-#   * No redundant icons. A clock icon next to the current time takes space without conveying any
-#     information. This is your personal prompt -- you don't need an icon to remind you that the
-#     segment on the right shows current time.
-#   * No separators between prompt segments. Different foreground colors are enough to keep them
-#     visually distinct.
-#   * Bright colors for important things, low-contrast colors for everything else.
-#   * No needless color switching. The number of stashes you have in a git repository is always
-#     green. Since its meaning is the same in a clean and in a dirty repository, it doesn't change
-#     color.
-#   * Works with any font.
-#
-#                       ATTRIBUTION
-#
-# Visual design of this configuration borrows heavily from https://github.com/sindresorhus/pure.
-# Recreation of Pure look and feel in Powerlevel10k was inspired by
-# https://github.com/iboyperson/p9k-theme-pastel. The origin myth is chiseled onto
-# https://www.reddit.com/r/zsh/comments/b45w6v/.
-
-if test -z "${ZSH_VERSION}"; then
-  echo "purepower: unsupported shell; try zsh instead" >&2
-  return 1
-  exit 1
-fi
+# Temporarily change options.
+'builtin' 'local' '-a' 'p10k_config_opts'
+[[ ! -o 'aliases'         ]] || p10k_config_opts+=('aliases')
+[[ ! -o 'sh_glob'         ]] || p10k_config_opts+=('sh_glob')
+[[ ! -o 'no_brace_expand' ]] || p10k_config_opts+=('no_brace_expand')
+'builtin' 'setopt' 'no_aliases' 'no_sh_glob' 'brace_expand'
 
 () {
-  emulate -L zsh && setopt no_unset pipe_fail
+  emulate -L zsh
 
-  # `$(_pp_c x y`) evaluates to `y` if the terminal supports >= 256 colors and to `x` otherwise.
-  zmodload zsh/terminfo
-  if (( terminfo[colors] >= 256 )); then
-    function _pp_c() { print -nr -- $2 }
-  else
-    function _pp_c() { print -nr -- $1 }
-    typeset -g POWERLEVEL9K_IGNORE_TERM_COLORS=true
-  fi
+  autoload -Uz is-at-least && is-at-least 5.1 || return
 
-  # `$(_pp_s x y`) evaluates to `x` in portable mode and to `y` in fancy mode.
-  if [[ ${PURE_POWER_MODE:-fancy} == fancy ]]; then
-    function _pp_s() { print -nr -- $2 }
-  else
-    if [[ $PURE_POWER_MODE != portable ]]; then
-      echo -En "purepower: invalid mode: ${(qq)PURE_POWER_MODE}; " >&2
-      echo -E  "valid options are 'fancy' and 'portable'; falling back to 'portable'" >&2
-    fi
-    function _pp_s() { print -nr -- $1 }
-  fi
+  # Unset all configuration options.
+  unset -m 'POWERLEVEL9K_*'
 
-  typeset -ga POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-      dir_writable dir vcs)
+  # Prompt colors.
+  local grey='242'
+  local red='1'
+  local yellow='3'
+  local blue='4'
+  local magenta='5'
+  local cyan='6'
+  local white='7'
 
-  typeset -ga POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
-      status command_execution_time background_jobs custom_rprompt context)
+  # Left prompt segments.
+  typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+    # =========================[ Line #1 ]=========================
+    # context                 # user@host
+    dir                       # current directory
+    vcs                       # git status
+    # command_execution_time  # previous command duration
+    # =========================[ Line #2 ]=========================
+    newline                   # \n
+    # virtualenv              # python virtual environment
+    prompt_char               # prompt symbol
+  )
 
-  local ins=$(_pp_s '>' 'λ')
-  local cmd=$(_pp_s '<' 'Λ')
-  if (( ${PURE_POWER_USE_P10K_EXTENSIONS:-1} )); then
-    local p="\${\${\${KEYMAP:-0}:#vicmd}:+${${ins//\\/\\\\}//\}/\\\}}}"
-    p+="\${\${\$((!\${#\${KEYMAP:-0}:#vicmd})):#0}:+${${cmd//\\/\\\\}//\}/\\\}}}"
-  else
-    p=$ins
-  fi
-  local ok="%F{$(_pp_c 002 076)}${p}%f"
-  local err="%F{$(_pp_c 001 196)}${p}%f"
+  # Right prompt segments.
+  typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+    # =========================[ Line #1 ]=========================
+    command_execution_time    # previous command duration
+    virtualenv                # python virtual environment
+    context                   # user@host
+    time                      # current time
+    # =========================[ Line #2 ]=========================
+    newline                   # \n
+  )
 
-  if (( ${PURE_POWER_USE_P10K_EXTENSIONS:-1} )); then
-    typeset -g ZLE_RPROMPT_INDENT=0
-    typeset -g POWERLEVEL9K_SHOW_RULER=true
-    typeset -g POWERLEVEL9K_RULER_CHAR=$(_pp_s '-' '─')
-    typeset -g POWERLEVEL9K_RULER_BACKGROUND=none
-    typeset -g POWERLEVEL9K_RULER_FOREGROUND=$(_pp_c 005 237)
-  else
-    typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-  fi
+  # Basic style options that define the overall prompt look.
+  typeset -g POWERLEVEL9K_BACKGROUND=                            # transparent background
+  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_{LEFT,RIGHT}_WHITESPACE=  # no surrounding whitespace
+  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR=' '  # separate segments with a space
+  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SEGMENT_SEPARATOR=        # no end-of-line symbol
+  typeset -g POWERLEVEL9K_VISUAL_IDENTIFIER_EXPANSION=           # no segment icons
 
-  typeset -g POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-  typeset -g POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
-  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=
-  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%(?.$ok.$err) "
+  # Add an empty line before each prompt except the first. This doesn't emulate the bug
+  # in Pure that makes prompt drift down whenever you use the Alt-C binding from fzf or similar.
+  typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE=false
 
-  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SEGMENT_SEPARATOR=
-  typeset -g POWERLEVEL9K_{LEFT,RIGHT}_SUBSEGMENT_SEPARATOR=' '
-  typeset -g POWERLEVEL9K_WHITESPACE_BETWEEN_{LEFT,RIGHT}_SEGMENTS=
+  # Magenta prompt symbol if the last command succeeded.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS}_FOREGROUND=$magenta
+  # Red prompt symbol if the last command failed.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS}_FOREGROUND=$red
+  # Default prompt symbol.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='λ'
+  # Prompt symbol in command vi mode.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='Λ'
+  # Prompt symbol in visual vi mode is the same as in command mode.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='Λ'
+  # Prompt symbol in overwrite vi mode is the same as in command mode.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OVERWRITE_STATE=false
 
-  typeset -g POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND=none
-  typeset -g POWERLEVEL9K_DIR_WRITABLE_FORBIDDEN_VISUAL_IDENTIFIER_COLOR=003
-  typeset -g POWERLEVEL9K_LOCK_ICON='#'
+  # Grey Python Virtual Environment.
+  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=$grey
+  # Don't show Python version.
+  typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=false
+  typeset -g POWERLEVEL9K_VIRTUALENV_{LEFT,RIGHT}_DELIMITER=
 
-  typeset -g POWERLEVEL9K_DIR_{ETC,HOME,HOME_SUBFOLDER,DEFAULT}_BACKGROUND=none
-  typeset -g POWERLEVEL9K_DIR_{ETC,DEFAULT}_FOREGROUND=$(_pp_c 003 209)
-  typeset -g POWERLEVEL9K_DIR_{HOME,HOME_SUBFOLDER}_FOREGROUND=$(_pp_c 004 039)
-  typeset -g POWERLEVEL9K_{ETC,FOLDER,HOME,HOME_SUB}_ICON=
+  # Blue current directory.
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND=$blue
 
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED,LOADING}_BACKGROUND=none
-  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=$(_pp_c 002 076)
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=$(_pp_c 006 014)
-  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=$(_pp_c 003 011)
-  typeset -g POWERLEVEL9K_VCS_LOADING_FOREGROUND=$(_pp_c 005 244)
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNTRACKEDFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_UNSTAGEDFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_MODIFIED_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STAGEDFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_MODIFIED_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_INCOMING_CHANGESFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_OUTGOING_CHANGESFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_STASHFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_CLEAN_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{CLEAN,UNTRACKED,MODIFIED}_ACTIONFORMAT_FOREGROUND=001
-  typeset -g POWERLEVEL9K_VCS_LOADING_ACTIONFORMAT_FOREGROUND=$POWERLEVEL9K_VCS_LOADING_FOREGROUND
-  typeset -g POWERLEVEL9K_VCS_{GIT,GIT_GITHUB,GIT_BITBUCKET,GIT_GITLAB,BRANCH}_ICON=
-  typeset -g POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON=$'%{\b|%}'
+  # Context format when root: user@host. The first part white, the rest grey.
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_TEMPLATE="%F{$white}%n%f%F{$grey}@%m%f"
+  # Context format when not root: user@host. The whole thing grey.
+  typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE="%F{$grey}%n@%m%f"
+  # Don't show context unless root or in SSH.
+  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_CONTENT_EXPANSION=
+
+  # Show previous command duration only if it's >= 5s.
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=5
+  # Don't show fractional seconds. Thus, 7s rather than 7.3s.
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION=0
+  # Duration format: 1d 2h 3m 4s.
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FORMAT='d h m s'
+  # Yellow previous command duration.
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=$yellow
+
+  # Grey Git prompt. This makes stale prompts indistinguishable from up-to-date ones.
+  typeset -g POWERLEVEL9K_VCS_FOREGROUND=$grey
+
+  # Disable async loading indicator to make directories that aren't Git repositories
+  # indistinguishable from large Git repositories without known state.
+  typeset -g POWERLEVEL9K_VCS_LOADING_TEXT=
+
+  # Don't wait for Git status even for a millisecond, so that prompt always updates
+  # asynchronously when Git state changes.
+  typeset -g POWERLEVEL9K_VCS_MAX_SYNC_LATENCY_SECONDS=0
+
+  # Cyan ahead/behind arrows.
+  typeset -g POWERLEVEL9K_VCS_{INCOMING,OUTGOING}_CHANGESFORMAT_FOREGROUND=$cyan
+  # Don't show remote branch, current tag or stashes.
+  typeset -g POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind)
+  # Don't show the branch icon.
+  typeset -g POWERLEVEL9K_VCS_BRANCH_ICON=
+  # When in detached HEAD state, show @commit where branch normally goes.
   typeset -g POWERLEVEL9K_VCS_COMMIT_ICON='@'
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
-  typeset -g POWERLEVEL9K_VCS_UNSTAGED_ICON='!'
-  typeset -g POWERLEVEL9K_VCS_STAGED_ICON='+'
-  typeset -g POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON=$(_pp_s '<' '⇣')
-  typeset -g POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON=$(_pp_s '>' '⇡')
-  typeset -g POWERLEVEL9K_VCS_STASH_ICON='*'
-  typeset -g POWERLEVEL9K_VCS_TAG_ICON=$'%{\b#%}'
-  typeset -g POWERLEVEL9K_VCS_MAX_NUM_STAGED=-1
-  typeset -g POWERLEVEL9K_VCS_MAX_NUM_UNSTAGED=-1
-  typeset -g POWERLEVEL9K_VCS_MAX_NUM_UNTRACKED=1
+  # Don't show staged, unstaged, untracked indicators.
+  typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED}_ICON=
+  # Show '*' when there are staged, unstaged or untracked files.
+  typeset -g POWERLEVEL9K_VCS_DIRTY_ICON='*'
+  # Show '⇣' if local branch is behind remote.
+  typeset -g POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON=':⇣'
+  # Show '⇡' if local branch is ahead of remote.
+  typeset -g POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON=':⇡'
+  # Don't show the number of commits next to the ahead/behind arrows.
+  typeset -g POWERLEVEL9K_VCS_{COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=1
+  # Remove space between '⇣' and '⇡' and all trailing spaces.
+  typeset -g POWERLEVEL9K_VCS_CONTENT_EXPANSION='${${${P9K_CONTENT/⇣* :⇡/⇣⇡}// }//:/ }'
 
-  typeset -g POWERLEVEL9K_STATUS_OK=false
-  typeset -g POWERLEVEL9K_STATUS_ERROR_BACKGROUND=none
-  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=$(_pp_c 001 009)
-  typeset -g POWERLEVEL9K_CARRIAGE_RETURN_ICON=
+  # Grey current time.
+  typeset -g POWERLEVEL9K_TIME_FOREGROUND=$grey
+  # Format for the current time: 09:51:02. See `man 3 strftime`.
+  typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S}'
+  # If set to true, time will update when you hit enter. This way prompts for the past
+  # commands will contain the start times of their commands rather than the end times of
+  # their preceding commands.
+  typeset -g POWERLEVEL9K_TIME_UPDATE_ON_COMMAND=false
 
-  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
-  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND=none
-  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=$(_pp_c 005 101)
-  typeset -g POWERLEVEL9K_EXECUTION_TIME_ICON=
+  # Transient prompt works similarly to the builtin transient_rprompt option. It trims down prompt
+  # when accepting a command line. Supported values:
+  #
+  #   - off:      Don't change prompt when accepting a command line.
+  #   - always:   Trim down prompt when accepting a command line.
+  #   - same-dir: Trim down prompt when accepting a command line unless this is the first command
+  #               typed after changing current working directory.
+  typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=always
 
-  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=false
-  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND=none
-  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_COLOR=002
-  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_ICON=$(_pp_s '%%' '⇶')
+  # Instant prompt mode.
+  #
+  #   - off:     Disable instant prompt. Choose this if you've tried instant prompt and found
+  #              it incompatible with your zsh configuration files.
+  #   - quiet:   Enable instant prompt and don't print warnings when detecting console output
+  #              during zsh initialization. Choose this if you've read and understood
+  #              https://github.com/romkatv/powerlevel10k/blob/master/README.md#instant-prompt.
+  #   - verbose: Enable instant prompt and print a warning when detecting console output during
+  #              zsh initialization. Choose this if you've never tried instant prompt, haven't
+  #              seen the warning, or if you are unsure what this all means.
+  typeset -g POWERLEVEL9K_INSTANT_PROMPT=verbose
 
-  typeset -g POWERLEVEL9K_CUSTOM_RPROMPT=custom_rprompt
-  typeset -g POWERLEVEL9K_CUSTOM_RPROMPT_BACKGROUND=none
-  typeset -g POWERLEVEL9K_CUSTOM_RPROMPT_FOREGROUND=$(_pp_c 004 012)
+  # Hot reload allows you to change POWERLEVEL9K options after Powerlevel10k has been initialized.
+  # For example, you can type POWERLEVEL9K_BACKGROUND=red and see your prompt turn red. Hot reload
+  # can slow down prompt by 1-2 milliseconds, so it's better to keep it turned off unless you
+  # really need it.
+  typeset -g POWERLEVEL9K_DISABLE_HOT_RELOAD=true
 
-  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,ROOT,REMOTE_SUDO,REMOTE,SUDO}_BACKGROUND=none
-  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,REMOTE_SUDO,REMOTE,SUDO}_FOREGROUND=$(_pp_c 007 244)
-  typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=$(_pp_c 003 011)
+  # If p10k is already loaded, reload configuration.
+  # This works even with POWERLEVEL9K_DISABLE_HOT_RELOAD=true.
+  (( ! $+functions[p10k] )) || p10k reload
+}
 
-  function custom_rprompt() {}  # redefine this to show stuff in custom_rprompt segment
+(( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
+'builtin' 'unset' 'p10k_config_opts'
 
-  unfunction _pp_c _pp_s
-} "$@"
+
+
 
 # Update
 if ! zplug check; then
@@ -535,6 +562,29 @@ function run_with_docker() {
   fi
 }
 
+# Select a docker container to start and attach to
+function da() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
+}
+
+# Select a running docker container to stop
+function ds() {
+  local cid
+  cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker stop "$cid"
+}
+
+# Select a docker container to remove
+function drm() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker rm "$cid"
+}
 
 ########################################
 # Dockerized Commands - COMMANDS

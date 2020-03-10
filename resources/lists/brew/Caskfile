@@ -1,7 +1,8 @@
-# Casks
-
+ # Casks
 cask "discord"
 cask "docker"
+cask "font-ibm-plex"
+cask "font-input"
 cask "handbrake"
 cask "iina"
 cask "kitty"
@@ -10,15 +11,3 @@ cask "onyx"
 cask "sampler"
 cask "vagrant"
 cask "virtualbox"
-caske "font-input"
-
-
-
-
-
-
-
-
-
-
-
