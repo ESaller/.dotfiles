@@ -47,26 +47,6 @@ This allows us to link the confiuration from inside this repository to other pla
 
 # How it works
 
-```
-.
-├── Makefile
-├── README.md
-├── bin
-│   ├── is-executable
-│   ├── is-macos
-│   └── is-supported
-└── resources
-    ├── home
-    │   ├── chunkwm
-    │   ├── kitty
-    │   ├── skhd
-    │   ├── tmux
-    │   ├── vim
-    │   └── zsh
-    └── lists
-        └── brew
-```
-
 The main interaction point with this repository is the Makefile that comes with it.
 
 With this command you can list the functionality
@@ -112,12 +92,10 @@ Interesting links to people/projects/software
 
 ## Software
 - [brew](https://brew.sh/) The missing package manager for macOS (or Linux)
-- [chunkwm](https://github.com/koekeishiya/chunkwm) Tiling window manager for macOS based on plugin architecture 
 - [make](https://www.gnu.org/software/make/) Make enables the end user to build and install your package without knowing the details of how that is done 
 - [stow](https://www.gnu.org/software/stow/) Stow is a symlink farm manager
 - [figlet](http://www.figlet.org/) FIGlet is a program for making large letters out of ordinary text 
 - [fzf](https://github.com/junegunn/fzf) fzf is a general-purpose command-line fuzzy finder
-- [skhd](https://github.com/koekeishiya/skhd) Simple hotkey daemon for macOS, specifically for chunkwm
 - [vim ](https://www.vim.org/) My terminal editor of choice
 - [zsh](https://www.zsh.org/) My shell of choice
 
