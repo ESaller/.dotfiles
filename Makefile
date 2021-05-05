@@ -38,7 +38,7 @@ all: $(OS)
 macos: sudo core-macos packages-macos link
 
 ## Install land link dotfiles (linux)
-linux: core-linux link
+linux: core-linux linux-fasd link 
 
 
 #################################################################################
@@ -49,10 +49,9 @@ linux: core-linux link
 core-macos: brew zsh-macos git
 
 ## Install, update and upgrade via apt-get
-core-linux: zsh-linux
+core-linux: zsh-linux linux-packages
 	apt-get update
 	apt-get upgrade -y
-	apt-get dist-upgrade -f
 
 ## Install brew
 brew:
@@ -122,7 +121,23 @@ brew-cask: brew
 	brew bundle --file=$(DOTFILES_DIR)resources/lists/brew/Caskfile
 
 
+##########
+# APT-GET
+##########
 
+linux-packages:
+	xargs sudo apt-get install -y <$(DOTFILES_DIR)resources/lists/apt-get/packages.txt
+
+
+##########
+# DIY
+##########
+
+linux-fasd:
+	git clone https://github.com/clvv/fasd.git && cd fasd && make install
+
+linux-zplug:
+	git clone https://github.com/zplug/zplug
 
 #################################################################################
 # Try inside docker

@@ -1,0 +1,7 @@
+curl
+grep
+htop
+mosh
+tree
+vim
+wget

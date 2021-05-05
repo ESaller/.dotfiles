@@ -86,8 +86,9 @@ alias -g ......='../../../../..'
 alias lsa='ls -lah'
 alias ll='ls -lh'
 
-alias code="code-insiders"
-alias ls="exa"
+if type exa > /dev/null; then
+  alias ls="exa"
+fi
 
 alias dsnope="find . -name '.DS_Store' -type f -delete"
 alias lup="ag --nobreak --nonumbers --noheading . | fzf"
@@ -162,13 +163,13 @@ zstyle ':zplug:tag' depth 42
 # ZPLUG
 ################################################################################
 
-if [[ ! -d "$ZPLUG_HOME" ]]; then
-    echo "Installing zplug"
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-    source "$ZPLUG_HOME/init.zsh"
-    zplug update
+# Check if zplug is installed
+if [[ ! -d ~/.zplug ]]; then
+  git clone https://github.com/zplug/zplug ~/.zplug
+  source ~/.zplug/init.zsh && zplug update --self
 else
-    source "$ZPLUG_HOME/init.zsh"
+  # Essential
+  source ~/.zplug/init.zsh
 fi
 
 
@@ -189,9 +190,8 @@ zplug "zsh-users/zsh-history-substring-search"      # Better History Search
 zplug "zsh-users/zsh-syntax-highlighting", defer:2  # Syntax Highlights
 zplug "zsh-users/zsh-autosuggestions"               # Completions
 zplug "zsh-users/zsh-completions"                   # Completions
-zplug "desyncr/auto-ls"                             # With empty command press Return for ls
 zplug "junegunn/fzf", as:command, hook-build:"./install --bin", use:"bin/{fzf-tmux,fzf}"  # fzf fuzzy searching
-zplug "modules/docker", from:prezto
+#zplug "modules/docker", from:prezto
 zplug "changyuheng/zsh-interactive-cd"              # fish like cd comletion
 zplug "b4b4r07/enhancd", use:init.sh
 
@@ -608,3 +608,22 @@ fi
 # SOURCE
 ################################################################################
 #[[ -f "${HOME}/.aliases" ]] && source "${HOME}/.aliases"
+#.  ~/miniconda3/etc/profile.d/conda.sh
+#conda activate base
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/esaller/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/esaller/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/esaller/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/esaller/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

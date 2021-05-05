@@ -1,0 +1,20 @@
+#!/usr/bin/with-contenv bash
+
+if [ -n "${PASSWORD}" ]; then
+  AUTH="password"
+else
+  AUTH="none"
+  echo "starting with no password"
+fi
+
+exec \
+	s6-setuidgid root \
+		/usr/bin/code-server \
+			--port 8443 \
+            --host 0.0.0.0 \
+			--user-data-dir /config/data \
+			--extensions-dir /config/extensions \
+			--disable-telemetry \
+			--disable-updates \
+			--auth "${AUTH}" \
+			/config/workspace

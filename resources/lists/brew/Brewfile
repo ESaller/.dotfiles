@@ -1,6 +1,5 @@
 # Taps
 tap "bellecp/fast-p"
-tap "crisidev/chunkwm"
 tap "homebrew/bundle"
 tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
@@ -9,8 +8,6 @@ tap "homebrew/core"
 tap "homebrew/services"
 tap "homebrew/versions"
 tap "koekeishiya/formulae"
-tap "minio/stable"
-tap "osx-cross/avr"
 
 # Packages
 brew "ansible"
