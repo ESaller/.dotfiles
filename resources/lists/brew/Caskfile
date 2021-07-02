@@ -1,6 +1,4 @@
  # Casks
-cask "discord"
-cask "docker"
 cask "font-ibm-plex"
 cask "font-input"
 cask "handbrake"
