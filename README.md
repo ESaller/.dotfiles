@@ -98,7 +98,3 @@ Interesting links to people/projects/software
 - [fzf](https://github.com/junegunn/fzf) fzf is a general-purpose command-line fuzzy finder
 - [vim ](https://www.vim.org/) My terminal editor of choice
 - [zsh](https://www.zsh.org/) My shell of choice
-
-
-## Workflows
-- [cookiecutter-data-science](https://github.com/drivendata/cookiecutter-data-science) good information on how to organizse projects

@@ -38,7 +38,7 @@ all: $(OS)
 macos: sudo core-macos packages-macos link
 
 ## Install land link dotfiles (linux)
-linux: core-linux linux-fasd link 
+linux: core-linux linux-fasd link
 
 
 #################################################################################
@@ -138,21 +138,6 @@ linux-fasd:
 
 linux-zplug:
 	git clone https://github.com/zplug/zplug
-
-#################################################################################
-# Try inside docker
-#################################################################################
-## Try insinde docker NOT WORKING
-tryme: tryme-build tryme-run
-
-## Try insinde docker NOT WORKING
-tryme-build:
-	docker build --no-cache --file $(DOTFILES_DIR)resources/docker/tryme/Dockerfile --tag esaller_dotfiles_tryme:latest $(DOTFILES_DIR)
-
-## Try insinde docker NOT WORKING
-tryme-run:
-	docker run --rm -i -t esaller_dotfiles_tryme zsh
-
 
 #################################################################################
 # Self Documenting Commands
