@@ -1,8 +1,0 @@
- # Casks
-cask "font-ibm-plex"
-cask "font-input"
-cask "handbrake"
-cask "iina"
-cask "kitty"
-cask "onyx"
-cask "vagrant"
