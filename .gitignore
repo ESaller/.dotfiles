@@ -1,3 +1,6 @@
+### nvim ###
+lazy-lock.json
+
 ### brew ###
 *.lock.json
 
