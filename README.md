@@ -18,8 +18,7 @@
 # Introduction
 Hello and welcome to my dotfiles repository. Over the years and with the inspiration of many other people I have created a single place for my main configuration files.
 
-## Directory descriptions
 
-`/resources` : All configuration files are located in here
+# How to use
 
-`/resources/home` : Configuration files that should be placed in the users home directory are seprated and placed in destinct directories named after the tool.
+Clone the repository into your `$HOME` directory and execute `ubuntu-and-mac.install`

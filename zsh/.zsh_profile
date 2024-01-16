@@ -1,0 +1,143 @@
+################################################################################
+# Setting Up Directories
+# If some directories are needed they are specified here
+# Note: Some plugins may create their own folders
+################################################################################
+
+export CACHE_DIR="$HOME/.cache"
+[[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
+export _FASD_DATA="$CACHE_DIR/.fasd" # set fasd data file location
+export ZPLUG_HOME="$HOME/.zplug"
+
+
+################################################################################
+# TERM
+################################################################################
+
+if [[ -n "$TMUX" ]]; then
+    export TERM=screen-256color        # ranger image previews do not work in tmux
+else
+    if [[ $TERMINFO == *"kitty"* ]]; then
+      export TERM=xterm-kitty            # mainly for ranger image previews
+      alias ssh='TERM=xterm-256color ssh' # fix on ssh
+    fi
+    export TERM=xterm-256color
+fi
+
+
+################################################################################
+# LANG
+################################################################################
+
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
+
+
+################################################################################
+# conda setup
+################################################################################
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('$HOME/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+################################################################################
+# PATH MODIFICATIONS
+################################################################################
+
+# e.g. poetry is located there
+export PATH="$HOME/.local/bin:$PATH"
+
+################################################################################
+# EDITOR
+################################################################################
+
+export EDITOR=nvim
+export VISUAL=nvim
+
+
+################################################################################
+# HISTORY
+# Setting up the shell history
+################################################################################
+
+# Filter out lines containing the word "proxy" from the Zsh history
+export HISTFILE="$CACHE_DIR/.zsh_history"
+tmpfile=$(mktemp)
+grep -v 'proxy' "$HISTFILE" > "$tmpfile"
+
+export HISTSIZE=10000000
+export SAVEHIST=10000000
+
+# From https://github.com/mattjj/my-oh-my-zsh/blob/master/history.zsh
+
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+unsetopt HIST_BEEP               # Beep when accessing nonexistent history.
+
+
+################################################################################
+# CUSTOM COMMANDS
+# Combinations of different installed plugins, e.g. fzf+fasd
+################################################################################
+
+# tmux fzf integration
+# tm - create new tmux session, or switch to existing one. Works from within tmux too.
+# `tm` will allow you to select your tmux session via fzf.
+# `tm irc` will attach to the irc session (if it exists), else it will create it.
+tm() {
+  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+  if [ $1 ]; then
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+  fi
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+}
+
+# fasd fzf integration
+# cd into recent directories
+function zd() {
+    local dir
+    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+}
+
+# fasd fzf integration
+# j: jump to directories
+alias j=zd
+
+# fasd fzf integration
+# View recent f files
+function v() {
+    local file
+    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && $EDITOR "${file}" || return 1
+}
+
+# fasd fzf integration
+# cd into the directory containing a recently used file
+function vd() {
+    local dir
+    local file
+    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
+}
+
