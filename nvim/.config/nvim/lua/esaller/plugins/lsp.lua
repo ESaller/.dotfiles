@@ -36,7 +36,7 @@ return {
 
         require("mason").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "tsserver", "rust_analyzer", "jedi_language_server" },
+            ensure_installed = { "tsserver", "rust_analyzer", "jedi_language_server", "bashls", "terraformls", "marksman" },
             handlers = {
                 lsp_zero.default_setup,
                 lua_ls = function()
