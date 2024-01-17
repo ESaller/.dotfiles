@@ -15,10 +15,10 @@ export ZPLUG_HOME="$HOME/.zplug"
 ################################################################################
 
 if [[ -n "$TMUX" ]]; then
-    export TERM=screen-256color        # ranger image previews do not work in tmux
+    export TERM=screen-256color
 else
     if [[ $TERMINFO == *"kitty"* ]]; then
-      export TERM=xterm-kitty            # mainly for ranger image previews
+      export TERM=xterm-kitty
       alias ssh='TERM=xterm-256color ssh' # fix on ssh
     fi
     export TERM=xterm-256color
@@ -60,6 +60,10 @@ unset __conda_setup
 # e.g. poetry is located there
 export PATH="$HOME/.local/bin:$PATH"
 
+# personal scipts are located there
+export PATH="$HOME/.local/scripts:$PATH"
+
+
 ################################################################################
 # EDITOR
 ################################################################################
@@ -98,6 +102,13 @@ setopt SHARE_HISTORY             # Share history between all sessions.
 unsetopt HIST_BEEP               # Beep when accessing nonexistent history.
 
 
+
+################################################################################
+# CUSTOM zsh settings
+################################################################################
+
+
+
 ################################################################################
 # CUSTOM COMMANDS
 # Combinations of different installed plugins, e.g. fzf+fasd
@@ -106,7 +117,6 @@ unsetopt HIST_BEEP               # Beep when accessing nonexistent history.
 # tmux fzf integration
 # tm - create new tmux session, or switch to existing one. Works from within tmux too.
 # `tm` will allow you to select your tmux session via fzf.
-# `tm irc` will attach to the irc session (if it exists), else it will create it.
 tm() {
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
   if [ $1 ]; then
