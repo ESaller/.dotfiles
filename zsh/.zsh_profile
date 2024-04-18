@@ -63,6 +63,8 @@ export PATH="$HOME/.local/bin:$PATH"
 # personal scipts are located there
 export PATH="$HOME/.local/scripts:$PATH"
 
+# personal bin dir
+export PATH="$HOME/.dotfiles/bin:$PATH"
 
 ################################################################################
 # EDITOR
@@ -107,6 +109,24 @@ unsetopt HIST_BEEP               # Beep when accessing nonexistent history.
 # CUSTOM zsh settings
 ################################################################################
 
+# cd replacement with history
+eval "$(zoxide init zsh)"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
+
+# tmux use session switcher
+tmux_option_or_fallback() {
+	local option_value
+	option_value="$(tmux show-option -gqv "$1")"
+	if [ -z "$option_value" ]; then
+		option_value="$2"
+	fi
+	echo "$option_value"
+}
+
+tmux bind-key "$(tmux_option_or_fallback "@t-bind" "T")" run-shell "$HOME/.dotfiles/bin/t"
 
 
 ################################################################################
@@ -125,29 +145,44 @@ tm() {
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
 
-# fasd fzf integration
-# cd into recent directories
+
 function zd() {
-    local dir
-    dir="$(fasd -Rdl "$1" | fzf -1 -0 --no-sort +m)" && cd "${dir}" || return 1
+  if [ $# -eq 0 ]; then
+      # No arguments provided, use interactive selection with zoxide and find
+      local dir="$( { zoxide query -l; find . -type d -maxdepth 4 -print 2>/dev/null; } | \
+                     fzf --height 50% --layout=reverse --info=inline \
+                         --preview 'ls -la {}' --preview-window=down:50%:+{2} )"
+  else
+      # Argument provided, use zoxide to directly jump to the best match
+      local dir="$(zoxide query -- "$1")"
+  fi
+
+  # Change to the selected directory if it's valid
+  if [ -n "$dir" ] && [ -d "$dir" ]; then
+      cd "$dir" || return 1
+  else
+      echo "Error: Directory '$dir' not found."
+      return 1
+  fi
 }
 
 # fasd fzf integration
 # j: jump to directories
 alias j=zd
 
+
 # fasd fzf integration
 # View recent f files
-function v() {
-    local file
-    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && $EDITOR "${file}" || return 1
-}
+#function v() {
+#    local file
+#    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && $EDITOR "${file}" || return 1
+#}
 
 # fasd fzf integration
 # cd into the directory containing a recently used file
-function vd() {
-    local dir
-    local file
-    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
-}
+#function vd() {
+#    local dir
+#    local file
+#    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
+#}
 
