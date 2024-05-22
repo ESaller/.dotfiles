@@ -57,6 +57,9 @@ unset __conda_setup
 # PATH MODIFICATIONS
 ################################################################################
 
+# nix before anything else
+export PATH="$HOME/.nix-profile/bin/:$PATH" 
+
 # e.g. poetry is located there
 export PATH="$HOME/.local/bin:$PATH"
 
@@ -116,6 +119,11 @@ eval "$(zoxide init zsh)"
 # Load Angular CLI autocompletion.
 source <(ng completion script)
 
+# check of tmux
+is_tmux_running() {
+  tmux ls >/dev/null 2>&1
+}
+
 # tmux use session switcher
 tmux_option_or_fallback() {
 	local option_value
@@ -138,6 +146,12 @@ tmux bind-key "$(tmux_option_or_fallback "@t-bind" "T")" run-shell "$HOME/.dotfi
 # tm - create new tmux session, or switch to existing one. Works from within tmux too.
 # `tm` will allow you to select your tmux session via fzf.
 tm() {
+  # Check if tmux is running first
+  if ! is_tmux_running; then
+    echo "Tmux is not running."
+    return 1
+  fi
+
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
   if [ $1 ]; then
     tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
@@ -185,4 +199,175 @@ alias j=zd
 #    local file
 #    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
 #}
+
+
+# env from dir with uppercase env var and git proxy option
+efd() {
+    local dir_path="$1"
+    
+    if [[ ! -d "$dir_path" ]]; then
+        echo "Error: $dir_path is not a directory"
+        return 1
+    fi
+
+    local file
+    local env_var
+    local env_var_upper
+    local content
+    local confirmed_overwrites=()
+    local new_vars=0
+    local overwrites=0
+    local set_vars=()
+    local set_git_proxy=0
+
+    for file in "$dir_path"/*; do
+        if [[ -f "$file" ]]; then
+            env_var=$(basename "$file")
+            typeset -u env_var_upper="$env_var" # convert to uppercase
+            content=$(<"$file")
+
+            if [[ -z "$env_var" ]]; then
+                echo "Warning: Skipping empty filename in $file"
+                continue
+            fi
+
+            for var_to_set in "$env_var" "$env_var_upper"; do
+                if [[ -n "${(P)var_to_set}" ]]; then
+                    echo "Environment variable $var_to_set already exists with value: ${(P)var_to_set}"
+                    read -q "reply?Do you want to overwrite $var_to_set? (y/n) "
+                    echo
+                    if [[ "$reply" =~ ^[Yy]$ ]]; then
+                        export "$var_to_set"="$content"
+                        confirmed_overwrites+=("$var_to_set")
+                        set_vars+=("$var_to_set")
+                        ((overwrites++))
+                    else
+                        echo "Skipping $var_to_set"
+                    fi
+                else
+                    export "$var_to_set"="$content"
+                    set_vars+=("$var_to_set")
+                    ((new_vars++))
+                fi
+            done
+
+            if [[ "$env_var_upper" == "HTTP_PROXY" || "$env_var_upper" == "HTTPS_PROXY" ]]; then
+                read -q "reply?Do you want to set $env_var_upper for git as well? (y/n) "
+                echo
+                if [[ "$reply" =~ ^[Yy]$ ]]; then
+                    __enable_proxy_git() {
+                        if [ "$env_var_upper" = "HTTP_PROXY" ]; then
+                            git config --global http.proxy "$content"
+                            git config --global https.proxy "$content"
+                        else
+                            git config --global http.proxy "$content"
+                            git config --global https.proxy "$content"
+                        fi
+                    }
+                    __enable_proxy_git
+                    set_git_proxy=1
+                fi
+            fi
+        fi
+    done
+
+    echo "Summary:"
+    echo "New environment variables set: $new_vars"
+    if (( overwrites > 0 )); then
+        echo "Overwritten environment variables: $overwrites"
+    fi
+    if (( set_git_proxy > 0 )); then
+        echo "Git proxy configuration set."
+    fi
+    echo "All set variables: ${set_vars[@]}"
+
+    return 0
+}
+
+# unset env from dir with uppercase env var and git proxy option
+uefd() {
+    local dir_path="$1"
+    
+    if [[ ! -d "$dir_path" ]]; then
+        echo "Error: $dir_path is not a directory"
+        return 1
+    fi
+
+    local env_vars_to_unset=()
+    local file
+    local env_var
+    local env_var_upper
+    local unset_git_proxy=0
+
+    for file in "$dir_path"/*; do
+        if [[ -f "$file" ]]; then
+            env_var=$(basename "$file")
+            typeset -u env_var_upper="$env_var" # convert to uppercase
+            for var_to_unset in "$env_var" "$env_var_upper"; do
+                if [[ -n "${(P)var_to_unset}" ]]; then
+                    env_vars_to_unset+=("$var_to_unset")
+                fi
+            done
+
+            if [[ "$env_var_upper" == "HTTP_PROXY" || "$env_var_upper" == "HTTPS_PROXY" ]]; then
+                read -q "reply?Do you want to unset the git proxy configuration for $env_var_upper? (y/n) "
+                echo
+                if [[ "$reply" =~ ^[Yy]$ ]]; then
+                    __disable_proxy_git() {
+                        git config --global --unset http.proxy
+                        git config --global --unset https.proxy
+                    }
+                    __disable_proxy_git
+                    unset_git_proxy=1
+                fi
+            fi
+        fi
+    done
+
+    if (( ${#env_vars_to_unset[@]} == 0 )); then
+        echo "No environment variables to unset."
+        return 0
+    fi
+
+    echo "The following environment variables will be unset: ${env_vars_to_unset[@]}"
+    read -q "reply?Are you sure you want to unset these environment variables? (y/n) "
+    echo
+
+    if [[ "$reply" =~ ^[Yy]$ ]]; then
+        for env_var in "${env_vars_to_unset[@]}"; do
+            unset "$env_var"
+            echo "Unset $env_var"
+        done
+        if (( unset_git_proxy > 0 )); then
+            echo "Git proxy configuration unset."
+        fi
+        echo "All specified environment variables have been unset."
+    else
+        echo "Operation cancelled."
+    fi
+
+    return 0
+}
+
+
+#
+#Two helper functions that ease the use of nix profiles on mac
+#
+
+link_nix_apps() {
+  mkdir -p /Applications/Nix\ Apps
+  for app in ~/.nix-profile/Applications/*.app; do
+    ln -sfn "$app" "/Applications/Nix Apps/$(basename "$app")"
+  done
+  echo "All Nix applications have been linked to /Applications/Nix Apps."
+}
+
+unlink_nix_apps() {
+  for app in /Applications/Nix\ Apps/*.app; do
+    if [[ -L "$app" ]]; then
+      rm "$app"
+    fi
+  done
+  echo "All symbolic links to Nix applications have been removed from /Applications/Nix Apps."
+}
 
