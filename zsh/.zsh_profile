@@ -371,3 +371,43 @@ unlink_nix_apps() {
   echo "All symbolic links to Nix applications have been removed from /Applications/Nix Apps."
 }
 
+#
+# Two helper functions that set the proxy for nix based on env variables
+#
+# In /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+# the keys have to be added first manually
+#     <key>EnvironmentVariables</key>
+#    <dict>
+#      ...
+#      <key>http_proxy</key>
+#      <string>PROXY_HOLDER</string>
+#      <key>https_proxy</key>
+#      <string>PROXY_HOLDER</string>
+#    </dict>
+
+set_nix_proxy() {
+    # Ensure the http_proxy and https_proxy are set in the environment
+    if [[ -z "$http_proxy" || -z "$https_proxy" ]]; then
+        echo "Environment variables http_proxy and https_proxy need to be set."
+        return 1
+    fi
+
+    # Set the proxy values in the plist file
+    sudo /usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:http_proxy $http_proxy" /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+    sudo /usr/libexec/PlistBuddy -c "Set :EnvironmentVariables:https_proxy $https_proxy" /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+
+    # Reload the nix-daemon plist to apply changes
+    sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+    sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+}
+
+unset_nix_proxy() {
+    # Remove the proxy values from the plist file and ignore errors if they don't exist
+    sudo /usr/libexec/PlistBuddy -c "Delete :EnvironmentVariables:http_proxy" /Library/LaunchDaemons/org.nixos.nix-daemon.plist 2>/dev/null || true
+    sudo /usr/libexec/PlistBuddy -c "Delete :EnvironmentVariables:https_proxy" /Library/LaunchDaemons/org.nixos.nix-daemon.plist 2>/dev/null || true
+
+    # Reload the nix-daemon plist to apply changes
+    sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+    sudo launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist
+}
+
