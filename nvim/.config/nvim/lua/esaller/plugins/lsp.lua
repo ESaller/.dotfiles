@@ -16,7 +16,7 @@ return {
         { "hrsh7th/cmp-nvim-lua" },
 
         --Snippets
-        {'L3MON4D3/LuaSnip'},
+        { 'L3MON4D3/LuaSnip' },
     },
     config = function()
         local lsp_zero = require("lsp-zero")
@@ -39,7 +39,19 @@ return {
 
         require("mason").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "tsserver", "rust_analyzer", "jedi_language_server", "bashls", "terraformls", "marksman", "cssls", "html"},
+            ensure_installed = { "tsserver",
+                "rust_analyzer",
+                "jedi_language_server",
+                "bashls",
+                "terraformls",
+                "marksman",
+                "cssls",
+                "html",
+                "lua_ls",
+                "bashls",
+                "dockerls",
+                "docker_compose_language_service",
+                "sqlls" },
             handlers = {
                 lsp_zero.default_setup,
                 lua_ls = function()
