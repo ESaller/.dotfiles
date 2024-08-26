@@ -49,15 +49,19 @@
             #vlc
             _1password
             ansible
+            autotrace
             awscli
             cargo
             curl
             fasd
             ffmpeg
+            fuse
             fzf
             git
+            gimp
             graphviz
             htop
+            inkscape
             imagemagick
             inetutils
             jq
@@ -66,17 +70,25 @@
             lua
             mosh
             neovim
+            nerdfonts
             nixfmt-rfc-style
             nmap
             nodePackages."@angular/cli"
             nodejs
             nodejs
+            ollama
             go
             pandoc
             pgcli
             pipx
-            podman
+            #not working because of vfkit missing from nix
+            # alternative: colima+docker
+            #podman
+            potrace
+            colima
+            docker
             poetry
+            pv
             python3
             rclone
             ripgrep
@@ -84,11 +96,20 @@
             rustc
             stow
             tmux
+            tree
+            #visidata
             wget
             wireshark
             yarn
             zoxide
             zsh
+            terraform
+            # Mac only
+            hexfiend
+            osmctools
+            osmium-tool
+            aria2
+            toybox
           ];
         };
     };
