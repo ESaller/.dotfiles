@@ -47,69 +47,69 @@
             #terraform
             #vagrant
             #vlc
-            _1password
-            ansible
-            autotrace
-            awscli
-            cargo
+            _1password-cli
+            #ansible
+            #autotrace
+            #awscli
+            #cargo
             curl
             fasd
             ffmpeg
-            fuse
+            #fuse
             fzf
             git
             gimp
             graphviz
             htop
-            inkscape
+            #inkscape
             imagemagick
             inetutils
             jq
-            kitty
+            #kitty
             less
             lua
-            mosh
             neovim
-            nerdfonts
-            nixfmt-rfc-style
+            #nerdfonts
+            #nixfmt-rfc-style
             nmap
-            nodePackages."@angular/cli"
-            nodejs
-            nodejs
+            #nodePackages."@angular/cli"
+            #nodejs
             ollama
-            go
+            #go
             pandoc
             pgcli
             pipx
-            #not working because of vfkit missing from nix
-            # alternative: colima+docker
-            #podman
+            podman
+            podman-compose
             potrace
             colima
             docker
+            docker-compose
             poetry
             pv
-            python3
+            #python3
+            python310
+            protobuf
             rclone
             ripgrep
             rsync
             rustc
+            screenfetch
             stow
             tmux
             tree
-            #visidata
             wget
-            wireshark
-            yarn
+            #wireshark
+            #yarn
             zoxide
             zsh
             terraform
             # Mac only
-            hexfiend
-            osmctools
-            osmium-tool
-            aria2
-            toybox
+            #hexfiend
+            #osmctools
+            #osmium-tool
+            #aria2
+            #toybox
           ];
         };
     };

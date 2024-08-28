@@ -39,19 +39,24 @@ return {
 
         require("mason").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "tsserver",
-                "rust_analyzer",
-                "jedi_language_server",
+            ensure_installed = {
+                "angularls",
+                "ast_grep",
                 "bashls",
-                "terraformls",
-                "marksman",
+                "biome",
                 "cssls",
-                "html",
-                "lua_ls",
-                "bashls",
-                "dockerls",
                 "docker_compose_language_service",
-                "sqlls" },
+                "dockerls",
+                "html",
+                "jedi_language_server",
+                "ltex",
+                "lua_ls",
+                "marksman",
+                "nil_ls",
+                "rust_analyzer",
+                "sqlls",
+                "terraformls",
+            },
             handlers = {
                 lsp_zero.default_setup,
                 lua_ls = function()

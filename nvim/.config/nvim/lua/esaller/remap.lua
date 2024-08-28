@@ -2,7 +2,7 @@
 vim.g.mapleader = " "
 
 -- In normal mode, pressing <leader>pv will execute the :Ex command, which opens the file explorer.
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+vim.keymap.set("n", "<leader>pv", "<cmd>Ex<CR>")
 
 -- In visual mode, pressing J will move the selected lines down by one line and reselect the moved lines.
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -46,7 +46,7 @@ vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- In normal mode, pressing <leader>f will format the current buffer using the LSP (Language Server Protocol) formatting feature.
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end)
 
 -- In normal mode, pressing <C-k> will go to the next item in the quickfix list and center the cursor line.
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
@@ -70,4 +70,3 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
-

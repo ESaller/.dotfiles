@@ -117,7 +117,7 @@ eval "$(zoxide init zsh)"
 
 
 # Load Angular CLI autocompletion.
-source <(ng completion script)
+# source <(ng completion script)
 
 # check of tmux
 is_tmux_running() {
@@ -233,7 +233,7 @@ efd() {
 
             for var_to_set in "$env_var" "$env_var_upper"; do
                 if [[ -n "${(P)var_to_set}" ]]; then
-                    echo "Environment variable $var_to_set already exists with value: ${(P)var_to_set}"
+                    echo "Environment variable $var_to_set already exists."
                     read -q "reply?Do you want to overwrite $var_to_set? (y/n) "
                     echo
                     if [[ "$reply" =~ ^[Yy]$ ]]; then
