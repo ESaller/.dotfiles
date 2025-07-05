@@ -10,7 +10,7 @@
 
   ▓▓▓▓▓▓▓▓▓▓
  ░▓ about  ▓ setup and configuration for neovim and terminal environment
- ░▓ author ▓ esaller <github@saller.io>
+ ░▓ author ▓ esaller
  ░▓ code   ▓ https://github.com/ESaller/dotfiles
  ░▓▓▓▓▓▓▓▓▓▓
 
