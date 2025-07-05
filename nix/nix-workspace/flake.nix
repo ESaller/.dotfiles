@@ -128,6 +128,7 @@
                 jq
                 lua
                 neovim
+                nodejs
                 rclone
                 rsync
                 screenfetch

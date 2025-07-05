@@ -21,4 +21,7 @@ Hello and welcome to my dotfiles repository. Over the years and with the inspira
 
 # How to use
 
-Clone the repository into your `$HOME` directory and execute `ubuntu-and-mac.install`
+1. Install  `git` and `stow`
+2. Clone the repository into your `$HOME` directory
+3. Configure nix globals: Add `experimental-features = nix-command flakes` in `/etc/nix/nix.conf`
+4. Execute `workspace.install`
