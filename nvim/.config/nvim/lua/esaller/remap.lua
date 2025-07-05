@@ -27,6 +27,10 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 -- In visual mode, pressing <leader>p will paste over the selected text without overwriting the unnamed register (default yank register).
 vim.keymap.set("x", "<leader>p", [["_dP]])
+-- In normal mode, pressing <leader>P will paste from the clipboard before the cursor
+vim.keymap.set("n", "<leader>P", [["+P]])
+-- In visual and select modes, pressing <leader>P will replace selection with clipboard
+vim.keymap.set({ "v", "x" }, "<leader>P", [["+P]])
 
 -- In normal and visual modes, pressing <leader>y will yank the selected text to the system clipboard.
 -- In normal mode, pressing <leader>Y will yank the current line to the system clipboard.
