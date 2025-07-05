@@ -1,3 +1,6 @@
+### nix ###
+flake.lock
+
 ### nvim ###
 lazy-lock.json
 
