@@ -61,9 +61,13 @@ return {
                 lsp_zero.default_setup,
                 lua_ls = function()
                     local lua_opts = lsp_zero.nvim_lua_ls()
-                    require("lspconfig").lua_ls.setup(lua_opts)
+                    -- require("lspconfig").lua_ls.setup(lua_opts)
+                    vim.lsp.config("lua_ls", lua_opts)
                 end,
-                require("lspconfig").jedi_language_server.setup {}
+                --require("lspconfig").jedi_language_server.setup {}
+                jedi_language_server = function()
+                    vim.lsp.config("jedi_language_server", {})
+                end,
 
             }
         })
