@@ -63,6 +63,10 @@ export PATH="$HOME/.nix-profile/bin/:$PATH"
 # e.g. poetry is located there
 export PATH="$HOME/.local/bin:$PATH"
 
+# e.g. for npm via npm set prefix ~/.local/lib/bin
+# nix npm can not install globally into the store so this is a workaround
+export PATH="$HOME/.local/lib/bin:$PATH"
+
 # personal scipts are located there
 export PATH="$HOME/.local/scripts:$PATH"
 
@@ -124,17 +128,15 @@ is_tmux_running() {
   tmux ls >/dev/null 2>&1
 }
 
-# tmux use session switcher
-tmux_option_or_fallback() {
-	local option_value
-	option_value="$(tmux show-option -gqv "$1")"
-	if [ -z "$option_value" ]; then
-		option_value="$2"
-	fi
-	echo "$option_value"
-}
-
-tmux bind-key "$(tmux_option_or_fallback "@t-bind" "T")" run-shell "$HOME/.dotfiles/bin/t"
+## tmux use session switcher
+#tmux_option_or_fallback() {
+#	local option_value
+#	option_value="$(tmux show-option -gqv "$1")"
+#	if [ -z "$option_value" ]; then
+#		option_value="$2"
+#	fi
+#	echo "$option_value"
+#}
 
 
 ################################################################################
