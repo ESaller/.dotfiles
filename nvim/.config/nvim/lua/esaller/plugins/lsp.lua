@@ -2,14 +2,16 @@ return {
     {
         -- Mason: install/manage LSP servers
         "mason-org/mason.nvim",
-        tag = "v1.11.0",
+        tag = "v2.0.1",    -- was v1.11.0; v2 requires Neovim >= 0.10
         pin = true,
         lazy = false,
         opts = {},
     },
     {
+        -- mason-lspconfig v2: handlers + automatic_installation removed.
+        -- Servers are auto-enabled via automatic_enable = true (the default).
         "mason-org/mason-lspconfig.nvim",
-        tag = "v1.32.0",
+        tag = "v2.1.0",    -- was v1.32.0
         pin = true,
         lazy = true,
         config = false, -- configured inside nvim-lspconfig's config below
@@ -52,9 +54,10 @@ return {
         end,
     },
     {
-        -- LSP
+        -- LSP configs (just data: filetypes, root markers, default settings)
+        -- v2.6.0+ requires Neovim 0.11.3+; require('lspconfig') is fully deprecated.
         "neovim/nvim-lspconfig",
-        tag = "v1.8.0",
+        tag = "v2.6.0",    -- was v1.8.0
         pin = true,
         cmd = { "LspInfo", "LspInstall", "LspStart" },
         event = { "BufReadPre", "BufNewFile" },
@@ -67,14 +70,25 @@ return {
             -- Avoid layout shift from diagnostic signs appearing
             vim.opt.signcolumn = "yes"
 
-            -- Wire cmp-nvim-lsp capabilities into all servers
-            -- Must happen before any server setup
-            local lspconfig_defaults = require("lspconfig").util.default_config
-            lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-                "force",
-                lspconfig_defaults.capabilities,
-                require("cmp_nvim_lsp").default_capabilities()
-            )
+            -- Apply cmp capabilities to ALL servers via the wildcard config
+            vim.lsp.config("*", {
+                capabilities = require("cmp_nvim_lsp").default_capabilities(),
+            })
+
+            -- lua_ls: Neovim-specific settings (must be set before servers are enabled)
+            vim.lsp.config("lua_ls", {
+                settings = {
+                    Lua = {
+                        diagnostics = { globals = { "vim" } },
+                        workspace = { checkThirdParty = false },
+                    },
+                },
+            })
+
+            -- nil_ls is NOT in ensure_installed (installed via Nix / on PATH),
+            -- so mason-lspconfig's automatic_enable won't touch it.
+            -- Enable it directly here instead.
+            vim.lsp.enable("nil_ls")
 
             -- Keymaps for when an LSP attaches to a buffer
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -97,7 +111,9 @@ return {
                 end,
             })
 
-            -- Mason: install servers automatically
+            -- Mason: install servers automatically.
+            -- In v2, automatic_enable = true (default) replaces the old handlers block.
+            -- Mason-lspconfig will call vim.lsp.enable() for each installed server.
             require("mason-lspconfig").setup({
                 ensure_installed = {
                     "angularls",
@@ -117,28 +133,7 @@ return {
                     "sqlls",
                     "terraformls",
                 },
-                handlers = {
-                    -- Default: setup every installed server with no extra config
-                    function(server_name)
-                        require("lspconfig")[server_name].setup({})
-                    end,
-                    -- lua_ls: add Neovim-specific globals so vim.* doesn't show warnings
-                    lua_ls = function()
-                        require("lspconfig").lua_ls.setup({
-                            settings = {
-                                Lua = {
-                                    diagnostics = { globals = { "vim" } },
-                                    workspace = { checkThirdParty = false },
-                                },
-                            },
-                        })
-                    end,
-                    -- nil_ls is NOT in ensure_installed but still needs a handler
-                    -- because it is available on PATH (installed via Nix)
-                    nil_ls = function()
-                        require("lspconfig").nil_ls.setup({})
-                    end,
-                },
+                automatic_enable = true, -- default; calls vim.lsp.enable() for each installed server
             })
         end,
     },
