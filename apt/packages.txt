@@ -1,0 +1,17 @@
+# APT packages for Linux
+ffmpeg
+fzf
+git
+htop
+jq
+lua5.4
+neovim
+nodejs
+rclone
+rsync
+screenfetch
+stow
+tmux
+tree
+wget
+zsh

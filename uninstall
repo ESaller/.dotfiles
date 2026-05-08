@@ -1,9 +1,10 @@
 #!/usr/bin/env zsh
+set -euo pipefail
 
-pushd $DOTFILES
-for folder in $(echo $STOW_FOLDERS | sed "s/,/ /g")
+pushd "$DOTFILES"
+for folder in $(echo "$STOW_FOLDERS" | sed "s/,/ /g")
 do
     echo "stow $folder unlinked"
-    stow -D $folder
+    stow -D "$folder"
 done
 popd

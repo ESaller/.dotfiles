@@ -6,8 +6,6 @@
 
 export CACHE_DIR="$HOME/.cache"
 [[ ! -d "$CACHE_DIR" ]] && mkdir -p "$CACHE_DIR"
-export _FASD_DATA="$CACHE_DIR/.fasd" # set fasd data file location
-export ZPLUG_HOME="$HOME/.zplug"
 
 
 ################################################################################
@@ -17,10 +15,6 @@ export ZPLUG_HOME="$HOME/.zplug"
 if [[ -n "$TMUX" ]]; then
     export TERM=screen-256color
 else
-    if [[ $TERMINFO == *"kitty"* ]]; then
-      export TERM=xterm-kitty
-      alias ssh='TERM=xterm-256color ssh' # fix on ssh
-    fi
     export TERM=xterm-256color
 fi
 
@@ -34,45 +28,19 @@ export LC_ALL="en_US.UTF-8"
 
 
 ################################################################################
-# conda setup
-################################################################################
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('$HOME/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "$HOME/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
-
-################################################################################
 # PATH MODIFICATIONS
 ################################################################################
 
-# Nix (multi-user / daemon)
-if [ -e /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-fi
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# e.g. poetry is located there
+# GNU coreutils and sed (use GNU versions instead of BSD)
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+
 export PATH="$HOME/.local/bin:$PATH"
-
-# e.g. for npm via npm set prefix ~/.local/lib/bin
-# nix npm can not install globally into the store so this is a workaround
 export PATH="$HOME/.local/lib/bin:$PATH"
-
-# personal scipts are located there
 export PATH="$HOME/.local/scripts:$PATH"
-
-# personal bin dir
 export PATH="$HOME/.dotfiles/bin:$PATH"
 
 ################################################################################
@@ -88,10 +56,12 @@ export VISUAL=nvim
 # Setting up the shell history
 ################################################################################
 
-# Filter out lines containing the word "proxy" from the Zsh history
+# Strip proxy lines from history on shell start
 export HISTFILE="$CACHE_DIR/.zsh_history"
-tmpfile=$(mktemp)
-grep -v 'proxy' "$HISTFILE" > "$tmpfile"
+if [[ -f "$HISTFILE" ]]; then
+    local tmpfile=$(mktemp)
+    grep -v 'proxy' "$HISTFILE" > "$tmpfile" && mv "$tmpfile" "$HISTFILE"
+fi
 
 export HISTSIZE=10000000
 export SAVEHIST=10000000
@@ -121,29 +91,14 @@ unsetopt HIST_BEEP               # Beep when accessing nonexistent history.
 # cd replacement with history
 eval "$(zoxide init zsh)"
 
-
-# Load Angular CLI autocompletion.
-# source <(ng completion script)
-
 # check of tmux
 is_tmux_running() {
   tmux ls >/dev/null 2>&1
 }
 
-## tmux use session switcher
-#tmux_option_or_fallback() {
-#	local option_value
-#	option_value="$(tmux show-option -gqv "$1")"
-#	if [ -z "$option_value" ]; then
-#		option_value="$2"
-#	fi
-#	echo "$option_value"
-#}
-
 
 ################################################################################
 # CUSTOM COMMANDS
-# Combinations of different installed plugins, e.g. fzf+fasd
 ################################################################################
 
 # tmux fzf integration
@@ -157,10 +112,10 @@ tm() {
   fi
 
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
-  if [ $1 ]; then
-    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+  if [ "$1" ]; then
+    tmux "$change" -t "$1" 2>/dev/null || (tmux new-session -d -s "$1" && tmux "$change" -t "$1"); return
   fi
-  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) && tmux "$change" -t "$session" || echo "No sessions found."
 }
 
 
@@ -169,7 +124,7 @@ function zd() {
       # No arguments provided, use interactive selection with zoxide and find
       local dir="$( { zoxide query -l; find . -type d -maxdepth 4 -print 2>/dev/null; } | \
                      fzf --height 50% --layout=reverse --info=inline \
-                         --preview 'ls -la {}' --preview-window=down:50%:+{2} )"
+                         --preview 'eza -la {}' --preview-window=down:50%:+{2} )"
   else
       # Argument provided, use zoxide to directly jump to the best match
       local dir="$(zoxide query -- "$1")"
@@ -184,194 +139,61 @@ function zd() {
   fi
 }
 
-# fasd fzf integration
 # j: jump to directories
 alias j=zd
 
 
-# fasd fzf integration
-# View recent f files
-#function v() {
-#    local file
-#    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && $EDITOR "${file}" || return 1
-#}
 
-# fasd fzf integration
-# cd into the directory containing a recently used file
-#function vd() {
-#    local dir
-#    local file
-#    file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)" && dir=$(dirname "$file") && cd "$dir"
-#}
-
-
-# env from dir with uppercase env var and git proxy option
-efd() {
-    local dir_path="$1"
-    
-    if [[ ! -d "$dir_path" ]]; then
-        echo "Error: $dir_path is not a directory"
-        return 1
-    fi
-
-    local file
-    local env_var
-    local env_var_upper
-    local content
-    local confirmed_overwrites=()
-    local new_vars=0
-    local overwrites=0
-    local set_vars=()
-    local set_git_proxy=0
-
-    for file in "$dir_path"/*; do
-        if [[ -f "$file" ]]; then
-            env_var=$(basename "$file")
-            typeset -u env_var_upper="$env_var" # convert to uppercase
-            content=$(<"$file")
-
-            if [[ -z "$env_var" ]]; then
-                echo "Warning: Skipping empty filename in $file"
-                continue
-            fi
-
-            for var_to_set in "$env_var" "$env_var_upper"; do
-                if [[ -n "${(P)var_to_set}" ]]; then
-                    echo "Environment variable $var_to_set already exists."
-                    read -q "reply?Do you want to overwrite $var_to_set? (y/n) "
-                    echo
-                    if [[ "$reply" =~ ^[Yy]$ ]]; then
-                        export "$var_to_set"="$content"
-                        confirmed_overwrites+=("$var_to_set")
-                        set_vars+=("$var_to_set")
-                        ((overwrites++))
-                    else
-                        echo "Skipping $var_to_set"
-                    fi
-                else
-                    export "$var_to_set"="$content"
-                    set_vars+=("$var_to_set")
-                    ((new_vars++))
-                fi
-            done
-
-            if [[ "$env_var_upper" == "HTTP_PROXY" || "$env_var_upper" == "HTTPS_PROXY" ]]; then
-                read -q "reply?Do you want to set $env_var_upper for git as well? (y/n) "
-                echo
-                if [[ "$reply" =~ ^[Yy]$ ]]; then
-                    __enable_proxy_git() {
-                        if [ "$env_var_upper" = "HTTP_PROXY" ]; then
-                            git config --global http.proxy "$content"
-                            git config --global https.proxy "$content"
-                        else
-                            git config --global http.proxy "$content"
-                            git config --global https.proxy "$content"
-                        fi
-                    }
-                    __enable_proxy_git
-                    set_git_proxy=1
-                fi
-            fi
-        fi
-    done
-
-    echo "Summary:"
-    echo "New environment variables set: $new_vars"
-    if (( overwrites > 0 )); then
-        echo "Overwritten environment variables: $overwrites"
-    fi
-    if (( set_git_proxy > 0 )); then
-        echo "Git proxy configuration set."
-    fi
-    echo "All set variables: ${set_vars[@]}"
-
-    return 0
-}
-
-# unset env from dir with uppercase env var and git proxy option
-uefd() {
-    local dir_path="$1"
-    
-    if [[ ! -d "$dir_path" ]]; then
-        echo "Error: $dir_path is not a directory"
-        return 1
-    fi
-
-    local env_vars_to_unset=()
-    local file
-    local env_var
-    local env_var_upper
-    local unset_git_proxy=0
-
-    for file in "$dir_path"/*; do
-        if [[ -f "$file" ]]; then
-            env_var=$(basename "$file")
-            typeset -u env_var_upper="$env_var" # convert to uppercase
-            for var_to_unset in "$env_var" "$env_var_upper"; do
-                if [[ -n "${(P)var_to_unset}" ]]; then
-                    env_vars_to_unset+=("$var_to_unset")
-                fi
-            done
-
-            if [[ "$env_var_upper" == "HTTP_PROXY" || "$env_var_upper" == "HTTPS_PROXY" ]]; then
-                read -q "reply?Do you want to unset the git proxy configuration for $env_var_upper? (y/n) "
-                echo
-                if [[ "$reply" =~ ^[Yy]$ ]]; then
-                    __disable_proxy_git() {
-                        git config --global --unset http.proxy
-                        git config --global --unset https.proxy
-                    }
-                    __disable_proxy_git
-                    unset_git_proxy=1
-                fi
-            fi
-        fi
-    done
-
-    if (( ${#env_vars_to_unset[@]} == 0 )); then
-        echo "No environment variables to unset."
+# Load or unload env vars from a directory of files.
+# Each file's name becomes the var name (both original and UPPERCASE).
+# Git natively reads HTTP_PROXY/HTTPS_PROXY, no special config needed.
+# Usage: envd <dir>           (load env vars)
+#        envd <dir> --unset   (unload env vars)
+#        envd --help
+envd() {
+    if [[ "$1" == "--help" || -z "$1" ]]; then
+        echo "Usage: envd <dir> [--unset]"
+        echo "  Load env vars from files in <dir> (filename = var name)."
+        echo "  --unset  Remove previously loaded vars."
         return 0
     fi
 
-    echo "The following environment variables will be unset: ${env_vars_to_unset[@]}"
-    read -q "reply?Are you sure you want to unset these environment variables? (y/n) "
-    echo
+    local dir_path="$1"
+    local unset_mode=0
+    [[ "$2" == "--unset" ]] && unset_mode=1
 
-    if [[ "$reply" =~ ^[Yy]$ ]]; then
-        for env_var in "${env_vars_to_unset[@]}"; do
-            unset "$env_var"
-            echo "Unset $env_var"
-        done
-        if (( unset_git_proxy > 0 )); then
-            echo "Git proxy configuration unset."
+    if [[ ! -d "$dir_path" ]]; then
+        echo "Error: $dir_path is not a directory"
+        return 1
+    fi
+
+    local count=0
+    local vars=()
+
+    for file in "$dir_path"/*; do
+        [[ -f "$file" ]] || continue
+        local name=$(basename "$file")
+        [[ "$name" == .* ]] && continue
+        typeset -u upper="$name"
+
+        if (( unset_mode )); then
+            unset "$name" "$upper"
+        else
+            local value=$(<"$file")
+            export "$name"="$value"
+            export "$upper"="$value"
         fi
-        echo "All specified environment variables have been unset."
+        vars+=("$upper")
+        ((count++))
+    done
+
+    if (( unset_mode )); then
+        echo "Unset $count vars: ${vars[*]}"
     else
-        echo "Operation cancelled."
+        echo "Set $count vars: ${vars[*]}"
     fi
-
-    return 0
 }
 
 
-#
-#Two helper functions that ease the use of nix profiles on mac
-#
 
-link_nix_apps() {
-  mkdir -p /Applications/Nix\ Apps
-  for app in ~/.nix-profile/Applications/*.app; do
-    ln -sfn "$app" "/Applications/Nix Apps/$(basename "$app")"
-  done
-  echo "All Nix applications have been linked to /Applications/Nix Apps."
-}
-
-unlink_nix_apps() {
-  for app in /Applications/Nix\ Apps/*.app; do
-    if [[ -L "$app" ]]; then
-      rm "$app"
-    fi
-  done
-  echo "All symbolic links to Nix applications have been removed from /Applications/Nix Apps."
-}
 

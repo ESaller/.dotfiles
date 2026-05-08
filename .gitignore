@@ -50,3 +50,9 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Workspace ###
+.github/
+INDEX.md
+memory/
+secrets/
+

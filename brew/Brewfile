@@ -1,0 +1,54 @@
+# Homebrew packages for macOS
+
+# CLI tools
+brew "bat"                       # print file contents with syntax highlighting and line numbers (better cat)
+brew "coreutils"                 # GNU versions of basic commands (ls, cp, mv) for Linux-compatible behavior
+brew "curl"                      # download files and interact with web APIs from the terminal
+brew "eza"                       # list files and directories with colors, icons, and git status (better ls)
+brew "fd"                        # search for files by name, fast and with sane defaults (better find)
+brew "ffmpeg"                    # convert, record, and stream video/audio in any format
+brew "fzf"                       # interactively search and filter any list (files, history, branches)
+brew "git"                       # track changes in code, collaborate via GitHub/GitLab
+brew "gnu-sed"                   # stream editor for text manipulation (GNU version, macOS ships BSD sed)
+brew "graphviz"                  # generate diagrams and graphs from text descriptions (dot language)
+brew "htop"                      # monitor running processes, CPU, and memory usage interactively
+brew "imagemagick"               # resize, crop, convert, and edit images from the command line
+brew "jq"                        # query, filter, and transform JSON data in the terminal
+brew "lua"                       # lightweight scripting language, used by neovim for plugin configs
+brew "neovim"                    # powerful terminal-based text editor (modern vim)
+brew "nmap"                      # scan networks to discover hosts, open ports, and services
+brew "node"                      # run JavaScript outside the browser, includes npm and npx
+brew "pandoc"                    # convert documents between formats (markdown, docx, pdf, html)
+brew "pgcli"                     # connect to PostgreSQL databases with autocomplete and syntax highlighting
+brew "python@3.13"               # Python programming language interpreter
+brew "protobuf"                  # serialize structured data for APIs and services (Google Protocol Buffers)
+brew "rclone"                    # sync files to and from cloud storage (S3, GDrive, OneDrive, etc.)
+brew "ripgrep"                   # search file contents recursively, extremely fast (better grep)
+brew "rsync"                     # efficiently copy and sync files between local and remote machines
+brew "rust"                      # Rust programming language compiler and cargo package manager
+brew "fastfetch"                 # display system info summary (OS, CPU, RAM, GPU, etc.)
+brew "stow"                      # manage dotfiles by creating symlinks from a central directory
+brew "tmux"                      # run multiple terminal sessions in one window, persist across disconnects
+brew "tree"                      # display directory structure as an indented tree
+brew "wget"                      # download files from the web via HTTP/HTTPS/FTP
+brew "zoxide"                    # jump to frequently used directories by partial name (smarter cd)
+brew "zsh"                       # modern shell with better autocompletion and scripting than bash
+
+# HashiCorp
+tap "hashicorp/tap"
+brew "hashicorp/tap/terraform"   # define and provision cloud infrastructure with config files
+
+# Containers
+brew "podman"                    # run containers without root privileges (Docker alternative)
+brew "podman-compose"            # manage multi-container apps with podman using docker-compose files
+brew "colima"                    # lightweight Linux VM to run containers on macOS
+brew "docker"                    # build and manage container images and running containers
+brew "docker-compose"            # define and run multi-container applications from a YAML file
+
+# Python
+brew "uv"                        # install Python packages and manage virtualenvs, very fast (pip alternative)
+
+# GUI apps
+cask "1password-cli"              # access 1Password vault from the terminal (secrets, credentials)
+cask "gimp"                      # free image editor (Photoshop alternative)
+cask "vlc"                       # play any video or audio file format
