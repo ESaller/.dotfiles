@@ -44,6 +44,15 @@ export PATH="$HOME/.local/scripts:$PATH"
 export PATH="$HOME/.dotfiles/bin:$PATH"
 
 ################################################################################
+# MODERN TOOL DEFAULTS (fall back to classic if not installed)
+################################################################################
+
+(( $+commands[bat] ))  && alias cat='bat --paging=never'
+(( $+commands[eza] ))  && alias ls='eza' && alias ll='eza -la' && alias la='eza -a' && alias lt='eza --tree'
+(( $+commands[fd] ))   && alias find='fd'
+(( $+commands[rg] ))   && alias grep='rg'
+
+################################################################################
 # EDITOR
 ################################################################################
 
