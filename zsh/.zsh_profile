@@ -49,8 +49,8 @@ export PATH="$HOME/.dotfiles/bin:$PATH"
 
 (( $+commands[bat] ))  && alias cat='bat --paging=never'
 (( $+commands[eza] ))  && alias ls='eza' && alias ll='eza -la' && alias la='eza -a' && alias lt='eza --tree'
-(( $+commands[fd] ))   && alias find='fd'
-(( $+commands[rg] ))   && alias grep='rg'
+# (( $+commands[fd] ))   && alias find='fd'
+# (( $+commands[rg] ))   && alias grep='rg'
 
 ################################################################################
 # EDITOR
